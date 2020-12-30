@@ -1,0 +1,1018 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="fp,purescript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Notebook for PureScript by Examplehttps://leanpub.com/purescript/read#leanpub-auto-functions-and-records">
+<meta name="keywords" content="fp,purescript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Purescript Note">
+<meta property="og:url" content="http://hczhang.com/2019/11/02/purescript-note/index.html">
+<meta property="og:site_name" content="软糖">
+<meta property="og:description" content="Notebook for PureScript by Examplehttps://leanpub.com/purescript/read#leanpub-auto-functions-and-records">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-12-30T23:24:32.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Purescript Note">
+<meta name="twitter:description" content="Notebook for PureScript by Examplehttps://leanpub.com/purescript/read#leanpub-auto-functions-and-records">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hczhang.com/2019/11/02/purescript-note/"/>
+
+
+
+
+
+  <title> Purescript Note | 软糖 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-91086651-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">软糖</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Candy</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://hczhang.com/2019/11/02/purescript-note/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Steven Zhang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="软糖">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="软糖" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Purescript Note
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-02T17:51:06+00:00">
+                2019-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/02/purescript-note/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/11/02/purescript-note/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Notebook for <em>PureScript by Example</em><br><a href="https://leanpub.com/purescript/read#leanpub-auto-functions-and-records" target="_blank" rel="noopener">https://leanpub.com/purescript/read#leanpub-auto-functions-and-records</a></p>
+<a id="more"></a>
+<h1 id="Chapter-2-Getting-Started"><a href="#Chapter-2-Getting-Started" class="headerlink" title="Chapter 2 Getting Started"></a>Chapter 2 Getting Started</h1><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">module</span> Main <span class="keyword">where</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> Control.Monad.Eff.Console</div><div class="line"></div><div class="line"><span class="title">main</span> = log <span class="string">"Hello, World!"</span></div></pre></td></tr></table></figure>
+<h1 id="Chapter-3-Functions-and-Records"><a href="#Chapter-3-Functions-and-Records" class="headerlink" title="Chapter 3 Functions and Records"></a>Chapter 3 Functions and Records</h1><h2 id="Simple-Types-3-3"><a href="#Simple-Types-3-3" class="headerlink" title="Simple Types (3.3)"></a>Simple Types (3.3)</h2><p>Built-in types</p>
+<ul>
+<li>Number</li>
+<li>String</li>
+<li>Boolean</li>
+<li>integers</li>
+<li>characters</li>
+<li>arrays</li>
+<li>records</li>
+<li>functions</li>
+</ul>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; :<span class="class"><span class="keyword">type</span> [1, 2, 3]</span></div><div class="line"><span class="type">Array</span> <span class="type">Int</span></div></pre></td></tr></table></figure>
+<p>Fuction</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="title">add</span> :: <span class="type">Int</span> -&gt; <span class="type">Int</span> -&gt; <span class="type">Int</span></div><div class="line"><span class="title">add</span> x y = x + y</div><div class="line"></div><div class="line">&gt; add <span class="number">10</span> <span class="number">20</span></div><div class="line"><span class="number">30</span></div></pre></td></tr></table></figure>
+<h2 id="Quantified-Types-3-4"><a href="#Quantified-Types-3-4" class="headerlink" title="Quantified Types (3.4)"></a>Quantified Types (3.4)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; :<span class="class"><span class="keyword">type</span> flip</span></div><div class="line"><span class="title">forall</span> a b c. (a -&gt; b -&gt; c) -&gt; b -&gt; a -&gt; c</div></pre></td></tr></table></figure>
+<p>forall means universally quantified type</p>
+<h2 id="Notes-On-Indentation-3-5"><a href="#Notes-On-Indentation-3-5" class="headerlink" title="Notes On Indentation (3.5)"></a>Notes On Indentation (3.5)</h2><p>PureScript code is indentation-sensitive</p>
+<h2 id="Defining-Our-Types-3-6"><a href="#Defining-Our-Types-3-6" class="headerlink" title="Defining Our Types (3.6)"></a>Defining Our Types (3.6)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- a record type</span></div><div class="line"><span class="class"><span class="keyword">type</span> <span class="type">Entry</span> =</span></div><div class="line">  &#123; firstName :: <span class="type">String</span></div><div class="line">  , lastName  :: <span class="type">String</span></div><div class="line">  , address   :: <span class="type">Address</span></div><div class="line">  &#125;</div><div class="line"><span class="class"><span class="keyword">type</span> <span class="type">Address</span> =</span></div><div class="line">  &#123; street :: <span class="type">String</span></div><div class="line">  , city   :: <span class="type">String</span></div><div class="line">  , state  :: <span class="type">String</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line"><span class="comment">-- type synonym</span></div><div class="line"><span class="class"><span class="keyword">type</span> <span class="type">AddressBook</span> = <span class="type">List</span> <span class="type">Entry</span></span></div><div class="line"></div><div class="line">&gt; address = &#123; street: <span class="string">"123 Fake St."</span>, city: <span class="string">"Faketown"</span>, state: <span class="string">"CA"</span> &#125;</div></pre></td></tr></table></figure>
+<h2 id="Type-Constructors-and-Kinds-3-7"><a href="#Type-Constructors-and-Kinds-3-7" class="headerlink" title="Type Constructors and Kinds (3.7)"></a>Type Constructors and Kinds (3.7)</h2><p><strong>List</strong> is an example of a type constructor.</p>
+<p>Values do not have the type List directly, but rather <strong>List a</strong> for some type <strong>a</strong>. That is, <strong>List</strong> takes a type argument a and constructs a new type List a.</p>
+<p>values are distinguished by their <strong>types</strong>, types are distinguished by their <strong>kinds</strong></p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&gt; :kind <span class="type">Number</span></div><div class="line"><span class="type">Type</span></div><div class="line"></div><div class="line">&gt; <span class="keyword">import</span> Data.List</div><div class="line">&gt; :kind <span class="type">List</span></div><div class="line"><span class="type">Type</span> -&gt; <span class="type">Type</span></div><div class="line"></div><div class="line">&gt; :kind <span class="type">List</span> <span class="type">String</span></div><div class="line"><span class="type">Type</span></div></pre></td></tr></table></figure>
+<h2 id="Curried-Functions-3-11"><a href="#Curried-Functions-3-11" class="headerlink" title="Curried Functions (3.11)"></a>Curried Functions (3.11)</h2><p>Functions in PureScript take exactly one argument.</p>
+<h2 id="Querying-the-Address-Book-3-12"><a href="#Querying-the-Address-Book-3-12" class="headerlink" title="Querying the Address Book (3.12)"></a>Querying the Address Book (3.12)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="title">findEntry</span> firstName lastName book = head $ filter filterEntry book</div><div class="line">  <span class="keyword">where</span></div><div class="line">    filterEntry :: <span class="type">Entry</span> -&gt; <span class="type">Boolean</span></div><div class="line">    filterEntry entry = entry.firstName == firstName &amp;&amp; entry.lastName == lastName</div></pre></td></tr></table></figure>
+<p>Note that, just like for top-level declarations, it was not necessary to specify a type signature for filterEntry. However, doing so is recommended as a form of documentation.</p>
+<h2 id="Infix-Function-Application-3-13"><a href="#Infix-Function-Application-3-13" class="headerlink" title="Infix Function Application (3.13)"></a>Infix Function Application (3.13)</h2><blockquote>
+<p>head $ filter filterEntry book</p>
+</blockquote>
+<p>is equals</p>
+<blockquote>
+<p>head (filter filterEntry book)</p>
+</blockquote>
+<p>($) is just an alias for a regular function called apply</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="title">apply</span> :: <span class="keyword">forall</span> a b. (a -&gt; b) -&gt; a -&gt; b</div><div class="line"><span class="title">apply</span> f x = f x</div><div class="line"></div><div class="line"><span class="keyword">infixr</span> <span class="number">0</span> apply as $</div></pre></td></tr></table></figure>
+<h2 id="Function-Composition-3-14"><a href="#Function-Composition-3-14" class="headerlink" title="Function Composition (3.14)"></a>Function Composition (3.14)</h2><ul>
+<li><strong>&lt;&lt;&lt;</strong> backwards composition</li>
+<li><strong>&gt;&gt;&gt;</strong> forwards composition</li>
+</ul>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(head &lt;&lt;&lt; filter filterEntry) book</div><div class="line"><span class="title">filter</span> filterEntry &gt;&gt;&gt; head</div></pre></td></tr></table></figure>
+<h1 id="Chapter-4-Recursion-Maps-And-Folds"><a href="#Chapter-4-Recursion-Maps-And-Folds" class="headerlink" title="Chapter 4 Recursion, Maps And Folds"></a>Chapter 4 Recursion, Maps And Folds</h1><ul>
+<li>purescript-maybe, which defines the Maybe type constructor</li>
+<li>purescript-arrays, which defines functions for working with arrays</li>
+<li>purescript-strings, which defines functions for working with Javascript strings</li>
+<li>purescript-foldable-traversable, which defines functions for folding arrays and other data structures</li>
+<li>purescript-console, which defines functions for printing to the console</li>
+</ul>
+<h2 id="Recursion-on-Array-4-4"><a href="#Recursion-on-Array-4-4" class="headerlink" title="Recursion on Array (4.4)"></a>Recursion on Array (4.4)</h2><ul>
+<li>The null function returns true on an empty array</li>
+</ul>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> Prelude</div><div class="line"></div><div class="line"><span class="keyword">import</span> Data.Array (<span class="title">null</span>)</div><div class="line"><span class="keyword">import</span> Data.Array.Partial (<span class="title">tail</span>)</div><div class="line"><span class="keyword">import</span> Partial.Unsafe (<span class="title">unsafePartial</span>)</div><div class="line"></div><div class="line"><span class="title">length</span> :: <span class="keyword">forall</span> a. <span class="type">Array</span> a -&gt; <span class="type">Int</span></div><div class="line"><span class="title">length</span> arr =</div><div class="line">  <span class="keyword">if</span> null arr</div><div class="line">    <span class="keyword">then</span> <span class="number">0</span></div><div class="line">    <span class="keyword">else</span> <span class="number">1</span> + length (unsafePartial tail arr)</div></pre></td></tr></table></figure>
+<h2 id="Infix-Operators-4-6"><a href="#Infix-Operators-4-6" class="headerlink" title="Infix Operators (4.6)"></a>Infix Operators (4.6)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt; (\n -&gt; n + <span class="number">1</span>) `map` [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</div><div class="line">[<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</div><div class="line"></div><div class="line">&gt; (\n -&gt; n + <span class="number">1</span>) &lt;$&gt; [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</div><div class="line">[<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</div><div class="line"></div><div class="line">&gt; (&lt;$&gt;) (\n -&gt; n + <span class="number">1</span>) [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</div><div class="line">[<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</div></pre></td></tr></table></figure>
+<h2 id="Flattening-Arrays-4-8"><a href="#Flattening-Arrays-4-8" class="headerlink" title="Flattening Arrays (4.8)"></a>Flattening Arrays (4.8)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="keyword">import</span> Data.Array</div><div class="line"></div><div class="line">&gt; :<span class="class"><span class="keyword">type</span> concat</span></div><div class="line"><span class="title">forall</span> a. <span class="type">Array</span> (<span class="type">Array</span> a) -&gt; <span class="type">Array</span> a</div><div class="line"></div><div class="line">&gt; concat [[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>], [<span class="number">6</span>]]</div><div class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</div><div class="line"></div><div class="line">&gt; :<span class="class"><span class="keyword">type</span> concatMap</span></div><div class="line"><span class="title">forall</span> a b. (a -&gt; <span class="type">Array</span> b) -&gt; <span class="type">Array</span> a -&gt; <span class="type">Array</span> b</div><div class="line"></div><div class="line">&gt; concatMap (\n -&gt; [n, n * n]) (<span class="number">1</span> .. <span class="number">5</span>)</div><div class="line">[<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">9</span>,<span class="number">4</span>,<span class="number">16</span>,<span class="number">5</span>,<span class="number">25</span>]</div></pre></td></tr></table></figure>
+<h2 id="Do-Notation-4-10"><a href="#Do-Notation-4-10" class="headerlink" title="Do Notation (4.10)"></a>Do Notation (4.10)</h2><p><strong>map</strong> and <strong>bind</strong> allow us to write so-called <strong>monad comprehensions</strong></p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="title">factors</span> :: <span class="type">Int</span> -&gt; <span class="type">Array</span> (<span class="type">Array</span> <span class="type">Int</span>)</div><div class="line"><span class="title">factors</span> n = filter (\xs -&gt; product xs == n) $ <span class="keyword">do</span></div><div class="line">  i &lt;- <span class="number">1</span> .. n</div><div class="line">  j &lt;- i .. n</div><div class="line">  pure [i, j]</div></pre></td></tr></table></figure>
+<h2 id="Guards-4-11"><a href="#Guards-4-11" class="headerlink" title="Guards (4.11)"></a>Guards (4.11)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> Control.MonadZero (<span class="title">guard</span>)</div><div class="line"></div><div class="line"><span class="title">factors</span> :: <span class="type">Int</span> -&gt; <span class="type">Array</span> (<span class="type">Array</span> <span class="type">Int</span>)</div><div class="line"><span class="title">factors</span> n = <span class="keyword">do</span></div><div class="line">  i &lt;- <span class="number">1</span> .. n</div><div class="line">  j &lt;- i .. n</div><div class="line">  guard $ i * j == n</div><div class="line">  pure [i, j]</div><div class="line"></div><div class="line">&gt; <span class="keyword">import</span> Control.MonadZero</div><div class="line"></div><div class="line">&gt; :<span class="class"><span class="keyword">type</span> guard</span></div><div class="line"><span class="title">forall</span> m. <span class="type">MonadZero</span> m =&gt; <span class="type">Boolean</span> -&gt; m <span class="type">Unit</span></div><div class="line"></div><div class="line">&gt; length $ guard true</div><div class="line"><span class="number">1</span></div><div class="line"></div><div class="line">&gt; length $ guard false</div><div class="line"><span class="number">0</span></div></pre></td></tr></table></figure>
+<p>That is, if guard is passed an expression which evaluates to true, then it returns an array with a single element. If the expression evaluates to false, then its result is empty.</p>
+<h2 id="Folds-4-12"><a href="#Folds-4-12" class="headerlink" title="Folds (4.12)"></a>Folds (4.12)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt; :<span class="class"><span class="keyword">type</span> foldl</span></div><div class="line"><span class="title">forall</span> a b. (b -&gt; a -&gt; b) -&gt; b -&gt; <span class="type">Array</span> a -&gt; b</div><div class="line"></div><div class="line">&gt; :<span class="class"><span class="keyword">type</span> foldr</span></div><div class="line"><span class="title">forall</span> a b. (a -&gt; b -&gt; b) -&gt; b -&gt; <span class="type">Array</span> a -&gt; b</div><div class="line"></div><div class="line">&gt; foldl (+) <span class="number">0</span> (<span class="number">1</span> .. <span class="number">5</span>)</div><div class="line"><span class="number">15</span></div></pre></td></tr></table></figure>
+<h2 id="Tail-Recursion-4-13"><a href="#Tail-Recursion-4-13" class="headerlink" title="Tail Recursion (4.13)"></a>Tail Recursion (4.13)</h2><p><strong>purescript-free</strong> and <strong>purescript-tailrec</strong> packages.</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="title">fact</span> :: <span class="type">Int</span> -&gt; <span class="type">Int</span> -&gt; <span class="type">Int</span></div><div class="line"><span class="title">fact</span> <span class="number">0</span> acc = acc</div><div class="line"><span class="title">fact</span> n acc = fact (n - <span class="number">1</span>) (acc * n)</div></pre></td></tr></table></figure>
+<p>Notice that the recursive call to fact is the last thing that happens in this function - it is in tail position.</p>
+<p>Prefer Folds to Explicit Recursion</p>
+<h1 id="Chapter-5-Pattern-Matching"><a href="#Chapter-5-Pattern-Matching" class="headerlink" title="Chapter 5 Pattern Matching"></a>Chapter 5 Pattern Matching</h1><ul>
+<li><strong>purescript-globals</strong>, which provides access to some common JavaScript values and functions.</li>
+<li><strong>purescript-math</strong>, which provides access to the JavaScript Math module.</li>
+</ul>
+<h2 id="Simple-Pattern-Matching-5-3"><a href="#Simple-Pattern-Matching-5-3" class="headerlink" title="Simple Pattern Matching (5.3)"></a>Simple Pattern Matching (5.3)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="title">gcd</span> :: <span class="type">Int</span> -&gt; <span class="type">Int</span> -&gt; <span class="type">Int</span></div><div class="line"><span class="title">gcd</span> n <span class="number">0</span> = n</div><div class="line"><span class="title">gcd</span> <span class="number">0</span> m = m</div><div class="line"><span class="title">gcd</span> n m = <span class="keyword">if</span> n &gt; m</div><div class="line">            <span class="keyword">then</span> gcd (n - m) m</div><div class="line">            <span class="keyword">else</span> gcd n (m - n)</div></pre></td></tr></table></figure>
+<ul>
+<li>Number, String, Char and Boolean literals</li>
+<li>Wildcard patterns, indicated with an underscore (_), which match any argument, and which do not bind any names.</li>
+</ul>
+<h2 id="Guards-5-5"><a href="#Guards-5-5" class="headerlink" title="Guards (5.5)"></a>Guards (5.5)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="title">gcd</span> :: <span class="type">Int</span> -&gt; <span class="type">Int</span> -&gt; <span class="type">Int</span></div><div class="line"><span class="title">gcd</span> n <span class="number">0</span> = n</div><div class="line"><span class="title">gcd</span> <span class="number">0</span> n = n</div><div class="line"><span class="title">gcd</span> n m | n &gt; m     = gcd (n - m) m</div><div class="line">        | otherwise = gcd n (m - n)</div></pre></td></tr></table></figure>
+<h2 id="Array-Patterns-5-6"><a href="#Array-Patterns-5-6" class="headerlink" title="Array Patterns (5.6)"></a>Array Patterns (5.6)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="title">isEmpty</span> :: <span class="keyword">forall</span> a. <span class="type">Array</span> a -&gt; <span class="type">Boolean</span></div><div class="line"><span class="title">isEmpty</span> [] = true</div><div class="line"><span class="title">isEmpty</span> _ = false</div><div class="line"></div><div class="line"><span class="title">takeFive</span> :: <span class="type">Array</span> <span class="type">Int</span> -&gt; <span class="type">Int</span></div><div class="line"><span class="title">takeFive</span> [<span class="number">0</span>, <span class="number">1</span>, a, b, _] = a * b</div><div class="line"><span class="title">takeFive</span> _ = <span class="number">0</span></div></pre></td></tr></table></figure>
+<h2 id="Record-Patterns-and-Row-Polymorphism-5-7"><a href="#Record-Patterns-and-Row-Polymorphism-5-7" class="headerlink" title="Record Patterns and Row Polymorphism (5.7)"></a>Record Patterns and Row Polymorphism (5.7)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="title">showPerson</span> :: &#123; first :: <span class="type">String</span>, last :: <span class="type">String</span> &#125; -&gt; <span class="type">String</span></div><div class="line"><span class="title">showPerson</span> &#123; first: x, last: y &#125; = y &lt;&gt; <span class="string">", "</span> &lt;&gt; x</div><div class="line"></div><div class="line">&gt; :<span class="class"><span class="keyword">type</span> showPerson</span></div><div class="line"><span class="title">forall</span> r. &#123; first :: <span class="type">String</span>, last :: <span class="type">String</span> | r &#125; -&gt; <span class="type">String</span></div><div class="line"></div><div class="line">&gt; showPerson &#123; first: <span class="string">"Phil"</span>, last: <span class="string">"Freeman"</span> &#125;</div><div class="line"><span class="string">"Freeman, Phil"</span></div><div class="line"></div><div class="line">&gt; showPerson &#123; first: <span class="string">"Phil"</span>, last: <span class="string">"Freeman"</span>, location: <span class="string">"Los Angeles"</span> &#125;</div><div class="line"><span class="string">"Freeman, Phil"</span></div></pre></td></tr></table></figure>
+<p>Notice: what is the type variable r here?</p>
+<blockquote>
+<p>We can read the new type signature of showPerson as “takes any record with first and last fields which are Strings and any other fields, and returns a String”.</p>
+</blockquote>
+<p>This function is polymorphic in the row r of record fields, hence the name row polymorphism.</p>
+<h2 id="Nested-Patterns-5-8"><a href="#Nested-Patterns-5-8" class="headerlink" title="Nested Patterns (5.8)"></a>Nested Patterns (5.8)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">type</span> <span class="type">Address</span> = &#123; <span class="title">street</span> :: <span class="type">String</span>, <span class="title">city</span> :: <span class="type">String</span> &#125;</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">type</span> <span class="type">Person</span> = &#123; <span class="title">name</span> :: <span class="type">String</span>, <span class="title">address</span> :: <span class="type">Address</span> &#125;</span></div><div class="line"></div><div class="line"><span class="title">livesInLA</span> :: <span class="type">Person</span> -&gt; <span class="type">Boolean</span></div><div class="line"><span class="title">livesInLA</span> &#123; address: &#123; city: <span class="string">"Los Angeles"</span> &#125; &#125; = true</div><div class="line"><span class="title">livesInLA</span> _ = false</div></pre></td></tr></table></figure>
+<h2 id="Named-Patterns-5-9"><a href="#Named-Patterns-5-9" class="headerlink" title="Named Patterns (5.9)"></a>Named Patterns (5.9)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="title">sortPair</span> :: <span class="type">Array</span> <span class="type">Int</span> -&gt; <span class="type">Array</span> <span class="type">Int</span></div><div class="line"><span class="title">sortPair</span> arr@[x, y]</div><div class="line">  | x &lt;= y = arr</div><div class="line">  | otherwise = [y, x]</div><div class="line"><span class="title">sortPair</span> arr = arr</div></pre></td></tr></table></figure>
+<h2 id="Case-Expressions-5-10"><a href="#Case-Expressions-5-10" class="headerlink" title="Case Expressions (5.10)"></a>Case Expressions (5.10)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> Data.Array.Partial (<span class="title">tail</span>)</div><div class="line"><span class="keyword">import</span> Partial.Unsafe (<span class="title">unsafePartial</span>)</div><div class="line"></div><div class="line"><span class="title">lzs</span> :: <span class="type">Array</span> <span class="type">Int</span> -&gt; <span class="type">Array</span> <span class="type">Int</span></div><div class="line"><span class="title">lzs</span> [] = []</div><div class="line"><span class="title">lzs</span> xs = <span class="keyword">case</span> sum xs <span class="keyword">of</span></div><div class="line">           <span class="number">0</span> -&gt; xs</div><div class="line">           _ -&gt; lzs (unsafePartial tail xs)</div></pre></td></tr></table></figure>
+<h2 id="Algebraic-Data-Types-5-12"><a href="#Algebraic-Data-Types-5-12" class="headerlink" title="Algebraic Data Types (5.12)"></a>Algebraic Data Types (5.12)</h2><p>Algebraic Data Types (or ADTs)</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- OR</span></div><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">Shape</span></span></div><div class="line">  = <span class="type">Circle</span> <span class="type">Point</span> <span class="type">Number</span></div><div class="line">  | <span class="type">Rectangle</span> <span class="type">Point</span> <span class="type">Number</span> <span class="type">Number</span></div><div class="line">  | <span class="type">Line</span> <span class="type">Point</span> <span class="type">Point</span></div><div class="line">  | <span class="type">Text</span> <span class="type">Point</span> <span class="type">String</span></div><div class="line"></div><div class="line"><span class="comment">-- AND</span></div><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">Point</span> = <span class="type">Point</span></span></div><div class="line">  &#123; x :: <span class="type">Number</span></div><div class="line">  , y :: <span class="type">Number</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">Maybe</span> a = <span class="type">Nothing</span> | <span class="type">Just</span> a</span></div><div class="line"></div><div class="line"><span class="comment">-- recursive define</span></div><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">List</span> a = <span class="type">Nil</span> | <span class="type">Cons</span> a (<span class="type">List</span> <span class="title">a</span>)</span></div></pre></td></tr></table></figure>
+<h2 id="Using-ADTs-5-13"><a href="#Using-ADTs-5-13" class="headerlink" title="Using ADTs (5.13)"></a>Using ADTs (5.13)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="title">showPoint</span> :: <span class="type">Point</span> -&gt; <span class="type">String</span></div><div class="line"><span class="title">showPoint</span> (<span class="type">Point</span> &#123; x: x, y: y &#125;) = <span class="string">"("</span> &lt;&gt; show x &lt;&gt; <span class="string">", "</span> &lt;&gt; show y &lt;&gt; <span class="string">")"</span></div><div class="line"></div><div class="line"><span class="comment">-- or we could define as below. Record Puns</span></div><div class="line"><span class="comment">-- showPoint (Point &#123; x, y &#125;) = ...</span></div><div class="line"></div><div class="line"><span class="title">showShape</span> :: <span class="type">Shape</span> -&gt; <span class="type">String</span></div><div class="line"><span class="title">showShape</span> (<span class="type">Circle</span> c r)      = ...</div><div class="line"><span class="title">showShape</span> (<span class="type">Rectangle</span> c w h) = ...</div><div class="line"><span class="title">showShape</span> (<span class="type">Line</span> start end)  = ...</div><div class="line"><span class="title">showShape</span> (<span class="type">Text</span> p text) = ...</div></pre></td></tr></table></figure>
+<h2 id="Newtypes-5-15"><a href="#Newtypes-5-15" class="headerlink" title="Newtypes (5.15)"></a>Newtypes (5.15)</h2><p>There is an important special case of <strong>algebraic data types (ADT)</strong>, called newtypes</p>
+<p>Newtypes must define exactly one constructor, and that constructor must take exactly one argument.</p>
+<p>a newtype gives a new name to an existing type. In fact, the values of a newtype have the same runtime representation as the underlying type. This gives an extra layer of type safety.</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">newtype</span> <span class="type">Pixels</span> = <span class="type">Pixels</span> <span class="type">Number</span></span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>Newtypes will become important, since they allow us to attach different behavior to a type without changing its representation at runtime.</p>
+</blockquote>
+<h1 id="Chapter-6-Type-Classes"><a href="#Chapter-6-Type-Classes" class="headerlink" title="Chapter 6 Type Classes"></a>Chapter 6 Type Classes</h1><h2 id="Show-Me-6-3"><a href="#Show-Me-6-3" class="headerlink" title="Show Me (6.3)"></a>Show Me (6.3)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Show</span> a <span class="keyword">where</span></span></div><div class="line">  show :: a -&gt; <span class="type">String</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">instance</span> showBoolean :: <span class="type">Show</span> <span class="type">Boolean</span> <span class="keyword">where</span></span></div><div class="line">  show true = <span class="string">"true"</span></div><div class="line">  show false = <span class="string">"false"</span></div></pre></td></tr></table></figure>
+<p>We can annotate the expression with a type, using the :: operator, so that PSCi can choose the correct type class instance:</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; show (<span class="type">Left</span> <span class="number">10</span> :: <span class="type">Either</span> <span class="type">Int</span> <span class="type">String</span>)</div><div class="line"><span class="string">"(Left 10)"</span></div></pre></td></tr></table></figure>
+<h2 id="Common-Type-Classes-6-4"><a href="#Common-Type-Classes-6-4" class="headerlink" title="Common Type Classes (6.4)"></a>Common Type Classes (6.4)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Eq</span> a <span class="keyword">where</span></span></div><div class="line">  eq :: a -&gt; a -&gt; <span class="type">Boolean</span></div><div class="line"></div><div class="line"><span class="comment">-- Ord</span></div><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">Ordering</span> = <span class="type">LT</span> | <span class="type">EQ</span> | <span class="type">GT</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Eq</span> a &lt;= <span class="type">Ord</span> a <span class="keyword">where</span></span></div><div class="line">  compare :: a -&gt; a -&gt; <span class="type">Ordering</span></div><div class="line"></div><div class="line"><span class="comment">-- The Field type class identifies those types which support numeric operators such as addition, subtraction, multiplication and division. It is provided to abstract over those operators</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">EuclideanRing</span> a &lt;= <span class="type">Field</span> a</span></div><div class="line"><span class="class"></span></div><div class="line"><span class="class"><span class="comment">-- purescript-monoid</span></span></div><div class="line"><span class="class"><span class="comment">-- Semigroups and Monoids</span></span></div><div class="line"><span class="class"><span class="comment">-- &lt;&gt; is as an alias for append</span></span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Semigroup</span> a <span class="keyword">where</span></span></div><div class="line">  append :: a -&gt; a -&gt; a</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Semigroup</span> m &lt;= <span class="type">Monoid</span> m <span class="keyword">where</span></span></div><div class="line">  mempty :: m</div><div class="line"></div><div class="line"><span class="comment">-- purescript-foldable-traversable</span></div><div class="line"><span class="comment">-- Foldable</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Foldable</span> f <span class="keyword">where</span></span></div><div class="line">  foldr :: <span class="keyword">forall</span> a b. (a -&gt; b -&gt; b) -&gt; b -&gt; f a -&gt; b</div><div class="line">  foldl :: <span class="keyword">forall</span> a b. (b -&gt; a -&gt; b) -&gt; b -&gt; f a -&gt; b</div><div class="line">  foldMap :: <span class="keyword">forall</span> a m. <span class="type">Monoid</span> m =&gt; (a -&gt; m) -&gt; f a -&gt; m</div><div class="line"></div><div class="line"><span class="comment">-- Functor</span></div><div class="line"><span class="comment">-- alias &lt;$&gt;</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Functor</span> f <span class="keyword">where</span></span></div><div class="line">  map :: <span class="keyword">forall</span> a b. (a -&gt; b) -&gt; f a -&gt; f b</div></pre></td></tr></table></figure>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="keyword">import</span> Data.Monoid</div><div class="line">&gt; <span class="keyword">import</span> Data.Foldable</div><div class="line"></div><div class="line">&gt; foldl append mempty [<span class="string">"Hello"</span>, <span class="string">" "</span>, <span class="string">"World"</span>]  </div><div class="line"><span class="string">"Hello World"</span></div></pre></td></tr></table></figure>
+<p>Functor Law</p>
+<ul>
+<li><strong>identity law:</strong> map id xs = xs</li>
+<li><strong>composition law:</strong> map g (map f xs) = map (g &lt;&lt;&lt; f) xs</li>
+</ul>
+<h2 id="Type-Annotations-6-5"><a href="#Type-Annotations-6-5" class="headerlink" title="Type Annotations (6.5)"></a>Type Annotations (6.5)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="title">threeAreEqual</span> :: <span class="keyword">forall</span> a. <span class="type">Eq</span> a =&gt; a -&gt; a -&gt; a -&gt; <span class="type">Boolean</span></div><div class="line"><span class="title">threeAreEqual</span> a1 a2 a3 = a1 == a2 &amp;&amp; a2 == a3</div><div class="line"></div><div class="line"><span class="title">showCompare</span> :: <span class="keyword">forall</span> a. <span class="type">Ord</span> a =&gt; <span class="type">Show</span> a =&gt; a -&gt; a -&gt; <span class="type">String</span></div><div class="line"><span class="title">showCompare</span> a1 a2 | a1 &lt; a2 =</div><div class="line">  show a1 &lt;&gt; <span class="string">" is less than "</span> &lt;&gt; show a2</div><div class="line"><span class="title">showCompare</span> a1 a2 | a1 &gt; a2 =</div><div class="line">  show a1 &lt;&gt; <span class="string">" is greater than "</span> &lt;&gt; show a2</div><div class="line"><span class="title">showCompare</span> a1 a2 =</div><div class="line">  show a1 &lt;&gt; <span class="string">" is equal to "</span> &lt;&gt; show a2</div></pre></td></tr></table></figure>
+<h2 id="Instance-Dependencies-6-7"><a href="#Instance-Dependencies-6-7" class="headerlink" title="Instance Dependencies (6.7)"></a>Instance Dependencies (6.7)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">instance</span> showEither :: (<span class="type">Show</span> <span class="title">a</span>, <span class="type">Show</span> <span class="title">b</span>) =&gt; <span class="type">Show</span> (<span class="type">Either</span> <span class="title">a</span> <span class="title">b</span>) <span class="keyword">where</span></span></div><div class="line">  ...</div></pre></td></tr></table></figure>
+<h2 id="Multi-Parameter-Type-Classes-6-8"><a href="#Multi-Parameter-Type-Classes-6-8" class="headerlink" title="Multi Parameter Type Classes (6.8)"></a>Multi Parameter Type Classes (6.8)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">module</span> Stream <span class="keyword">where</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> Data.Array <span class="keyword">as</span> Array</div><div class="line"><span class="keyword">import</span> Data.Maybe (<span class="type">Maybe</span>)</div><div class="line"><span class="keyword">import</span> Data.String <span class="keyword">as</span> String</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Stream</span> stream element <span class="keyword">where</span></span></div><div class="line">  uncons :: stream -&gt; <span class="type">Maybe</span> &#123; head :: element, tail :: stream &#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">instance</span> streamArray :: <span class="type">Stream</span> (<span class="type">Array</span> <span class="title">a</span>) a <span class="keyword">where</span></span></div><div class="line">  uncons = <span class="type">Array</span>.uncons</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">instance</span> streamString :: <span class="type">Stream</span> <span class="type">String</span> <span class="type">Char</span> <span class="keyword">where</span></span></div><div class="line">  uncons = <span class="type">String</span>.uncons</div></pre></td></tr></table></figure>
+<h2 id="Functional-Dependencies-6-9"><a href="#Functional-Dependencies-6-9" class="headerlink" title="Functional Dependencies (6.9)"></a>Functional Dependencies (6.9)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Stream</span> stream element | stream -&gt; element <span class="keyword">where</span></span></div><div class="line">  uncons :: stream -&gt; <span class="type">Maybe</span> &#123; head :: element, tail :: stream &#125;</div><div class="line"></div><div class="line"><span class="title">genericTail</span> xs = map _.tail (uncons xs)</div><div class="line"></div><div class="line">&gt; :<span class="class"><span class="keyword">type</span> genericTail</span></div><div class="line"><span class="title">forall</span> stream element. <span class="type">Stream</span> stream element =&gt; stream -&gt; <span class="type">Maybe</span> stream</div><div class="line"></div><div class="line">&gt; genericTail <span class="string">"testing"</span></div><div class="line">(<span class="type">Just</span> <span class="string">"esting"</span>)</div></pre></td></tr></table></figure>
+<h2 id="Nullary-Type-Classes-6-10"><a href="#Nullary-Type-Classes-6-10" class="headerlink" title="Nullary Type Classes (6.10)"></a>Nullary Type Classes (6.10)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="title">head</span> :: <span class="keyword">forall</span> a. <span class="type">Partial</span> =&gt; <span class="type">Array</span> a -&gt; a</div><div class="line"></div><div class="line"><span class="title">tail</span> :: <span class="keyword">forall</span> a. <span class="type">Partial</span> =&gt; <span class="type">Array</span> a -&gt; <span class="type">Array</span> a</div></pre></td></tr></table></figure>
+<p>Note that there is no instance defined for the Partial type class! Doing so would defeat its purpose: attempting to use the head function directly will result in a type error:</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">secondElement</span> :: <span class="keyword">forall</span> a. <span class="type">Partial</span> =&gt; <span class="type">Array</span> a -&gt; a</div><div class="line"><span class="title">secondElement</span> xs = head (tail xs)</div></pre></td></tr></table></figure>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">unsafePartial</span> :: <span class="keyword">forall</span> a. (<span class="type">Partial</span> =&gt; a) -&gt; a</div></pre></td></tr></table></figure>
+<p>Note that the Partial constraint appears inside the parentheses on the left of the function arrow, but not in the outer forall. That is, unsafePartial is a function from partial values to regular values.</p>
+<h1 id="Chapter-7-Applicative-Validation"><a href="#Chapter-7-Applicative-Validation" class="headerlink" title="Chapter 7 Applicative Validation"></a>Chapter 7 Applicative Validation</h1><h2 id="lift-Arbitrary-Functions-7-4"><a href="#lift-Arbitrary-Functions-7-4" class="headerlink" title="lift Arbitrary Functions (7.4)"></a>lift Arbitrary Functions (7.4)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- &lt;$&gt;</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Functor</span> f <span class="keyword">where</span></span></div><div class="line">  map :: <span class="keyword">forall</span> a b. (a -&gt; b) -&gt; f a -&gt; f b</div><div class="line"></div><div class="line"><span class="comment">-- &lt;*&gt;</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Functor</span> f &lt;= <span class="type">Apply</span> f <span class="keyword">where</span></span></div><div class="line">  apply :: <span class="keyword">forall</span> a b. f (a -&gt; b) -&gt; f a -&gt; f b</div></pre></td></tr></table></figure>
+<p>Maybe implement apply class</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">instance</span> functorMaybe :: <span class="type">Functor</span> <span class="type">Maybe</span> <span class="keyword">where</span></span></div><div class="line">  map f (<span class="type">Just</span> a) = <span class="type">Just</span> (f a)</div><div class="line">  map f <span class="type">Nothing</span>  = <span class="type">Nothing</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">instance</span> applyMaybe :: <span class="type">Apply</span> <span class="type">Maybe</span> <span class="keyword">where</span></span></div><div class="line">  apply (<span class="type">Just</span> f) (<span class="type">Just</span> x) = <span class="type">Just</span> (f x)</div><div class="line">  apply _        _        = <span class="type">Nothing</span></div></pre></td></tr></table></figure>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="title">lift3</span> :: <span class="keyword">forall</span> a b c d f. <span class="type">Apply</span> f =&gt; </div><div class="line">    (a -&gt; b -&gt; c -&gt; d) -&gt; f a -&gt; f b -&gt; f c -&gt; f d</div><div class="line"><span class="title">lift3</span> f x y z = f &lt;$&gt; x &lt;*&gt; y &lt;*&gt; z</div></pre></td></tr></table></figure>
+<h2 id="Applicative-type-class-7-5"><a href="#Applicative-type-class-7-5" class="headerlink" title="Applicative type class (7.5)"></a>Applicative type class (7.5)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Functor</span> f <span class="keyword">where</span></span></div><div class="line">  map :: <span class="keyword">forall</span> a b. (a -&gt; b) -&gt; f a -&gt; f b</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Functor</span> f &lt;= <span class="type">Apply</span> f <span class="keyword">where</span></span></div><div class="line">  apply :: <span class="keyword">forall</span> a b. f (a -&gt; b) -&gt; f a -&gt; f b</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Apply</span> f &lt;= <span class="type">Applicative</span> f <span class="keyword">where</span></span></div><div class="line">    pure :: <span class="keyword">forall</span> a. a -&gt; f a</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">instance</span> applicativeMaybe :: <span class="type">Applicative</span> <span class="type">Maybe</span> <span class="keyword">where</span></span></div><div class="line">  pure x = <span class="type">Just</span> x</div></pre></td></tr></table></figure>
+<h2 id="More-Effects-7-7"><a href="#More-Effects-7-7" class="headerlink" title="More Effects (7.7)"></a>More Effects (7.7)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="title">withError</span> <span class="type">Nothing</span>  err = <span class="type">Left</span> err</div><div class="line"><span class="title">withError</span> (<span class="type">Just</span> a) _   = <span class="type">Right</span> a</div><div class="line"></div><div class="line"><span class="title">fullNameEither</span> first middle last =</div><div class="line">   fullName &lt;$&gt; (first  `withError` <span class="string">"First name was missing"</span>)</div><div class="line">            &lt;*&gt; (middle `withError` <span class="string">"Middle name was missing"</span>)</div><div class="line">            &lt;*&gt; (last   `withError` <span class="string">"Last name was missing"</span>)</div><div class="line"></div><div class="line">&gt; :<span class="class"><span class="keyword">type</span> fullNameEither</span></div><div class="line"><span class="type">Maybe</span> <span class="type">String</span> -&gt; <span class="type">Maybe</span> <span class="type">String</span> -&gt; <span class="type">Maybe</span> <span class="type">String</span> -&gt; <span class="type">Either</span> <span class="type">String</span> <span class="type">String</span></div></pre></td></tr></table></figure>
+<h2 id="Applicative-Validation-7-9"><a href="#Applicative-Validation-7-9" class="headerlink" title="Applicative Validation (7.9)"></a>Applicative Validation (7.9)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="title">address</span> :: <span class="type">String</span> -&gt; <span class="type">String</span> -&gt; <span class="type">String</span> -&gt; <span class="type">Address</span></div><div class="line"></div><div class="line"><span class="title">phoneNumber</span> :: <span class="type">PhoneType</span> -&gt; <span class="type">String</span> -&gt; <span class="type">PhoneNumber</span></div><div class="line"></div><div class="line"><span class="title">person</span> :: <span class="type">String</span> -&gt; <span class="type">String</span> -&gt; <span class="type">Address</span> -&gt; <span class="type">Array</span> <span class="type">PhoneNumber</span> -&gt; <span class="type">Person</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">PhoneType</span> = <span class="type">HomePhone</span> | <span class="type">WorkPhone</span> | <span class="type">CellPhone</span> | <span class="type">OtherPhone</span></span></div><div class="line"></div><div class="line"><span class="title">examplePerson</span> :: <span class="type">Person</span></div><div class="line"><span class="title">examplePerson</span> =</div><div class="line">  person <span class="string">"John"</span> <span class="string">"Smith"</span></div><div class="line">        (address <span class="string">"123 Fake St."</span> <span class="string">"FakeTown"</span> <span class="string">"CA"</span>)</div><div class="line">        [ phoneNumber <span class="type">HomePhone</span> <span class="string">"555-555-5555"</span></div><div class="line">         , phoneNumber <span class="type">CellPhone</span> <span class="string">"555-555-0000"</span></div><div class="line">        ]</div></pre></td></tr></table></figure>
+<blockquote>
+<p>purescript-validation</p>
+</blockquote>
+<p>The <strong>Data.AddressBook.Validation</strong> module uses the <strong>V (Array String) </strong>applicative functor to validate the data structures</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="title">nonEmpty</span> :: <span class="type">String</span> -&gt; <span class="type">String</span> -&gt; <span class="type">V</span> <span class="type">Errors</span> <span class="type">Unit</span></div><div class="line"><span class="title">nonEmpty</span> field <span class="string">""</span> = invalid [<span class="string">"Field '"</span> &lt;&gt; field &lt;&gt; <span class="string">"' cannot be empty"</span>]</div><div class="line"><span class="title">nonEmpty</span> _     _  = pure unit</div><div class="line"></div><div class="line"><span class="title">lengthIs</span> :: <span class="type">String</span> -&gt; <span class="type">Number</span> -&gt; <span class="type">String</span> -&gt; <span class="type">V</span> <span class="type">Errors</span> <span class="type">Unit</span></div><div class="line"><span class="title">lengthIs</span> field len value | <span class="type">S</span>.length value /= len =</div><div class="line">  invalid [<span class="string">"Field '"</span> &lt;&gt; field &lt;&gt; <span class="string">"' must have length "</span> &lt;&gt; show len]</div><div class="line"><span class="title">lengthIs</span> _     _   _     =</div><div class="line">  pure unit</div><div class="line"></div><div class="line"><span class="title">matches</span> :: <span class="type">String</span> -&gt; <span class="type">R</span>.<span class="type">Regex</span> -&gt; <span class="type">String</span> -&gt; <span class="type">V</span> <span class="type">Errors</span> <span class="type">Unit</span></div><div class="line"><span class="title">matches</span> _     regex value | <span class="type">R</span>.test regex value =</div><div class="line">  pure unit</div><div class="line"><span class="title">matches</span> field _     _     =</div><div class="line">  invalid [<span class="string">"Field '"</span> &lt;&gt; field &lt;&gt; <span class="string">"' did not match the required format"</span>]</div><div class="line"></div><div class="line"><span class="title">validateAddress</span> :: <span class="type">Address</span> -&gt; <span class="type">V</span> <span class="type">Errors</span> <span class="type">Address</span></div><div class="line"><span class="title">validateAddress</span> (<span class="type">Address</span> o) =</div><div class="line">  address &lt;$&gt; (nonEmpty <span class="string">"Street"</span> o.street *&gt; pure o.street)</div><div class="line">          &lt;*&gt; (nonEmpty <span class="string">"City"</span>   o.city   *&gt; pure o.city)</div><div class="line">          &lt;*&gt; (lengthIs <span class="string">"State"</span> <span class="number">2</span> o.state *&gt; pure o.state)</div><div class="line"></div><div class="line"><span class="title">validatePhoneNumber</span> :: <span class="type">PhoneNumber</span> -&gt; <span class="type">V</span> <span class="type">Errors</span> <span class="type">PhoneNumber</span></div><div class="line"><span class="title">validatePhoneNumber</span> (<span class="type">PhoneNumber</span> o) =</div><div class="line">  phoneNumber &lt;$&gt; pure o.<span class="string">"type"</span></div><div class="line">              &lt;*&gt; (matches <span class="string">"Number"</span> phoneNumberRegex o.number *&gt; pure o.number)</div></pre></td></tr></table></figure>
+<h2 id="Traversable-Functors-7-11"><a href="#Traversable-Functors-7-11" class="headerlink" title="Traversable Functors (7.11)"></a>Traversable Functors (7.11)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="title">arrayNonEmpty</span> :: <span class="keyword">forall</span> a. <span class="type">String</span> -&gt; <span class="type">Array</span> a -&gt; <span class="type">V</span> <span class="type">Errors</span> <span class="type">Unit</span></div><div class="line"><span class="title">arrayNonEmpty</span> field [] =</div><div class="line">  invalid [<span class="string">"Field '"</span> &lt;&gt; field &lt;&gt; <span class="string">"' must contain at least one value"</span>]</div><div class="line"><span class="title">arrayNonEmpty</span> _     _  =</div><div class="line">  pure unit</div><div class="line"></div><div class="line"><span class="title">validatePerson</span> :: <span class="type">Person</span> -&gt; <span class="type">V</span> <span class="type">Errors</span> <span class="type">Person</span></div><div class="line"><span class="title">validatePerson</span> (<span class="type">Person</span> o) =</div><div class="line">  person &lt;$&gt; (nonEmpty <span class="string">"First Name"</span> o.firstName *&gt; pure o.firstName)</div><div class="line">         &lt;*&gt; (nonEmpty <span class="string">"Last Name"</span>  o.lastName  *&gt; pure o.lastName)</div><div class="line">	       &lt;*&gt; validateAddress o.address</div><div class="line">         &lt;*&gt; (arrayNonEmpty <span class="string">"Phone Numbers"</span> o.phones *&gt; traverse validatePhoneNumber o.phones)</div></pre></td></tr></table></figure>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> (<span class="type">Functor</span> <span class="title">t</span>, <span class="type">Foldable</span> <span class="title">t</span>) &lt;= <span class="type">Traversable</span> t <span class="keyword">where</span></span></div><div class="line">  traverse :: <span class="keyword">forall</span> a b f. <span class="type">Applicative</span> f =&gt; (a -&gt; f b) -&gt; t a -&gt; f (t b)</div><div class="line">  sequence :: <span class="keyword">forall</span> a f. <span class="type">Applicative</span> f =&gt; t (f a) -&gt; f (t a)</div></pre></td></tr></table></figure>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">traverse</span> :: <span class="keyword">forall</span> a b f. <span class="type">Applicative</span> f =&gt; (a -&gt; f b) -&gt; <span class="type">Array</span> a -&gt; f (<span class="type">Array</span> b)</div><div class="line"><span class="title">traverse</span> :: <span class="keyword">forall</span> a b. (a -&gt; <span class="type">V</span> <span class="type">Errors</span> b) -&gt; <span class="type">Array</span> a -&gt; <span class="type">V</span> <span class="type">Errors</span> (<span class="type">Array</span> b)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Traversable functors capture the idea of traversing a data structure, collecting a set of effectful computations, and combining their effects. In fact, sequence and traverse are equally important to the definition of Traversable - each can be implemented in terms of each other</p>
+</blockquote>
+<p>List implements</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- traverse :: forall a b f. Applicative f =&gt; (a -&gt; f b) -&gt; List a -&gt; f (List b)</span></div><div class="line"><span class="title">traverse</span> _ <span class="type">Nil</span> = pure <span class="type">Nil</span></div><div class="line"><span class="title">traverse</span> f (<span class="type">Cons</span> x xs) = <span class="type">Cons</span> &lt;$&gt; f x &lt;*&gt; traverse f xs</div></pre></td></tr></table></figure>
+<h2 id="Applicative-Functors-for-Parallelism-7-12"><a href="#Applicative-Functors-for-Parallelism-7-12" class="headerlink" title="Applicative Functors for Parallelism (7.12)"></a>Applicative Functors for Parallelism (7.12)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">f</span> &lt;$&gt; parallel computation1</div><div class="line">  &lt;*&gt; parallel computation2</div></pre></td></tr></table></figure>
+<p>This computation would start computing values asynchronously using computation1 and computation2. When both results have been computed, they would be combined into a single result using the function f.</p>
+<h1 id="Chapter-8-The-Eff-Monad"><a href="#Chapter-8-The-Eff-Monad" class="headerlink" title="Chapter 8 The Eff Monad"></a>Chapter 8 The Eff Monad</h1><h2 id="Monads-and-Do-Notation-8-3"><a href="#Monads-and-Do-Notation-8-3" class="headerlink" title="Monads and Do Notation (8.3)"></a>Monads and Do Notation (8.3)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> Prelude</div><div class="line"></div><div class="line"><span class="keyword">import</span> Control.Plus (<span class="title">empty</span>)</div><div class="line"><span class="keyword">import</span> Data.Array ((..))</div><div class="line"></div><div class="line"><span class="title">countThrows</span> :: <span class="type">Int</span> -&gt; <span class="type">Array</span> (<span class="type">Array</span> <span class="type">Int</span>)</div><div class="line"><span class="title">countThrows</span> n = <span class="keyword">do</span></div><div class="line">  x &lt;- <span class="number">1</span> .. <span class="number">6</span></div><div class="line">  y &lt;- <span class="number">1</span> .. <span class="number">6</span></div><div class="line">  <span class="keyword">if</span> x + y == n</div><div class="line">    <span class="keyword">then</span> pure [x, y]</div><div class="line">    <span class="keyword">else</span> empty</div></pre></td></tr></table></figure>
+<blockquote>
+<p>In general, every line of a do notation block will contain a computation of type m a for some type a and our monad m<br>The monad m must be the same on every line<br>the types a can differ (i.e. individual computations can have different result types)</p>
+</blockquote>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="title">userCity</span> :: <span class="type">XML</span> -&gt; <span class="type">Maybe</span> <span class="type">XML</span></div><div class="line"><span class="title">userCity</span> root = <span class="keyword">do</span></div><div class="line">  prof &lt;- child root <span class="string">"profile"</span></div><div class="line">  addr &lt;- child prof <span class="string">"address"</span></div><div class="line">  city &lt;- child addr <span class="string">"city"</span></div><div class="line">  pure city</div></pre></td></tr></table></figure>
+<h2 id="Monad-type-class-8-4"><a href="#Monad-type-class-8-4" class="headerlink" title="Monad type class (8.4)"></a>Monad type class (8.4)</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- &gt;&gt;=</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Apply</span> m &lt;= <span class="type">Bind</span> m <span class="keyword">where</span></span></div><div class="line">    bind :: <span class="keyword">forall</span> a b. m a -&gt; (a -&gt; m b) -&gt; m b</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> (<span class="type">Applicative</span> <span class="title">m</span>, <span class="type">Bind</span> <span class="title">m</span>) &lt;= <span class="type">Monad</span> m</span></div><div class="line"><span class="class"></span></div><div class="line"><span class="class"><span class="keyword">instance</span> bindArray :: <span class="type">Bind</span> <span class="type">Array</span> <span class="keyword">where</span></span></div><div class="line">    bind xs f = concatMap f xs</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">instance</span> bindMaybe :: <span class="type">Bind</span> <span class="type">Maybe</span> <span class="keyword">where</span></span></div><div class="line">    bind <span class="type">Nothing</span>  _ = <span class="type">Nothing</span></div><div class="line">    bind (<span class="type">Just</span> a) f = f a</div></pre></td></tr></table></figure>
+<blockquote>
+<p>syntax suger</p>
+</blockquote>
+<p>all of the following statement are same</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="title">do</span> value &lt;- someComputation</div><div class="line">   whatToDoNext</div><div class="line"></div><div class="line"><span class="title">bind</span> someComputation \value -&gt; whatToDoNext</div><div class="line"></div><div class="line"><span class="title">someComputation</span> &gt;&gt;= \value -&gt; whatToDoNext</div></pre></td></tr></table></figure>
+<h2 id="8-5-Monad-Laws"><a href="#8-5-Monad-Laws" class="headerlink" title="8.5 Monad Laws"></a>8.5 Monad Laws</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- Left identity</span></div><div class="line"><span class="title">pure</span> a &gt;&gt;= f ≡ f a</div><div class="line"></div><div class="line"><span class="comment">-- Right identity</span></div><div class="line"><span class="title">m</span> &gt;&gt;= pure ≡ m</div><div class="line"></div><div class="line"><span class="comment">-- Associativity</span></div><div class="line">(m &gt;&gt;= f) &gt;&gt;= g ≡ m &gt;&gt;= (\x -&gt; f x &gt;&gt;= g)</div></pre></td></tr></table></figure>
+<h3 id="Right-identity"><a href="#Right-identity" class="headerlink" title="Right identity"></a>Right identity</h3><p>It tells us that we can eliminate a call to pure if it is the last expression in a do notation block:</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="title">do</span></div><div class="line">  x &lt;- expr</div><div class="line">  pure x</div></pre></td></tr></table></figure>
+<p>The right-identity law says that this is equivalent to just expr.</p>
+<h3 id="Left-identity"><a href="#Left-identity" class="headerlink" title="Left identity"></a>Left identity</h3><p>we can eliminate a call to pure if it is the first expression in a do notation block:</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="title">do</span></div><div class="line">  x &lt;- pure y</div><div class="line">  next</div></pre></td></tr></table></figure>
+<p>This code is equivalent to next, after the name x has been replaced with the expression y.</p>
+<h3 id="Associativity"><a href="#Associativity" class="headerlink" title="Associativity"></a>Associativity</h3><p>It tells us how to deal with nested do notation blocks</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="title">c1</span> = <span class="keyword">do</span></div><div class="line">  y &lt;- <span class="keyword">do</span></div><div class="line">    x &lt;- m1</div><div class="line">    m2</div><div class="line">  m3</div><div class="line"></div><div class="line"><span class="title">c2</span> = <span class="keyword">do</span></div><div class="line">  x &lt;- m1</div><div class="line">  y &lt;- m2</div><div class="line">  m3</div></pre></td></tr></table></figure>
+<h2 id="8-6-Folding-With-Monads"><a href="#8-6-Folding-With-Monads" class="headerlink" title="8.6 Folding With Monads"></a>8.6 Folding With Monads</h2><p><strong>foldM</strong> generalizes the foldl function that we met earlier to a monadic context.</p>
+<p>Intuitively, foldM performs a fold over a list in some context supporting some set of side-effects.</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="title">foldM</span> :: <span class="keyword">forall</span> m a b. <span class="type">Monad</span> m =&gt; (a -&gt; b -&gt; m a) -&gt; a -&gt; <span class="type">List</span> b -&gt; m a</div><div class="line"><span class="title">foldM</span> _ a <span class="type">Nil</span> = pure a</div><div class="line"><span class="title">foldM</span> f a (b : bs) = <span class="keyword">do</span></div><div class="line">  a' &lt;- f a b</div><div class="line">  foldM f a' bs</div></pre></td></tr></table></figure>
+<p>Example:</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> Data.List</div><div class="line"></div><div class="line"><span class="title">safeDivide</span> :: <span class="type">Int</span> -&gt; <span class="type">Int</span> -&gt; <span class="type">Maybe</span> <span class="type">Int</span></div><div class="line"><span class="title">safeDivide</span> _ <span class="number">0</span> = <span class="type">Nothing</span></div><div class="line"><span class="title">safeDivide</span> a b = <span class="type">Just</span> (a / b)</div><div class="line"></div><div class="line"><span class="comment">-- (Just 5)</span></div><div class="line"><span class="title">foldM</span> safeDivide <span class="number">100</span> (fromFoldable [<span class="number">5</span>, <span class="number">2</span>, <span class="number">2</span>]) </div><div class="line"></div><div class="line"><span class="comment">-- Nothing</span></div><div class="line"><span class="title">foldM</span> safeDivide <span class="number">100</span> (fromFoldable [<span class="number">2</span>, <span class="number">0</span>, <span class="number">4</span>])</div></pre></td></tr></table></figure>
+<h2 id="8-7-Monads-and-Applicatives"><a href="#8-7-Monads-and-Applicatives" class="headerlink" title="8.7 Monads and Applicatives"></a>8.7 Monads and Applicatives</h2><blockquote>
+<p>Every instance of the Monad type class is also an instance of the Applicative type class</p>
+</blockquote>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="title">ap</span> :: <span class="keyword">forall</span> m a b. <span class="type">Monad</span> m =&gt; m (a -&gt; b) -&gt; m a -&gt; m b</div><div class="line"><span class="title">ap</span> mf ma = <span class="keyword">do</span></div><div class="line">  f &lt;- mf</div><div class="line">  a &lt;- ma</div><div class="line">  pure (f a)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>a monad has to combine its side-effects in sequence.</p>
+</blockquote>
+<h2 id="8-8-Native-Effects"><a href="#8-8-Native-Effects" class="headerlink" title="8.8 Native Effects"></a>8.8 Native Effects</h2><blockquote>
+<p>The Eff monad is defined in the Prelude, in the Control.Monad.Eff module. It is used to manage so-called native side-effects.</p>
+</blockquote>
+<h2 id="8-9-Side-Effects-and-Purity"><a href="#8-9-Side-Effects-and-Purity" class="headerlink" title="8.9 Side-Effects and Purity"></a>8.9 Side-Effects and Purity</h2><blockquote>
+<p>The answer is that PureScript does not aim to eliminate side-effects. It aims to represent side-effects in such a way that pure computations can be distinguished from computations with side-effects in the type system. In this sense, the language is still pure.</p>
+<p><em>main</em> is required to be a computation in the Eff monad</p>
+</blockquote>
+<h2 id="8-10-The-Eff-Monad"><a href="#8-10-The-Eff-Monad" class="headerlink" title="8.10 The Eff Monad"></a>8.10 The Eff Monad</h2><p>Simple example.</p>
+<p>This program uses do notation to combine two types of native effects provided by the Javascript runtime: random number generation and console IO.</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">module</span> Main <span class="keyword">where</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> Prelude</div><div class="line"></div><div class="line"><span class="keyword">import</span> Control.Monad.Eff.Random (<span class="title">random</span>)</div><div class="line"><span class="keyword">import</span> Control.Monad.Eff.Console (<span class="title">logShow</span>)</div><div class="line"></div><div class="line"><span class="title">main</span> = <span class="keyword">do</span></div><div class="line">  n &lt;- random</div><div class="line">  logShow n</div></pre></td></tr></table></figure>
+<h2 id="8-11-Extensible-Effects"><a href="#8-11-Extensible-Effects" class="headerlink" title="8.11 Extensible Effects"></a>8.11 Extensible Effects</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; :<span class="class"><span class="keyword">type</span> main</span></div><div class="line"><span class="title">forall</span> eff. <span class="type">Eff</span> (console :: <span class="type">CONSOLE</span>, random :: <span class="type">RANDOM</span> | eff) <span class="type">Unit</span></div></pre></td></tr></table></figure>
+<p>main is a computation with side-effects, which can be run in any environment which supports random number generation and console IO, and any other types of side effect, and which returns a value of type Unit</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fp/" rel="tag"># fp</a>
+          
+            <a href="/tags/purescript/" rel="tag"># purescript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/31/Elastic-Search-Step-by-Step-2/" rel="next" title="Elastic Search Step by Step 2">
+                <i class="fa fa-chevron-left"></i> Elastic Search Step by Step 2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/26/Functor/" rel="prev" title="Functor">
+                Functor <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Steven Zhang" />
+          <p class="site-author-name" itemprop="name">Steven Zhang</p>
+          <p class="site-description motion-element" itemprop="description">Java, Haskell and Architecture</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/steven-zhc" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-2-Getting-Started"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Chapter-2-Getting-Started" class="headerlink" title="Chapter 2 Getting Started"></a>Chapter 2 Getting Started</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-3-Functions-and-Records"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Chapter-3-Functions-and-Records" class="headerlink" title="Chapter 3 Functions and Records"></a>Chapter 3 Functions and Records</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Simple-Types-3-3"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#Simple-Types-3-3" class="headerlink" title="Simple Types (3.3)"></a>Simple Types (3.3)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Quantified-Types-3-4"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#Quantified-Types-3-4" class="headerlink" title="Quantified Types (3.4)"></a>Quantified Types (3.4)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Notes-On-Indentation-3-5"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#Notes-On-Indentation-3-5" class="headerlink" title="Notes On Indentation (3.5)"></a>Notes On Indentation (3.5)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Defining-Our-Types-3-6"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#Defining-Our-Types-3-6" class="headerlink" title="Defining Our Types (3.6)"></a>Defining Our Types (3.6)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Type-Constructors-and-Kinds-3-7"><span class="nav-number">2.5.</span> <span class="nav-text"><a href="#Type-Constructors-and-Kinds-3-7" class="headerlink" title="Type Constructors and Kinds (3.7)"></a>Type Constructors and Kinds (3.7)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Curried-Functions-3-11"><span class="nav-number">2.6.</span> <span class="nav-text"><a href="#Curried-Functions-3-11" class="headerlink" title="Curried Functions (3.11)"></a>Curried Functions (3.11)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Querying-the-Address-Book-3-12"><span class="nav-number">2.7.</span> <span class="nav-text"><a href="#Querying-the-Address-Book-3-12" class="headerlink" title="Querying the Address Book (3.12)"></a>Querying the Address Book (3.12)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Infix-Function-Application-3-13"><span class="nav-number">2.8.</span> <span class="nav-text"><a href="#Infix-Function-Application-3-13" class="headerlink" title="Infix Function Application (3.13)"></a>Infix Function Application (3.13)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Function-Composition-3-14"><span class="nav-number">2.9.</span> <span class="nav-text"><a href="#Function-Composition-3-14" class="headerlink" title="Function Composition (3.14)"></a>Function Composition (3.14)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-4-Recursion-Maps-And-Folds"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Chapter-4-Recursion-Maps-And-Folds" class="headerlink" title="Chapter 4 Recursion, Maps And Folds"></a>Chapter 4 Recursion, Maps And Folds</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Recursion-on-Array-4-4"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#Recursion-on-Array-4-4" class="headerlink" title="Recursion on Array (4.4)"></a>Recursion on Array (4.4)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Infix-Operators-4-6"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#Infix-Operators-4-6" class="headerlink" title="Infix Operators (4.6)"></a>Infix Operators (4.6)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flattening-Arrays-4-8"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#Flattening-Arrays-4-8" class="headerlink" title="Flattening Arrays (4.8)"></a>Flattening Arrays (4.8)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Do-Notation-4-10"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#Do-Notation-4-10" class="headerlink" title="Do Notation (4.10)"></a>Do Notation (4.10)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Guards-4-11"><span class="nav-number">3.5.</span> <span class="nav-text"><a href="#Guards-4-11" class="headerlink" title="Guards (4.11)"></a>Guards (4.11)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Folds-4-12"><span class="nav-number">3.6.</span> <span class="nav-text"><a href="#Folds-4-12" class="headerlink" title="Folds (4.12)"></a>Folds (4.12)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tail-Recursion-4-13"><span class="nav-number">3.7.</span> <span class="nav-text"><a href="#Tail-Recursion-4-13" class="headerlink" title="Tail Recursion (4.13)"></a>Tail Recursion (4.13)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-5-Pattern-Matching"><span class="nav-number">4.</span> <span class="nav-text"><a href="#Chapter-5-Pattern-Matching" class="headerlink" title="Chapter 5 Pattern Matching"></a>Chapter 5 Pattern Matching</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Simple-Pattern-Matching-5-3"><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#Simple-Pattern-Matching-5-3" class="headerlink" title="Simple Pattern Matching (5.3)"></a>Simple Pattern Matching (5.3)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Guards-5-5"><span class="nav-number">4.2.</span> <span class="nav-text"><a href="#Guards-5-5" class="headerlink" title="Guards (5.5)"></a>Guards (5.5)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Array-Patterns-5-6"><span class="nav-number">4.3.</span> <span class="nav-text"><a href="#Array-Patterns-5-6" class="headerlink" title="Array Patterns (5.6)"></a>Array Patterns (5.6)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Record-Patterns-and-Row-Polymorphism-5-7"><span class="nav-number">4.4.</span> <span class="nav-text"><a href="#Record-Patterns-and-Row-Polymorphism-5-7" class="headerlink" title="Record Patterns and Row Polymorphism (5.7)"></a>Record Patterns and Row Polymorphism (5.7)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nested-Patterns-5-8"><span class="nav-number">4.5.</span> <span class="nav-text"><a href="#Nested-Patterns-5-8" class="headerlink" title="Nested Patterns (5.8)"></a>Nested Patterns (5.8)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Named-Patterns-5-9"><span class="nav-number">4.6.</span> <span class="nav-text"><a href="#Named-Patterns-5-9" class="headerlink" title="Named Patterns (5.9)"></a>Named Patterns (5.9)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Case-Expressions-5-10"><span class="nav-number">4.7.</span> <span class="nav-text"><a href="#Case-Expressions-5-10" class="headerlink" title="Case Expressions (5.10)"></a>Case Expressions (5.10)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Algebraic-Data-Types-5-12"><span class="nav-number">4.8.</span> <span class="nav-text"><a href="#Algebraic-Data-Types-5-12" class="headerlink" title="Algebraic Data Types (5.12)"></a>Algebraic Data Types (5.12)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Using-ADTs-5-13"><span class="nav-number">4.9.</span> <span class="nav-text"><a href="#Using-ADTs-5-13" class="headerlink" title="Using ADTs (5.13)"></a>Using ADTs (5.13)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Newtypes-5-15"><span class="nav-number">4.10.</span> <span class="nav-text"><a href="#Newtypes-5-15" class="headerlink" title="Newtypes (5.15)"></a>Newtypes (5.15)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-6-Type-Classes"><span class="nav-number">5.</span> <span class="nav-text"><a href="#Chapter-6-Type-Classes" class="headerlink" title="Chapter 6 Type Classes"></a>Chapter 6 Type Classes</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Show-Me-6-3"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#Show-Me-6-3" class="headerlink" title="Show Me (6.3)"></a>Show Me (6.3)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Common-Type-Classes-6-4"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#Common-Type-Classes-6-4" class="headerlink" title="Common Type Classes (6.4)"></a>Common Type Classes (6.4)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Type-Annotations-6-5"><span class="nav-number">5.3.</span> <span class="nav-text"><a href="#Type-Annotations-6-5" class="headerlink" title="Type Annotations (6.5)"></a>Type Annotations (6.5)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Instance-Dependencies-6-7"><span class="nav-number">5.4.</span> <span class="nav-text"><a href="#Instance-Dependencies-6-7" class="headerlink" title="Instance Dependencies (6.7)"></a>Instance Dependencies (6.7)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multi-Parameter-Type-Classes-6-8"><span class="nav-number">5.5.</span> <span class="nav-text"><a href="#Multi-Parameter-Type-Classes-6-8" class="headerlink" title="Multi Parameter Type Classes (6.8)"></a>Multi Parameter Type Classes (6.8)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Functional-Dependencies-6-9"><span class="nav-number">5.6.</span> <span class="nav-text"><a href="#Functional-Dependencies-6-9" class="headerlink" title="Functional Dependencies (6.9)"></a>Functional Dependencies (6.9)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nullary-Type-Classes-6-10"><span class="nav-number">5.7.</span> <span class="nav-text"><a href="#Nullary-Type-Classes-6-10" class="headerlink" title="Nullary Type Classes (6.10)"></a>Nullary Type Classes (6.10)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-7-Applicative-Validation"><span class="nav-number">6.</span> <span class="nav-text"><a href="#Chapter-7-Applicative-Validation" class="headerlink" title="Chapter 7 Applicative Validation"></a>Chapter 7 Applicative Validation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lift-Arbitrary-Functions-7-4"><span class="nav-number">6.1.</span> <span class="nav-text"><a href="#lift-Arbitrary-Functions-7-4" class="headerlink" title="lift Arbitrary Functions (7.4)"></a>lift Arbitrary Functions (7.4)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Applicative-type-class-7-5"><span class="nav-number">6.2.</span> <span class="nav-text"><a href="#Applicative-type-class-7-5" class="headerlink" title="Applicative type class (7.5)"></a>Applicative type class (7.5)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#More-Effects-7-7"><span class="nav-number">6.3.</span> <span class="nav-text"><a href="#More-Effects-7-7" class="headerlink" title="More Effects (7.7)"></a>More Effects (7.7)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Applicative-Validation-7-9"><span class="nav-number">6.4.</span> <span class="nav-text"><a href="#Applicative-Validation-7-9" class="headerlink" title="Applicative Validation (7.9)"></a>Applicative Validation (7.9)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Traversable-Functors-7-11"><span class="nav-number">6.5.</span> <span class="nav-text"><a href="#Traversable-Functors-7-11" class="headerlink" title="Traversable Functors (7.11)"></a>Traversable Functors (7.11)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Applicative-Functors-for-Parallelism-7-12"><span class="nav-number">6.6.</span> <span class="nav-text"><a href="#Applicative-Functors-for-Parallelism-7-12" class="headerlink" title="Applicative Functors for Parallelism (7.12)"></a>Applicative Functors for Parallelism (7.12)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-8-The-Eff-Monad"><span class="nav-number">7.</span> <span class="nav-text"><a href="#Chapter-8-The-Eff-Monad" class="headerlink" title="Chapter 8 The Eff Monad"></a>Chapter 8 The Eff Monad</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Monads-and-Do-Notation-8-3"><span class="nav-number">7.1.</span> <span class="nav-text"><a href="#Monads-and-Do-Notation-8-3" class="headerlink" title="Monads and Do Notation (8.3)"></a>Monads and Do Notation (8.3)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Monad-type-class-8-4"><span class="nav-number">7.2.</span> <span class="nav-text"><a href="#Monad-type-class-8-4" class="headerlink" title="Monad type class (8.4)"></a>Monad type class (8.4)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-5-Monad-Laws"><span class="nav-number">7.3.</span> <span class="nav-text"><a href="#8-5-Monad-Laws" class="headerlink" title="8.5 Monad Laws"></a>8.5 Monad Laws</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Right-identity"><span class="nav-number">7.3.1.</span> <span class="nav-text"><a href="#Right-identity" class="headerlink" title="Right identity"></a>Right identity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Left-identity"><span class="nav-number">7.3.2.</span> <span class="nav-text"><a href="#Left-identity" class="headerlink" title="Left identity"></a>Left identity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Associativity"><span class="nav-number">7.3.3.</span> <span class="nav-text"><a href="#Associativity" class="headerlink" title="Associativity"></a>Associativity</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-6-Folding-With-Monads"><span class="nav-number">7.4.</span> <span class="nav-text"><a href="#8-6-Folding-With-Monads" class="headerlink" title="8.6 Folding With Monads"></a>8.6 Folding With Monads</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-7-Monads-and-Applicatives"><span class="nav-number">7.5.</span> <span class="nav-text"><a href="#8-7-Monads-and-Applicatives" class="headerlink" title="8.7 Monads and Applicatives"></a>8.7 Monads and Applicatives</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-8-Native-Effects"><span class="nav-number">7.6.</span> <span class="nav-text"><a href="#8-8-Native-Effects" class="headerlink" title="8.8 Native Effects"></a>8.8 Native Effects</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-9-Side-Effects-and-Purity"><span class="nav-number">7.7.</span> <span class="nav-text"><a href="#8-9-Side-Effects-and-Purity" class="headerlink" title="8.9 Side-Effects and Purity"></a>8.9 Side-Effects and Purity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-10-The-Eff-Monad"><span class="nav-number">7.8.</span> <span class="nav-text"><a href="#8-10-The-Eff-Monad" class="headerlink" title="8.10 The Eff Monad"></a>8.10 The Eff Monad</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-11-Extensible-Effects"><span class="nav-number">7.9.</span> <span class="nav-text"><a href="#8-11-Extensible-Effects" class="headerlink" title="8.11 Extensible Effects"></a>8.11 Extensible Effects</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Steven Zhang</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'hczhang';
+      var disqus_identifier = '2019/11/02/purescript-note/';
+
+      var disqus_title = "Purescript Note";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

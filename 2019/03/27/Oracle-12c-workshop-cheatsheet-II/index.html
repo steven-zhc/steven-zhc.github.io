@@ -1,0 +1,921 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="database," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="This is a cheat sheet for Oracle 12C R2 workshop Part II Will conver those topics:  Storage space Undo Moving Data Backup and Recovery">
+<meta name="keywords" content="database">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle 12c workshop cheatsheet II">
+<meta property="og:url" content="http://hczhang.com/2019/03/27/Oracle-12c-workshop-cheatsheet-II/index.html">
+<meta property="og:site_name" content="软糖">
+<meta property="og:description" content="This is a cheat sheet for Oracle 12C R2 workshop Part II Will conver those topics:  Storage space Undo Moving Data Backup and Recovery">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-12-30T23:24:32.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle 12c workshop cheatsheet II">
+<meta name="twitter:description" content="This is a cheat sheet for Oracle 12C R2 workshop Part II Will conver those topics:  Storage space Undo Moving Data Backup and Recovery">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hczhang.com/2019/03/27/Oracle-12c-workshop-cheatsheet-II/"/>
+
+
+
+
+
+  <title> Oracle 12c workshop cheatsheet II | 软糖 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-91086651-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">软糖</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Candy</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://hczhang.com/2019/03/27/Oracle-12c-workshop-cheatsheet-II/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Steven Zhang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="软糖">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="软糖" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Oracle 12c workshop cheatsheet II
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-27T13:39:35+00:00">
+                2019-03-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/27/Oracle-12c-workshop-cheatsheet-II/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/27/Oracle-12c-workshop-cheatsheet-II/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>This is a cheat sheet for Oracle 12C R2 workshop Part II</p>
+<p>Will conver those topics:</p>
+<ul>
+<li>Storage space</li>
+<li>Undo</li>
+<li>Moving Data</li>
+<li>Backup and Recovery</li>
+</ul>
+<a id="more"></a>
+<h1 id="Manage-storage-space"><a href="#Manage-storage-space" class="headerlink" title="Manage storage space"></a>Manage storage space</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- check disk space</span></div><div class="line"><span class="keyword">SELECT</span> df.tablespace_name <span class="keyword">tablespace</span>, fs.bytes free, df.bytes, fs.bytes *<span class="number">100</span>/ df.bytes PCT_FREE</div><div class="line"><span class="keyword">FROM</span> dba_data_files df ,dba_free_space fs</div><div class="line"><span class="keyword">WHERE</span> df.tablespace_name = fs.tablespace_name <span class="number">4</span> <span class="keyword">AND</span> df.tablespace_name = <span class="string">'TBSALERT'</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- checkout metric</span></div><div class="line"><span class="keyword">SELECT</span> warning_value, critical_value</div><div class="line"><span class="keyword">FROM</span> dba_thresholds</div><div class="line"><span class="keyword">WHERE</span> metrics_name=<span class="string">'Tablespace Space Usage'</span> <span class="number">4</span> <span class="keyword">AND</span> object_name <span class="keyword">IS</span> <span class="literal">NULL</span>;</div></pre></td></tr></table></figure>
+<h1 id="Undo"><a href="#Undo" class="headerlink" title="Undo"></a>Undo</h1><p><a href="https://docs.oracle.com/cd/B19306_01/server.102/b14220/transact.htm" target="_blank" rel="noopener">Transaction Management</a></p>
+<p>Two UNDO modes: SHARED versus LOCAL</p>
+<ul>
+<li>There is only one shared UNDO tablespace (in CDB root).</li>
+<li>There can be a - local UNDO tablespace in each PDB.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- check local undo flag</span></div><div class="line"></div><div class="line"><span class="keyword">SELECT</span> property_name, property_value</div><div class="line"><span class="keyword">FROM</span> database_properties</div><div class="line"><span class="keyword">WHERE</span> property_name = <span class="string">'LOCAL_UNDO_ENABLED'</span></div></pre></td></tr></table></figure>
+<h2 id="Enable-Local-Undo-Mode"><a href="#Enable-Local-Undo-Mode" class="headerlink" title="Enable Local Undo Mode"></a>Enable Local Undo Mode</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">STARTUP UPGRADE</div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> <span class="keyword">LOCAL</span> <span class="keyword">UNDO</span> <span class="keyword">ON</span>;</div><div class="line">SHUTDOWN IMMEDIATE</div><div class="line">STARTUP</div></pre></td></tr></table></figure>
+<h2 id="Enable-Temp-Undo"><a href="#Enable-Temp-Undo" class="headerlink" title="Enable Temp Undo"></a>Enable Temp Undo</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ALTER</span> <span class="keyword">SESSION</span> <span class="keyword">SET</span> temp_undo_enabled = <span class="literal">true</span>;</div></pre></td></tr></table></figure>
+<h1 id="Moving-Data"><a href="#Moving-Data" class="headerlink" title="Moving Data"></a>Moving Data</h1><h2 id="Directory"><a href="#Directory" class="headerlink" title="Directory"></a>Directory</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- Create</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">DIRECTORY</span> dp_for_oe <span class="keyword">AS</span> <span class="string">'/u01/app/oracle/admin/ORCL/dpdump'</span>;</div><div class="line"><span class="comment">-- Grant permission</span></div><div class="line"><span class="keyword">GRANT</span> <span class="keyword">read</span>, write <span class="keyword">ON</span> <span class="keyword">DIRECTORY</span> dp_for_oe <span class="keyword">TO</span> oe;</div></pre></td></tr></table></figure>
+<h2 id="expdp-impdp"><a href="#expdp-impdp" class="headerlink" title="expdp/impdp"></a>expdp/impdp</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Export</span></div><div class="line">expdp oe/&lt;password&gt;@PDB1 SCHEMAS=oe DIRECTORY=dp_for_oe DUMPFILE=expoe.dmp</div><div class="line"></div><div class="line"><span class="comment"># dummy import, convert to sql script</span></div><div class="line">impdp oe/&lt;password&gt;@PDB1 SCHEMAS=oe DIRECTORY=dp_for_oe DUMPFILE=expoe.dmp SQLFILE=oe_SQL</div><div class="line"></div><div class="line"><span class="comment"># Import By File</span></div><div class="line">impdp SYSTEM/&lt;password&gt;@PDB2 REMAP_SCHEMA=oe:oetest DIRECTORY=dp_for_oe DUMPFILE=expoe.dmp</div><div class="line"></div><div class="line"><span class="comment"># Import by DB Link</span></div><div class="line">impdp SYSTEM/&lt;password&gt;@PDB2 SCHEMAS=oe REMAP_SCHEMA=oe:oetest NETWORK_LINK=link_pdb1</div></pre></td></tr></table></figure>
+<h2 id="sqlldr"><a href="#sqlldr" class="headerlink" title="sqlldr"></a>sqlldr</h2><p><a href="https://docs.oracle.com/cd/B19306_01/server.102/b14215/ldr_params.htm" target="_blank" rel="noopener">SQL Loder Doc</a></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sqlldr userid=sh/&lt;password&gt;@PDB2 control=DP_inventories.ctl log=inventories.log data=DP_inventories.dat</div><div class="line"></div><div class="line"># Direct Mode.  The direct load loads records into the blocks</div><div class="line">sqlldr userid=sh/&lt;password&gt;@PDB2 control=DP_inventories.ctl log=inventories.log data=DP_inventories.dat ROWS=10 DIRECT=TRUE</div></pre></td></tr></table></figure>
+<h1 id="External-Table"><a href="#External-Table" class="headerlink" title="External Table"></a>External Table</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- Verify that the locations are correctly set for the partitions</span></div><div class="line"><span class="keyword">SELECT</span> table_name, partition_name, location, directory_name <span class="keyword">FROM</span> DBA_XTERNAL_LOC_PARTITIONS;</div></pre></td></tr></table></figure>
+<p>Create external table</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> sh.sales_ext_range</div><div class="line">(</div><div class="line">    time_id <span class="built_in">DATE</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">    prod_id <span class="built_in">INTEGER</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">    cust_id <span class="built_in">INTEGER</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">    channel_id <span class="built_in">INTEGER</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">    promo_id <span class="built_in">INTEGER</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">    quantity_sold <span class="built_in">NUMBER</span>(<span class="number">10</span>,<span class="number">2</span>),</div><div class="line">    amount_sole <span class="built_in">NUMBER</span>(<span class="number">10</span>,<span class="number">2</span>)</div><div class="line">)</div><div class="line"><span class="keyword">ORGANIZATION</span> <span class="keyword">EXTERNAL</span></div><div class="line">(</div><div class="line"><span class="keyword">TYPE</span> ORACLE_LOADER</div><div class="line">   <span class="keyword">DEFAULT</span> <span class="keyword">DIRECTORY</span> ext_dir</div><div class="line">   <span class="keyword">ACCESS</span> <span class="keyword">PARAMETERS</span></div><div class="line">   (</div><div class="line">      <span class="keyword">RECORDS</span> <span class="keyword">DELIMITED</span> <span class="keyword">BY</span> <span class="keyword">NEWLINE</span></div><div class="line">      <span class="keyword">BADFILE</span> <span class="string">'sh%a_%p.bad'</span></div><div class="line">      <span class="keyword">LOGFILE</span> <span class="string">'sh%a_%p.log'</span></div><div class="line">      <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span></div><div class="line">      <span class="keyword">MISSING</span> <span class="keyword">FIELD</span> <span class="keyword">VALUES</span> <span class="keyword">ARE</span> <span class="literal">NULL</span></div><div class="line">    )</div><div class="line">)</div><div class="line"><span class="keyword">PARALLEL</span></div><div class="line"><span class="keyword">REJECT</span> <span class="keyword">LIMIT</span> <span class="keyword">UNLIMITED</span></div><div class="line"><span class="keyword">PARTITION</span> <span class="keyword">by</span> <span class="keyword">range</span> (time_id)</div><div class="line">(</div><div class="line">    <span class="keyword">PARTITION</span> year1998 <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> (<span class="keyword">TO_DATE</span>(<span class="string">'31-12-1998'</span>, <span class="string">'DD-MM-YYYY'</span>)) LOCATION (<span class="string">'DP_sales_1998.dat'</span>),</div><div class="line">    <span class="keyword">PARTITION</span> year1999 <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> (<span class="keyword">TO_DATE</span>(<span class="string">'31-12-1999'</span>, <span class="string">'DD-MM-YYYY'</span>)) LOCATION (ext_dir2:<span class="string">'DP2_sales_1999.dat'</span>)</div><div class="line">);</div></pre></td></tr></table></figure>
+<h1 id="Backup-amp-Recovery"><a href="#Backup-amp-Recovery" class="headerlink" title="Backup &amp; Recovery"></a>Backup &amp; Recovery</h1><h2 id="Checkpoint"><a href="#Checkpoint" class="headerlink" title="Checkpoint"></a>Checkpoint</h2><p>Responsible</p>
+<ul>
+<li>Updating data file headers with checkpoint info</li>
+<li>Updating control files with checkpoint info</li>
+<li>Signaling DBWn at full checkpoints</li>
+</ul>
+<h2 id="Redo-log-and-Log-Writer-LGWR"><a href="#Redo-log-and-Log-Writer-LGWR" class="headerlink" title="Redo log and Log Writer (LGWR)"></a>Redo log and Log Writer (LGWR)</h2><p>Trigger</p>
+<ul>
+<li>At commit</li>
+<li>When on-third full</li>
+<li>Every 3 sec</li>
+<li>Before DBWn write</li>
+<li>Before clean shutdowns</li>
+</ul>
+<h2 id="Automatic-Instance-or-Crash-Recovery"><a href="#Automatic-Instance-or-Crash-Recovery" class="headerlink" title="Automatic Instance or Crash Recovery"></a>Automatic Instance or Crash Recovery</h2><p>Is caused by attempts to open a database whose files are not synchronized on shutdown<br>Uses information stored in redo log groups to synchronize files</p>
+<p>Involves two distinct operations:</p>
+<ul>
+<li>Rolling forward: Redo log changes (both committed and uncommitted) are applied to data files.</li>
+<li>Rolling back: Changes that are made but not committed are returned to their original state.</li>
+</ul>
+<h2 id="Backup-Type"><a href="#Backup-Type" class="headerlink" title="Backup Type"></a>Backup Type</h2><ul>
+<li>Level 0. FULL</li>
+<li>Level 1. Incremental<ul>
+<li>Cumulative</li>
+<li>Differential</li>
+</ul>
+</li>
+</ul>
+<h2 id="Complete-Recovery"><a href="#Complete-Recovery" class="headerlink" title="Complete Recovery"></a>Complete Recovery</h2><p>Brings the database or tablespace up to the present, including all committed data changes made to the point in time when the recovery was requested</p>
+<ol>
+<li>Restored data files</li>
+<li>Changes applied (redo logs)</li>
+<li>Data files containning committed and uncommitted trans</li>
+<li>Dndo applied</li>
+<li>Recovered data files</li>
+</ol>
+<h2 id="Pint-in-Time-Recovery-Process"><a href="#Pint-in-Time-Recovery-Process" class="headerlink" title="Pint-in-Time Recovery Process"></a>Pint-in-Time Recovery Process</h2><ol>
+<li>Restored data files from as far back as necessary</li>
+<li>Changes applied to point in time (PIT). (Redo logs)</li>
+<li>Data files containing committed and un committed trans up to PIT</li>
+<li>Database opened</li>
+<li>Undo applied</li>
+<li>PIT-recovered data files</li>
+</ol>
+<h2 id="List-control-files"><a href="#List-control-files" class="headerlink" title="List control files"></a>List control files</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> <span class="keyword">name</span> <span class="keyword">FROM</span> v$<span class="keyword">controlfile</span>;</div><div class="line">SQL&gt; SHOW PARAMETER control_files</div></pre></td></tr></table></figure>
+<h2 id="Create-a-Control-File"><a href="#Create-a-Control-File" class="headerlink" title="Create a Control File"></a>Create a Control File</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SQL&gt; CREATE PFILE FROM SPFILE;</div><div class="line">SQL&gt; SHUTDOWN IMMEDIATE</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Upcate pfile</span></div><div class="line">$ vi <span class="variable">$ORACLE_HOME</span>/dbs/initORCL.ora</div><div class="line"></div><div class="line">*.control_files=<span class="string">'/u01/app/oracle/oradata/ORCL/control01.ctl'</span>, <span class="string">'/u01/app/oracle/fast_recovery_area/ORCL/control02.ctl'</span>,<span class="string">'/u01/app/oracle/ controlfiles_dir/ORCL/control03.ctl'</span></div><div class="line"></div><div class="line"><span class="comment"># copy file</span></div><div class="line">$ cp /u01/app/oracle/oradata/ORCL/control01.ctl /u01/app/oracle/controlfiles_dir /ORCL/control03.ctl</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- refresh from pfile to spfile</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">SPFILE</span> <span class="keyword">FROM</span> PFILE;</div><div class="line">STARTUP</div><div class="line"></div><div class="line"><span class="comment">-- check control file</span></div><div class="line"><span class="keyword">SHOW</span> PARAMETER control_files</div></pre></td></tr></table></figure>
+<h2 id="Fast-Recovery-Area-FRA"><a href="#Fast-Recovery-Area-FRA" class="headerlink" title="Fast Recovery Area (FRA)"></a>Fast Recovery Area (FRA)</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">SQL&gt; SHOW PARAMETER db_recovery_file_dest</div><div class="line"></div><div class="line"><span class="comment">-- Change the size of the fast recovery area</span></div><div class="line">SQL&gt; ALTER SYSTEM SET db_recovery_file_dest_size = 18G SCOPE=both;</div><div class="line">SQL&gt; SHOW PARAMETER db_recovery_file_dest_size</div></pre></td></tr></table></figure>
+<h2 id="Redo-Log"><a href="#Redo-Log" class="headerlink" title="Redo Log"></a>Redo Log</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> <span class="keyword">group</span>#, <span class="keyword">status</span>, <span class="keyword">member</span> <span class="keyword">FROM</span> v$<span class="keyword">logfile</span>;</div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">group</span>#, members, <span class="keyword">archived</span>, <span class="keyword">status</span> <span class="keyword">FROM</span> v$<span class="keyword">log</span>;</div><div class="line"></div><div class="line"><span class="comment">-- Switch log</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">SYSTEM</span> <span class="keyword">SWITCH</span> <span class="keyword">LOGFILE</span>;</div><div class="line"></div><div class="line"><span class="comment">-- Add log</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> <span class="keyword">ADD</span> <span class="keyword">LOGFILE</span> <span class="keyword">MEMBER</span> <span class="string">'/u01/app/oracle/fast_recovery_area/ORCL/redo01b.log'</span> <span class="keyword">TO</span> <span class="keyword">GROUP</span> <span class="number">1</span>;</div></pre></td></tr></table></figure>
+<h2 id="ARCHIVELOG-Mode"><a href="#ARCHIVELOG-Mode" class="headerlink" title="ARCHIVELOG Mode"></a>ARCHIVELOG Mode</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- List archived logs</span></div><div class="line">SQL&gt; SELECT name FROM v$archived_log ORDER BY stamp;</div><div class="line">SQL&gt; ARCHIVE LOG LIST;</div><div class="line"></div><div class="line"><span class="comment">-- Enable archive mode</span></div><div class="line">SQL&gt; SHUTDOWN IMMEDIATE</div><div class="line">SQL&gt; STARTUP MOUNT</div><div class="line">SQL&gt; ALTER DATABASE ARCHIVELOG;</div><div class="line">SQL&gt; ALTER DATABASE OPEN;</div></pre></td></tr></table></figure>
+<h2 id="Backing-up-the-Control-File"><a href="#Backing-up-the-Control-File" class="headerlink" title="Backing up the Control File"></a>Backing up the Control File</h2><p>The control file and server parameter file (SPFILE) are backup automatically by default</p>
+<p>Manually backup it as below</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- Back up the control file to a trace file</span></div><div class="line"><span class="comment">-- Location: /u01/app/oracle/diag/rdbms/orcl/ORCL/trace</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> <span class="keyword">BACKUP</span> <span class="keyword">controlfile</span> <span class="keyword">TO</span> <span class="keyword">trace</span>;</div></pre></td></tr></table></figure>
+<h2 id="Whole-DB-backup"><a href="#Whole-DB-backup" class="headerlink" title="Whole DB backup"></a>Whole DB backup</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ rman target /</div><div class="line">RMAN&gt; REPORT schema;</div><div class="line">RMAN&gt; BACKUP DATABASE PLUS ARCHIVELOG;</div><div class="line"></div><div class="line"><span class="comment"># partial backup</span></div><div class="line">RMAN&gt; BACKUP PLUGGABLE DATABASE PDB1 PLUS ARCHIVELOG;</div><div class="line"></div><div class="line"><span class="comment"># backup ts</span></div><div class="line">RMAN&gt; BACKUP TABLESPACE tbs_app;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># List backup</span></div><div class="line">RMAN&gt; LIST BACKUP;</div></pre></td></tr></table></figure>
+<h2 id="Recovery"><a href="#Recovery" class="headerlink" title="Recovery"></a>Recovery</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">RMAN&gt; RECOVER DATAFILE 1;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">--- Recover failure</span></div><div class="line">RMAN&gt; LIST FAILURE;</div><div class="line">RMAN&gt; ADVISE FAILURE;</div><div class="line">RMAN&gt; REPAIR FAILURE PREVIEW;</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">rman target SYS/&lt;password&gt;@PDB1</div><div class="line"></div><div class="line">RMAN&gt; SHUTDOWN IMMEDIATE;</div><div class="line">RMAN&gt; RESTORE DATABASE;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">-- restores and recovers the data file in one step</span></div><div class="line">RMAN&gt; REPAIR PLUGGABLE DATABASE pdb1;</div></pre></td></tr></table></figure>
+<h1 id="Monitor-DB"><a href="#Monitor-DB" class="headerlink" title="Monitor DB"></a>Monitor DB</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- kill locked session</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">SYSTEM</span> <span class="keyword">KILL</span> <span class="keyword">SESSION</span> <span class="string">'278,21828'</span>;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/database/" rel="tag"># database</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/26/Oracle-12c-workshop-cheatsheet/" rel="next" title="Oracle 12c workshop cheatsheet">
+                <i class="fa fa-chevron-left"></i> Oracle 12c workshop cheatsheet
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/28/Elastic-Search-Step-by-Step-1/" rel="prev" title="Elastic Search Step by Step 1">
+                Elastic Search Step by Step 1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Steven Zhang" />
+          <p class="site-author-name" itemprop="name">Steven Zhang</p>
+          <p class="site-description motion-element" itemprop="description">Java, Haskell and Architecture</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/steven-zhc" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Manage-storage-space"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Manage-storage-space" class="headerlink" title="Manage storage space"></a>Manage storage space</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Undo"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Undo" class="headerlink" title="Undo"></a>Undo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Enable-Local-Undo-Mode"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#Enable-Local-Undo-Mode" class="headerlink" title="Enable Local Undo Mode"></a>Enable Local Undo Mode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Enable-Temp-Undo"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#Enable-Temp-Undo" class="headerlink" title="Enable Temp Undo"></a>Enable Temp Undo</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Moving-Data"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Moving-Data" class="headerlink" title="Moving Data"></a>Moving Data</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Directory"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#Directory" class="headerlink" title="Directory"></a>Directory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#expdp-impdp"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#expdp-impdp" class="headerlink" title="expdp/impdp"></a>expdp/impdp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sqlldr"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#sqlldr" class="headerlink" title="sqlldr"></a>sqlldr</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#External-Table"><span class="nav-number">4.</span> <span class="nav-text"><a href="#External-Table" class="headerlink" title="External Table"></a>External Table</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Backup-amp-Recovery"><span class="nav-number">5.</span> <span class="nav-text"><a href="#Backup-amp-Recovery" class="headerlink" title="Backup &amp; Recovery"></a>Backup &amp; Recovery</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Checkpoint"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#Checkpoint" class="headerlink" title="Checkpoint"></a>Checkpoint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redo-log-and-Log-Writer-LGWR"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#Redo-log-and-Log-Writer-LGWR" class="headerlink" title="Redo log and Log Writer (LGWR)"></a>Redo log and Log Writer (LGWR)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Automatic-Instance-or-Crash-Recovery"><span class="nav-number">5.3.</span> <span class="nav-text"><a href="#Automatic-Instance-or-Crash-Recovery" class="headerlink" title="Automatic Instance or Crash Recovery"></a>Automatic Instance or Crash Recovery</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Backup-Type"><span class="nav-number">5.4.</span> <span class="nav-text"><a href="#Backup-Type" class="headerlink" title="Backup Type"></a>Backup Type</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Complete-Recovery"><span class="nav-number">5.5.</span> <span class="nav-text"><a href="#Complete-Recovery" class="headerlink" title="Complete Recovery"></a>Complete Recovery</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pint-in-Time-Recovery-Process"><span class="nav-number">5.6.</span> <span class="nav-text"><a href="#Pint-in-Time-Recovery-Process" class="headerlink" title="Pint-in-Time Recovery Process"></a>Pint-in-Time Recovery Process</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List-control-files"><span class="nav-number">5.7.</span> <span class="nav-text"><a href="#List-control-files" class="headerlink" title="List control files"></a>List control files</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-a-Control-File"><span class="nav-number">5.8.</span> <span class="nav-text"><a href="#Create-a-Control-File" class="headerlink" title="Create a Control File"></a>Create a Control File</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fast-Recovery-Area-FRA"><span class="nav-number">5.9.</span> <span class="nav-text"><a href="#Fast-Recovery-Area-FRA" class="headerlink" title="Fast Recovery Area (FRA)"></a>Fast Recovery Area (FRA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redo-Log"><span class="nav-number">5.10.</span> <span class="nav-text"><a href="#Redo-Log" class="headerlink" title="Redo Log"></a>Redo Log</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARCHIVELOG-Mode"><span class="nav-number">5.11.</span> <span class="nav-text"><a href="#ARCHIVELOG-Mode" class="headerlink" title="ARCHIVELOG Mode"></a>ARCHIVELOG Mode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Backing-up-the-Control-File"><span class="nav-number">5.12.</span> <span class="nav-text"><a href="#Backing-up-the-Control-File" class="headerlink" title="Backing up the Control File"></a>Backing up the Control File</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Whole-DB-backup"><span class="nav-number">5.13.</span> <span class="nav-text"><a href="#Whole-DB-backup" class="headerlink" title="Whole DB backup"></a>Whole DB backup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Recovery"><span class="nav-number">5.14.</span> <span class="nav-text"><a href="#Recovery" class="headerlink" title="Recovery"></a>Recovery</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Monitor-DB"><span class="nav-number">6.</span> <span class="nav-text"><a href="#Monitor-DB" class="headerlink" title="Monitor DB"></a>Monitor DB</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Steven Zhang</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'hczhang';
+      var disqus_identifier = '2019/03/27/Oracle-12c-workshop-cheatsheet-II/';
+
+      var disqus_title = "Oracle 12c workshop cheatsheet II";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,858 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="fp,haskell," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Taking Notes from http://learnyouahaskell.com  Modules1234import Data.ListnumUniques :: (Eq a) =&amp;gt; [a] -&amp;gt; IntnumUniques = length . nub">
+<meta name="keywords" content="fp,haskell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Haskell 6 Module">
+<meta property="og:url" content="http://hczhang.com/2017/10/28/Haskell-6/index.html">
+<meta property="og:site_name" content="软糖">
+<meta property="og:description" content="Taking Notes from http://learnyouahaskell.com  Modules1234import Data.ListnumUniques :: (Eq a) =&amp;gt; [a] -&amp;gt; IntnumUniques = length . nub">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-12-30T23:24:32.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Haskell 6 Module">
+<meta name="twitter:description" content="Taking Notes from http://learnyouahaskell.com  Modules1234import Data.ListnumUniques :: (Eq a) =&amp;gt; [a] -&amp;gt; IntnumUniques = length . nub">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hczhang.com/2017/10/28/Haskell-6/"/>
+
+
+
+
+
+  <title> Haskell 6 Module | 软糖 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-91086651-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">软糖</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Candy</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://hczhang.com/2017/10/28/Haskell-6/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Steven Zhang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="软糖">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="软糖" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Haskell 6 Module
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-28T11:15:08+00:00">
+                2017-10-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/28/Haskell-6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/10/28/Haskell-6/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Taking Notes from <a href="http://learnyouahaskell.com" target="_blank" rel="noopener">http://learnyouahaskell.com</a></p>
+</blockquote>
+<h1 id="Modules"><a href="#Modules" class="headerlink" title="Modules"></a>Modules</h1><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> Data.List</div><div class="line"></div><div class="line"><span class="title">numUniques</span> :: (<span class="type">Eq</span> a) =&gt; [a] -&gt; <span class="type">Int</span></div><div class="line"><span class="title">numUniques</span> = length . nub</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ghci &gt; :m Data.List Data.Map Data.Set</div></pre></td></tr></table></figure>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// <span class="type">Explicit</span> <span class="type">Include</span></div><div class="line"><span class="keyword">import</span> Data.List (<span class="title">nub</span>，<span class="title">sort</span>)</div><div class="line"></div><div class="line">// <span class="type">Exclude</span></div><div class="line"><span class="keyword">import</span> Data.List <span class="keyword">hiding</span> (<span class="title">nub</span>)</div><div class="line"></div><div class="line">// <span class="type">Qualified</span>: must be used <span class="keyword">as</span> <span class="type">Data</span>.<span class="type">Map</span>.filter</div><div class="line"><span class="keyword">import</span> <span class="keyword">qualified</span> Data.Map</div><div class="line"></div><div class="line">// <span class="type">Alias</span>: will be: <span class="type">M</span>.filter</div><div class="line"><span class="keyword">import</span> <span class="keyword">qualified</span> Data.Map <span class="keyword">as</span> M</div></pre></td></tr></table></figure>
+<h1 id="Reference-Link"><a href="#Reference-Link" class="headerlink" title="Reference Link"></a>Reference Link</h1><p><a href="http://www.Haskell.org/hoogle/" target="_blank" rel="noopener">Hoogle</a></p>
+<h1 id="Data-List"><a href="#Data-List" class="headerlink" title="Data.List"></a>Data.List</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># intersperse</span></div><div class="line">ghci&gt; intersperse <span class="string">'.'</span> <span class="string">"MONKEY"</span></div><div class="line"><span class="string">"M.O.N.K.E.Y"</span></div><div class="line"></div><div class="line"><span class="comment"># intercalate</span></div><div class="line">ghci&gt; intercalate <span class="string">" "</span> [<span class="string">"hey"</span>,<span class="string">"there"</span>,<span class="string">"guys"</span>]</div><div class="line"><span class="string">"hey there guys"</span></div><div class="line"></div><div class="line"><span class="comment"># transpose</span></div><div class="line">ghci&gt; transpose [[1,2,3],[4,5,6],[7,8,9]]</div><div class="line">[[1,4,7],[2,5,8],[3,6,9]]</div><div class="line"></div><div class="line"><span class="comment"># concat</span></div><div class="line">ghci&gt; concat [[3,4,5],[2,3,4],[2,1,1]]</div><div class="line">[3,4,5,2,3,4,2,1,1]</div><div class="line"></div><div class="line"><span class="comment"># concatMap</span></div><div class="line">ghci&gt; concatMap (replicate 4) [1..3]</div><div class="line">[1,1,1,1,2,2,2,2,3,3,3,3]</div><div class="line"></div><div class="line"><span class="comment"># and</span></div><div class="line">ghci&gt; and $ map (&gt;4) [5,6,7,8]</div><div class="line">True</div><div class="line"></div><div class="line"><span class="comment"># or</span></div><div class="line">ghci&gt; or $ map (==4) [2,3,4,5,6,1]</div><div class="line">True</div><div class="line"></div><div class="line"><span class="comment"># any and all</span></div><div class="line"></div><div class="line"><span class="comment"># iterate</span></div><div class="line">ghci&gt; take 10 $ iterate (*2) 1</div><div class="line">[1,2,4,8,16,32,64,128,256,512]</div><div class="line"></div><div class="line"><span class="comment"># splitAt</span></div><div class="line">ghci&gt; splitAt 3 <span class="string">"heyman"</span></div><div class="line">(<span class="string">"hey"</span>,<span class="string">"man"</span>)</div><div class="line"></div><div class="line"><span class="comment"># takeWhile</span></div><div class="line"></div><div class="line"><span class="comment"># dropWhile</span></div><div class="line"></div><div class="line"><span class="comment"># span</span></div><div class="line">ghci&gt; <span class="built_in">let</span> (fw，rest) = span (/=<span class="string">' '</span>) <span class="string">"This is a sentence"</span> <span class="keyword">in</span> <span class="string">"First word:"</span> ++ fw ++ <span class="string">"，the rest:"</span> ++ rest </div><div class="line"><span class="string">"First word: This，the rest: is a sentence"</span></div><div class="line"></div><div class="line"><span class="comment"># break</span></div><div class="line">ghci&gt; <span class="built_in">break</span> (==4) [1,2,3,4,5,6,7]</div><div class="line">([1,2,3],[4,5,6,7])</div><div class="line">ghci&gt; span (/=4) [1,2,3,4,5,6,7]</div><div class="line">([1,2,3],[4,5,6,7])</div><div class="line"></div><div class="line"><span class="comment"># sort</span></div><div class="line">ghci&gt; sort [8,5,3,2,1,6,4,2]  </div><div class="line">[1,2,2,3,4,5,6,8]  </div><div class="line"></div><div class="line"><span class="comment"># group</span></div><div class="line">ghci&gt; group [1,1,1,1,2,2,2,2,3,3,2,2,2,5,6,7]  </div><div class="line">[[1,1,1,1],[2,2,2,2],[3,3],[2,2,2],[5],[6],[7]]</div><div class="line"></div><div class="line"><span class="comment"># inits   inits</span></div><div class="line">ghci&gt; inits <span class="string">"w00t"</span></div><div class="line">[<span class="string">""</span>,<span class="string">"w"</span>,<span class="string">"w0"</span>,<span class="string">"w00"</span>,<span class="string">"w00t"</span>]</div><div class="line">ghci&gt; tails <span class="string">"w00t"</span></div><div class="line">[<span class="string">"w00t"</span>,<span class="string">"00t"</span>,<span class="string">"0t"</span>,<span class="string">"t"</span>,<span class="string">""</span>]</div><div class="line"></div><div class="line"><span class="comment"># isIndexOf isInfixOf isPrefixOf isSuffixOf</span></div><div class="line"></div><div class="line">partition</div><div class="line"></div><div class="line">elem</div><div class="line">notElem</div><div class="line">elemIndex</div><div class="line">elemIndices</div><div class="line"></div><div class="line">find</div><div class="line">findIndex</div><div class="line">findIndices</div><div class="line"></div><div class="line">lines</div><div class="line">unlines</div><div class="line"></div><div class="line">words</div><div class="line">unwords</div><div class="line"></div><div class="line">nub</div><div class="line"></div><div class="line">delete</div><div class="line"></div><div class="line">\\</div><div class="line">ghci&gt; [1..10] \\ [2,5,9]</div><div class="line">[1,3,4,6,7,8,10]</div><div class="line"></div><div class="line">union</div><div class="line">intersection</div><div class="line"></div><div class="line">insert</div><div class="line">ghci&gt; insert 4 [1,2,3,5,6,7]</div><div class="line">[1,2,3,4,5,6,7]</div><div class="line"></div><div class="line">ghci&gt; <span class="built_in">let</span> values = [-4.3，-2.4，-1.2，0.4，2.3，5.9，10.5，29.1，5.3，-2.4，-14.5，2.9，2.3]  </div><div class="line">ghci&gt; groupBy (\x y -&gt; (x &gt; 0) == (y &gt; 0)) values  </div><div class="line">[[-4.3,-2.4,-1.2],[0.4,2.3,5.9,10.5,29.1,5.3],[-2.4,-14.5],[2.9,2.3]]</div><div class="line"></div><div class="line">on :: (b -&gt; b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; a -&gt; c  </div><div class="line">f `on` g = \x y -&gt; f (g x) (g y)</div><div class="line"></div><div class="line">ghci&gt; groupBy ((==) `on` (&gt; 0)) values  </div><div class="line">[[-4.3,-2.4,-1.2],[0.4,2.3,5.9,10.5,29.1,5.3],[-2.4,-14.5],[2.9,2.3]]</div></pre></td></tr></table></figure>
+<h1 id="Data-Char"><a href="#Data-Char" class="headerlink" title="Data.Char"></a>Data.Char</h1><p><strong>isControl</strong> checks whether a character is a control character.<br><strong>isSpace</strong> checks whether a character is a white-space characters. That includes spaces, tab characters, newlines, etc.<br><strong>isLower</strong> checks whether a character is lower-cased.<br><strong>isUpper</strong> checks whether a character is upper-cased.<br><strong>isAlpha</strong> checks whether a character is a letter.<br><strong>isAlphaNum</strong> checks whether a character is a letter or a number.<br><strong>isPrint</strong> checks whether a character is printable. Control characters, for instance, are not printable.<br><strong>isDigit</strong> checks whether a character is a digit.<br><strong>isOctDigit</strong> checks whether a character is an octal digit.<br><strong>isHexDigit</strong> checks whether a character is a hex digit.<br><strong>isLetter</strong> checks whether a character is a letter.<br><strong>isMark</strong> checks for Unicode mark characters. Those are characters that combine with preceding letters to form latters with accents. Use this if you are French.<br><strong>isNumber</strong> checks whether a character is numeric.<br><strong>isPunctuation</strong> checks whether a character is punctuation.<br><strong>isSymbol</strong> checks whether a character is a fancy mathematical or currency symbol.<br><strong>isSeparator</strong> checks for Unicode spaces and separators.<br><strong>isAscii</strong> checks whether a character falls into the first 128 characters of the Unicode character set.<br><strong>isLatin1</strong> checks whether a character falls into the first 256 characters of Unicode.<br><strong>isAsciiUpper</strong> checks whether a character is ASCII and upper-case.<br><strong>isAsciiLower</strong> checks whether a character is ASCII and lower-case.</p>
+<h1 id="Data-Map"><a href="#Data-Map" class="headerlink" title="Data.Map"></a>Data.Map</h1><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="title">phoneBook</span> = [(<span class="string">"betty"</span>,<span class="string">"555-2938"</span>) ,</div><div class="line">             (<span class="string">"bonnie"</span>,<span class="string">"452-2928"</span>) ,</div><div class="line">             (<span class="string">"patsy"</span>,<span class="string">"493-2928"</span>) ,</div><div class="line">             (<span class="string">"lucille"</span>,<span class="string">"205-2928"</span>) ,</div><div class="line">             (<span class="string">"wendy"</span>,<span class="string">"939-8282"</span>) ,</div><div class="line">             (<span class="string">"penny"</span>,<span class="string">"853-2492"</span>) ]</div></pre></td></tr></table></figure>
+<h1 id="Data-Set"><a href="#Data-Set" class="headerlink" title="Data.Set"></a>Data.Set</h1><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="keyword">qualified</span> Data.Set <span class="keyword">as</span> Set</div><div class="line"></div><div class="line"><span class="title">ghci</span>&gt; <span class="keyword">let</span> set1 = <span class="type">Set</span>.fromList text1  </div><div class="line"><span class="title">ghci</span>&gt; <span class="keyword">let</span> set2 = <span class="type">Set</span>.fromList text2  </div><div class="line"><span class="title">ghci</span>&gt; set1  </div><div class="line"><span class="title">fromList</span> <span class="string">" .?AIRadefhijlmnorstuy"</span>  </div><div class="line"><span class="title">ghci</span>&gt; set2  </div><div class="line"><span class="title">fromList</span> <span class="string">" !Tabcdefghilmnorstuvwy"</span></div></pre></td></tr></table></figure>
+<p>intersection<br>difference<br>null，size，member，empty，singleton，insert，delete</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="title">ghci</span>&gt; <span class="type">Set</span>.fromList [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] `<span class="type">Set</span>.isSubsetOf` <span class="type">Set</span>.fromList [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]  </div><div class="line"><span class="type">True</span>  </div><div class="line"><span class="title">ghci</span>&gt; <span class="type">Set</span>.fromList [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>] `<span class="type">Set</span>.isSubsetOf` <span class="type">Set</span>.fromList [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]  </div><div class="line"><span class="type">True</span>  </div><div class="line"><span class="title">ghci</span>&gt; <span class="type">Set</span>.fromList [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>] `<span class="type">Set</span>.isProperSubsetOf` <span class="type">Set</span>.fromList [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]  </div><div class="line"><span class="type">False</span>  </div><div class="line"><span class="title">ghci</span>&gt; <span class="type">Set</span>.fromList [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">8</span>] `<span class="type">Set</span>.isSubsetOf` <span class="type">Set</span>.fromList [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]  </div><div class="line"><span class="type">False</span></div></pre></td></tr></table></figure>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="title">ghci</span>&gt; <span class="type">Set</span>.filter odd $ <span class="type">Set</span>.fromList [<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]  </div><div class="line"><span class="title">fromList</span> [<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>]  </div><div class="line"><span class="title">ghci</span>&gt; <span class="type">Set</span>.map (+<span class="number">1</span>) $ <span class="type">Set</span>.fromList [<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]  </div><div class="line"><span class="title">fromList</span> [<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>]</div></pre></td></tr></table></figure>
+<h1 id="Making-our-own-modules"><a href="#Making-our-own-modules" class="headerlink" title="Making our own modules"></a>Making our own modules</h1><p>Geometry<br>    |————  Sphere.hs<br>    |———— Cuboid.hs<br>    `———— Cube.hs</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta"># sphere.hs</span></div><div class="line"><span class="keyword">module</span> Geometry.Sphere  </div><div class="line">( <span class="title">volume</span>  </div><div class="line">，<span class="title">area</span>  </div><div class="line">) <span class="keyword">where</span>  </div><div class="line"></div><div class="line"><span class="title">volume</span> :: <span class="type">Float</span> -&gt; <span class="type">Float</span>  </div><div class="line"><span class="title">volume</span> radius = (<span class="number">4.0</span> / <span class="number">3.0</span>) * pi * (radius ^ <span class="number">3</span>)  </div><div class="line"></div><div class="line"><span class="title">area</span> :: <span class="type">Float</span> -&gt; <span class="type">Float</span>  </div><div class="line"><span class="title">area</span> radius = <span class="number">4</span> * pi * (radius ^ <span class="number">2</span>)</div></pre></td></tr></table></figure>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta"># cuboid.hs</span></div><div class="line"><span class="keyword">module</span> Geometry.Cuboid  </div><div class="line">( <span class="title">volume</span>  </div><div class="line">，<span class="title">area</span>  </div><div class="line">) <span class="keyword">where</span>  </div><div class="line"></div><div class="line"><span class="title">volume</span> :: <span class="type">Float</span> -&gt; <span class="type">Float</span> -&gt; <span class="type">Float</span> -&gt; <span class="type">Float</span>  </div><div class="line"><span class="title">volume</span> a b c = rectangleArea a b * c  </div><div class="line"></div><div class="line"><span class="title">area</span> :: <span class="type">Float</span> -&gt; <span class="type">Float</span> -&gt; <span class="type">Float</span> -&gt; <span class="type">Float</span>  </div><div class="line"><span class="title">area</span> a b c = rectangleArea a b * <span class="number">2</span> + rectangleArea a c * <span class="number">2</span> + rectangleArea c b * <span class="number">2</span>  </div><div class="line"></div><div class="line"><span class="meta"># won't export this. internal use</span></div><div class="line"><span class="title">rectangleArea</span> :: <span class="type">Float</span> -&gt; <span class="type">Float</span> -&gt; <span class="type">Float</span>  </div><div class="line"><span class="title">rectangleArea</span> a b = a * b</div></pre></td></tr></table></figure>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta"># cube.hs</span></div><div class="line"><span class="keyword">module</span> Geometry.Cube  </div><div class="line">( <span class="title">volume</span>  </div><div class="line">，<span class="title">area</span>  </div><div class="line">) <span class="keyword">where</span>  </div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="keyword">qualified</span> Geometry.Cuboid <span class="keyword">as</span> Cuboid  </div><div class="line"></div><div class="line"><span class="title">volume</span> :: <span class="type">Float</span> -&gt; <span class="type">Float</span>  </div><div class="line"><span class="title">volume</span> side = <span class="type">Cuboid</span>.volume side side side  </div><div class="line"></div><div class="line"><span class="title">area</span> :: <span class="type">Float</span> -&gt; <span class="type">Float</span>  </div><div class="line"><span class="title">area</span> side = <span class="type">Cuboid</span>.area side side side</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fp/" rel="tag"># fp</a>
+          
+            <a href="/tags/haskell/" rel="tag"># haskell</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/26/cloud/" rel="next" title="cloud">
+                <i class="fa fa-chevron-left"></i> cloud
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/13/Haskell-7/" rel="prev" title="Haskell 7 Create new Types and Typeclass">
+                Haskell 7 Create new Types and Typeclass <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Steven Zhang" />
+          <p class="site-author-name" itemprop="name">Steven Zhang</p>
+          <p class="site-description motion-element" itemprop="description">Java, Haskell and Architecture</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/steven-zhc" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Modules"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Modules" class="headerlink" title="Modules"></a>Modules</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference-Link"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Reference-Link" class="headerlink" title="Reference Link"></a>Reference Link</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Data-List"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Data-List" class="headerlink" title="Data.List"></a>Data.List</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Data-Char"><span class="nav-number">4.</span> <span class="nav-text"><a href="#Data-Char" class="headerlink" title="Data.Char"></a>Data.Char</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Data-Map"><span class="nav-number">5.</span> <span class="nav-text"><a href="#Data-Map" class="headerlink" title="Data.Map"></a>Data.Map</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Data-Set"><span class="nav-number">6.</span> <span class="nav-text"><a href="#Data-Set" class="headerlink" title="Data.Set"></a>Data.Set</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Making-our-own-modules"><span class="nav-number">7.</span> <span class="nav-text"><a href="#Making-our-own-modules" class="headerlink" title="Making our own modules"></a>Making our own modules</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Steven Zhang</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'hczhang';
+      var disqus_identifier = '2017/10/28/Haskell-6/';
+
+      var disqus_title = "Haskell 6 Module";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

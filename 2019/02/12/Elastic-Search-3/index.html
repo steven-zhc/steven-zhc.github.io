@@ -1,0 +1,885 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="architecture,elastic," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1. Search API sending search parameters through the REST request URI sending search parameters through the REST request body">
+<meta name="keywords" content="architecture,elastic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elastic Search - Getting Start 3">
+<meta property="og:url" content="http://hczhang.com/2019/02/12/Elastic-Search-3/index.html">
+<meta property="og:site_name" content="软糖">
+<meta property="og:description" content="1. Search API sending search parameters through the REST request URI sending search parameters through the REST request body">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-12-30T23:24:32.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elastic Search - Getting Start 3">
+<meta name="twitter:description" content="1. Search API sending search parameters through the REST request URI sending search parameters through the REST request body">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hczhang.com/2019/02/12/Elastic-Search-3/"/>
+
+
+
+
+
+  <title> Elastic Search - Getting Start 3 | 软糖 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-91086651-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">软糖</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Candy</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://hczhang.com/2019/02/12/Elastic-Search-3/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Steven Zhang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="软糖">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="软糖" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Elastic Search - Getting Start 3
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-12T13:41:26+00:00">
+                2019-02-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/12/Elastic-Search-3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/02/12/Elastic-Search-3/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-Search-API"><a href="#1-Search-API" class="headerlink" title="1. Search API"></a>1. Search API</h1><ul>
+<li>sending search parameters through the <em>REST request URI</em></li>
+<li>sending search parameters through the <em>REST request body</em></li>
+</ul>
+<a id="more"></a>
+<h2 id="Request-UI"><a href="#Request-UI" class="headerlink" title="Request UI"></a>Request UI</h2><p>The REST API for search is accessible from the _search endpoint. This example returns all documents in the bank index:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search?q=*&amp;sort=account_number:asc&amp;pretty"</span></div></pre></td></tr></table></figure>
+<ul>
+<li>_search : search in the bank index</li>
+<li>q=* : to match all documents in the index</li>
+<li>sort=account_number:asc : sort the results using the account_number field of each document in an ascending order</li>
+<li>pretty : return pretty-printed JSON results</li>
+</ul>
+<h2 id="Request-Body"><a href="#Request-Body" class="headerlink" title="Request Body"></a>Request Body</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">  "query": &#123; "match_all": &#123;&#125; &#125;,</span></div><div class="line"><span class="string">  "sort": [</span></div><div class="line"><span class="string">    &#123; "account_number": "asc" &#125;</span></div><div class="line"><span class="string">  ]</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<h1 id="2-Query-language"><a href="#2-Query-language" class="headerlink" title="2. Query language"></a>2. Query language</h1><p>Search all</p>
+<p>size defaults to 10</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">  "query": &#123; "match_all": &#123;&#125; &#125;,</span></div><div class="line"><span class="string">  "size": 1</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<p>from is 0-based</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">  "query": &#123; "match_all": &#123;&#125; &#125;,</span></div><div class="line"><span class="string">  "from": 10,</span></div><div class="line"><span class="string">  "size": 10</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<p>Sort</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">  "query": &#123; "match_all": &#123;&#125; &#125;,</span></div><div class="line"><span class="string">  "from": 10,</span></div><div class="line"><span class="string">  "size": 10</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<h1 id="3-Populate-Search"><a href="#3-Populate-Search" class="headerlink" title="3. Populate Search"></a>3. Populate Search</h1><p>Return two fields, account_number and balance (inside of _source)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">  "query": &#123; "match_all": &#123;&#125; &#125;,</span></div><div class="line"><span class="string">  "_source": ["account_number", "balance"]</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<h2 id="Match-Query"><a href="#Match-Query" class="headerlink" title="Match Query"></a>Match Query</h2><p>Returns the account numbered 20</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">   "query": &#123; "match": &#123; "account_number": 20 &#125; &#125;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<p>Returns all accounts containing the term “mill”</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">   "query": &#123; "match": &#123; "address": "mill" &#125; &#125;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<p>Returns all accounts containing the term “mill” or “lane” in the address</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">   "query": &#123; "match": &#123; "address": "mill lane" &#125; &#125;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<p>A variant of match (match_phrase)<br>Returns all accounts containing the phrase “mill lane” in the address</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">   "query": &#123; "match_phrase": &#123; "address": "mill lane" &#125; &#125;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<h2 id="Bool-query"><a href="#Bool-query" class="headerlink" title="Bool query"></a>Bool query</h2><p>The bool query allows us to compose smaller queries into bigger queries using boolean logic.</p>
+<p>the bool <em>must</em> clause specifies all the queries that must be true for a document to be considered a match</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">   "query": &#123;</span></div><div class="line"><span class="string">    "bool": &#123;</span></div><div class="line"><span class="string">      "must": [</span></div><div class="line"><span class="string">        &#123; "match": &#123; "address": "mill" &#125; &#125;,</span></div><div class="line"><span class="string">        &#123; "match": &#123; "address": "lane" &#125; &#125;</span></div><div class="line"><span class="string">      ]</span></div><div class="line"><span class="string">    &#125;</span></div><div class="line"><span class="string">  &#125;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<p>composes two match queries and returns all accounts containing “mill” or “lane” in the address</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">   "query": &#123;</span></div><div class="line"><span class="string">    "bool": &#123;</span></div><div class="line"><span class="string">      "should": [</span></div><div class="line"><span class="string">        &#123; "match": &#123; "address": "mill" &#125; &#125;,</span></div><div class="line"><span class="string">        &#123; "match": &#123; "address": "lane" &#125; &#125;</span></div><div class="line"><span class="string">      ]</span></div><div class="line"><span class="string">    &#125;</span></div><div class="line"><span class="string">  &#125;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<p>Composes two match queries and returns all accounts that contain neither “mill” nor “lane” in the address</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">   "query": &#123;</span></div><div class="line"><span class="string">    "bool": &#123;</span></div><div class="line"><span class="string">      "must_not": [</span></div><div class="line"><span class="string">        &#123; "match": &#123; "address": "mill" &#125; &#125;,</span></div><div class="line"><span class="string">        &#123; "match": &#123; "address": "lane" &#125; &#125;</span></div><div class="line"><span class="string">      ]</span></div><div class="line"><span class="string">    &#125;</span></div><div class="line"><span class="string">  &#125;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<p>returns all accounts of anybody who is 40 years old but doesn’t live in ID(aho)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">    "query": &#123;</span></div><div class="line"><span class="string">        "bool": &#123;</span></div><div class="line"><span class="string">        "must": [</span></div><div class="line"><span class="string">            &#123; "match": &#123; "age": "40" &#125; &#125;</span></div><div class="line"><span class="string">        ],</span></div><div class="line"><span class="string">        "must_not": [</span></div><div class="line"><span class="string">            &#123; "match": &#123; "state": "ID" &#125; &#125;</span></div><div class="line"><span class="string">        ]</span></div><div class="line"><span class="string">        &#125;</span></div><div class="line"><span class="string">    &#125;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<h1 id="4-Filter"><a href="#4-Filter" class="headerlink" title="4. Filter"></a>4. Filter</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">    "query": &#123;</span></div><div class="line"><span class="string">        "bool": &#123;</span></div><div class="line"><span class="string">            "must": &#123; "match_all": &#123;&#125; &#125;,</span></div><div class="line"><span class="string">            "filter": &#123;</span></div><div class="line"><span class="string">                "range": &#123;</span></div><div class="line"><span class="string">                    "balance": &#123;</span></div><div class="line"><span class="string">                        "gte": 20000,</span></div><div class="line"><span class="string">                        "lte": 30000</span></div><div class="line"><span class="string">                    &#125;</span></div><div class="line"><span class="string">                &#125;</span></div><div class="line"><span class="string">            &#125;</span></div><div class="line"><span class="string">        &#125;</span></div><div class="line"><span class="string">    &#125;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<h1 id="5-Aggregations"><a href="#5-Aggregations" class="headerlink" title="5. Aggregations"></a>5. Aggregations</h1><p>We set size=0 to not show search hits because we only want to see the aggregation results in the response.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">    "size": 0,</span></div><div class="line"><span class="string">    "aggs": &#123;</span></div><div class="line"><span class="string">        "group_by_state": &#123;</span></div><div class="line"><span class="string">            "terms": &#123;</span></div><div class="line"><span class="string">                "field": "state.keyword"</span></div><div class="line"><span class="string">            &#125;</span></div><div class="line"><span class="string">        &#125;</span></div><div class="line"><span class="string">    &#125;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<p>calculates the average account balance by state<br>only for the top 10 states sorted by count in descending order<br>sort on the average balance in descending order</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">    "size": 0,</span></div><div class="line"><span class="string">    "aggs": &#123;</span></div><div class="line"><span class="string">        "group_by_state": &#123;</span></div><div class="line"><span class="string">            "terms": &#123;</span></div><div class="line"><span class="string">                "field": "state.keyword",</span></div><div class="line"><span class="string">                "order": &#123;</span></div><div class="line"><span class="string">                    "average_balance": "desc"</span></div><div class="line"><span class="string">                &#125;</span></div><div class="line"><span class="string">            &#125;,</span></div><div class="line"><span class="string">            "aggs": &#123;</span></div><div class="line"><span class="string">                "average_balance": &#123;</span></div><div class="line"><span class="string">                    "avg": &#123;</span></div><div class="line"><span class="string">                        "field": "balance"</span></div><div class="line"><span class="string">                    &#125;</span></div><div class="line"><span class="string">                &#125;</span></div><div class="line"><span class="string">            &#125;</span></div><div class="line"><span class="string">        &#125;</span></div><div class="line"><span class="string">    &#125;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+<p>group by age brackets (ages 20-29, 30-39, and 40-49), then by gender, and then finally get the average account balance, per age bracket, per gender</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">curl -X GET <span class="string">"http://&#123;&#123;host&#125;&#125;:9200/bank/_search"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></div><div class="line"><span class="string">&#123;</span></div><div class="line"><span class="string">    "size": 0,</span></div><div class="line"><span class="string">    "aggs": &#123;</span></div><div class="line"><span class="string">        "group_by_age": &#123;</span></div><div class="line"><span class="string">            "range": &#123;</span></div><div class="line"><span class="string">                "field": "age",</span></div><div class="line"><span class="string">                "ranges": [</span></div><div class="line"><span class="string">                &#123;</span></div><div class="line"><span class="string">                    "from": 20,</span></div><div class="line"><span class="string">                    "to": 30</span></div><div class="line"><span class="string">                &#125;,</span></div><div class="line"><span class="string">                &#123;</span></div><div class="line"><span class="string">                    "from": 30,</span></div><div class="line"><span class="string">                    "to": 40</span></div><div class="line"><span class="string">                &#125;,</span></div><div class="line"><span class="string">                &#123;</span></div><div class="line"><span class="string">                    "from": 40,</span></div><div class="line"><span class="string">                    "to": 50</span></div><div class="line"><span class="string">                &#125;</span></div><div class="line"><span class="string">                ]</span></div><div class="line"><span class="string">            &#125;,</span></div><div class="line"><span class="string">            "aggs": &#123;</span></div><div class="line"><span class="string">                "group_by_gender": &#123;</span></div><div class="line"><span class="string">                    "terms": &#123;</span></div><div class="line"><span class="string">                        "field": "gender.keyword"</span></div><div class="line"><span class="string">                    &#125;,</span></div><div class="line"><span class="string">                    "aggs": &#123;</span></div><div class="line"><span class="string">                        "average_balance": &#123;</span></div><div class="line"><span class="string">                            "avg": &#123;</span></div><div class="line"><span class="string">                                "field": "balance"</span></div><div class="line"><span class="string">                            &#125;</span></div><div class="line"><span class="string">                        &#125;</span></div><div class="line"><span class="string">                    &#125;</span></div><div class="line"><span class="string">                &#125;</span></div><div class="line"><span class="string">            &#125;</span></div><div class="line"><span class="string">        &#125;</span></div><div class="line"><span class="string">    &#125;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">'</span></div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/architecture/" rel="tag"># architecture</a>
+          
+            <a href="/tags/elastic/" rel="tag"># elastic</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/12/Elastic-Search-2/" rel="next" title="Elastic Search - Getting Start 2">
+                <i class="fa fa-chevron-left"></i> Elastic Search - Getting Start 2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/26/Oracle-12c-workshop-cheatsheet/" rel="prev" title="Oracle 12c workshop cheatsheet">
+                Oracle 12c workshop cheatsheet <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Steven Zhang" />
+          <p class="site-author-name" itemprop="name">Steven Zhang</p>
+          <p class="site-description motion-element" itemprop="description">Java, Haskell and Architecture</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/steven-zhc" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Search-API"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1-Search-API" class="headerlink" title="1. Search API"></a>1. Search API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Request-UI"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#Request-UI" class="headerlink" title="Request UI"></a>Request UI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Request-Body"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#Request-Body" class="headerlink" title="Request Body"></a>Request Body</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Query-language"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2-Query-language" class="headerlink" title="2. Query language"></a>2. Query language</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Populate-Search"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3-Populate-Search" class="headerlink" title="3. Populate Search"></a>3. Populate Search</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Match-Query"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#Match-Query" class="headerlink" title="Match Query"></a>Match Query</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bool-query"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#Bool-query" class="headerlink" title="Bool query"></a>Bool query</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-Filter"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4-Filter" class="headerlink" title="4. Filter"></a>4. Filter</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Aggregations"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5-Aggregations" class="headerlink" title="5. Aggregations"></a>5. Aggregations</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Steven Zhang</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'hczhang';
+      var disqus_identifier = '2019/02/12/Elastic-Search-3/';
+
+      var disqus_title = "Elastic Search - Getting Start 3";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,865 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="fp,haskell," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Taking Notes from http://learnyouahaskell.com  Curried functions12345compareWithHundred :: (Num a, Ord a) =&amp;gt; a -&amp;gt; OrderingcompareWithHundred = compare 100divideByTen :: (Floating a) =&amp;gt; a -&amp;g">
+<meta name="keywords" content="fp,haskell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Haskell 5 HOF">
+<meta property="og:url" content="http://hczhang.com/2017/10/19/Haskell-5/index.html">
+<meta property="og:site_name" content="软糖">
+<meta property="og:description" content="Taking Notes from http://learnyouahaskell.com  Curried functions12345compareWithHundred :: (Num a, Ord a) =&amp;gt; a -&amp;gt; OrderingcompareWithHundred = compare 100divideByTen :: (Floating a) =&amp;gt; a -&amp;g">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-12-30T23:24:32.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Haskell 5 HOF">
+<meta name="twitter:description" content="Taking Notes from http://learnyouahaskell.com  Curried functions12345compareWithHundred :: (Num a, Ord a) =&amp;gt; a -&amp;gt; OrderingcompareWithHundred = compare 100divideByTen :: (Floating a) =&amp;gt; a -&amp;g">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hczhang.com/2017/10/19/Haskell-5/"/>
+
+
+
+
+
+  <title> Haskell 5 HOF | 软糖 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-91086651-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">软糖</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Candy</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://hczhang.com/2017/10/19/Haskell-5/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Steven Zhang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="软糖">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="软糖" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Haskell 5 HOF
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-19T22:55:45+00:00">
+                2017-10-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/19/Haskell-5/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/10/19/Haskell-5/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Taking Notes from <a href="http://learnyouahaskell.com" target="_blank" rel="noopener">http://learnyouahaskell.com</a></p>
+</blockquote>
+<h1 id="Curried-functions"><a href="#Curried-functions" class="headerlink" title="Curried functions"></a>Curried functions</h1><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="title">compareWithHundred</span> :: (<span class="type">Num</span> a, <span class="type">Ord</span> a) =&gt; a -&gt; <span class="type">Ordering</span></div><div class="line"><span class="title">compareWithHundred</span> = compare <span class="number">100</span></div><div class="line"></div><div class="line"><span class="title">divideByTen</span> :: (<span class="type">Floating</span> a) =&gt; a -&gt; a</div><div class="line"><span class="title">divideByTen</span> = (/<span class="number">10</span>)</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="High-order"><a href="#High-order" class="headerlink" title="High order"></a>High order</h1><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="title">zipWith</span> :: (a -&gt; b -&gt; c) -&gt; [a] -&gt; [b] -&gt; [c]</div><div class="line"><span class="title">zipWith</span> _ [] _ = []</div><div class="line"><span class="title">zipWith</span> _ _ [] = []</div><div class="line"><span class="title">zipWith</span> f (x:xs) (y:ys) = f x y : zipWith f xs ys</div><div class="line"></div><div class="line"><span class="title">ghci</span>&gt; zipWith' (+) [<span class="number">4</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">6</span>] [<span class="number">2</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">3</span>]  </div><div class="line">[<span class="number">6</span>,<span class="number">8</span>,<span class="number">7</span>,<span class="number">9</span>]  </div><div class="line"><span class="title">ghci</span>&gt; zipWith' max [<span class="number">6</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>] [<span class="number">7</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">5</span>]  </div><div class="line">[<span class="number">7</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">5</span>]  </div><div class="line"><span class="title">ghci</span>&gt; zipWith' (++) [<span class="string">"foo "</span>，<span class="string">"bar "</span>，<span class="string">"baz "</span>] [<span class="string">"fighters"</span>，<span class="string">"hoppers"</span>，<span class="string">"aldrin"</span>]  </div><div class="line">[<span class="string">"foo fighters"</span>,<span class="string">"bar hoppers"</span>,<span class="string">"baz aldrin"</span>]  </div><div class="line"><span class="title">ghci</span>&gt; zipWith' (*) (replicate <span class="number">5</span> <span class="number">2</span>) [<span class="number">1.</span>.]  </div><div class="line">[<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">10</span>]  </div><div class="line"><span class="title">ghci</span>&gt; zipWith' (zipWith' (*)) [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>],[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]] [[<span class="number">3</span>,<span class="number">2</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>],[<span class="number">5</span>,<span class="number">4</span>,<span class="number">3</span>]]  </div><div class="line">[[<span class="number">3</span>,<span class="number">4</span>,<span class="number">6</span>],[<span class="number">9</span>,<span class="number">20</span>,<span class="number">30</span>],[<span class="number">10</span>,<span class="number">12</span>,<span class="number">12</span>]]</div></pre></td></tr></table></figure>
+<h1 id="map-amp-filter"><a href="#map-amp-filter" class="headerlink" title="map &amp; filter"></a>map &amp; filter</h1><h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="title">map</span> :: (a -&gt; b) -&gt; [a] -&gt; [b]</div><div class="line"><span class="title">map</span> _ [] = []</div><div class="line"><span class="title">map</span> f (x:xs) = f x : map f xs</div><div class="line"></div><div class="line"><span class="title">ghci</span>&gt; map (+<span class="number">3</span>) [<span class="number">1</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">6</span>]  </div><div class="line">[<span class="number">4</span>,<span class="number">8</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">9</span>]  </div><div class="line"></div><div class="line">[x+<span class="number">3</span> | x &lt;- [<span class="number">1</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">6</span>] ]</div></pre></td></tr></table></figure>
+<h2 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="title">filter</span> :: (a -&gt; <span class="type">Bool</span>) -&gt; [a] -&gt; [a]</div><div class="line"><span class="title">filter</span> _ [] = []</div><div class="line"><span class="title">filter</span> f (x:xs)</div><div class="line">    | f x       = x : filter f xs</div><div class="line">    | otherwise = filter f xs</div></pre></td></tr></table></figure>
+<h1 id="lambda"><a href="#lambda" class="headerlink" title="lambda"></a>lambda</h1><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">numLongChains</span> :: <span class="type">Int</span></div><div class="line"><span class="title">numLongChains</span> = length (filter (\xs -&gt; length xs &gt; <span class="number">15</span>) (map chain [<span class="number">1.</span><span class="number">.100</span>]))</div></pre></td></tr></table></figure>
+<blockquote>
+<p>map (+3) [1,6,3,2]   <strong>VS</strong>   map (\x -&gt; x+3) [1,6,3,2]</p>
+</blockquote>
+<h1 id="fold"><a href="#fold" class="headerlink" title="fold"></a>fold</h1><h2 id="foldl-foldr-foldl1-foldr1"><a href="#foldl-foldr-foldl1-foldr1" class="headerlink" title="foldl foldr (foldl1 foldr1)"></a>foldl foldr (foldl1 foldr1)</h2><p>foldl1 与 foldr1 的行为与 foldl 和 foldr 相似，只是你无需明确提供初始值。他们假定 List 的首个(或末尾)元素作为起始值，并从旁边的元素开始折叠<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="title">sum'</span> :: (<span class="type">Num</span> a) =&gt; [a] -&gt; a</div><div class="line"><span class="title">sum'</span> xs = foldl (\acc x -&gt; acc + x) <span class="number">0</span> xs</div><div class="line"></div><div class="line"></div><div class="line"><span class="title">sum'</span> :: (<span class="type">Num</span> a) =&gt; [a] -&gt; a</div><div class="line"><span class="title">sum'</span> = foldl (+) <span class="number">0</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>有点消除同类项的感觉. I like it.</p>
+</blockquote>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="title">maximum'</span> :: (<span class="type">Ord</span> a) =&gt; [a] -&gt; a  </div><div class="line"><span class="title">maximum'</span> = foldr1 (\x acc -&gt; <span class="keyword">if</span> x &gt; acc <span class="keyword">then</span> x <span class="keyword">else</span> acc)  </div><div class="line"></div><div class="line"><span class="title">reverse'</span> :: [a] -&gt; [a]  </div><div class="line"><span class="title">reverse'</span> = foldl (\acc x -&gt; x : acc) []  </div><div class="line"></div><div class="line"><span class="title">product'</span> :: (<span class="type">Num</span> a) =&gt; [a] -&gt; a  </div><div class="line"><span class="title">product'</span> = foldr1 (*)  </div><div class="line"></div><div class="line"><span class="title">filter'</span> :: (a -&gt; <span class="type">Bool</span>) -&gt; [a] -&gt; [a]  </div><div class="line"><span class="title">filter'</span> p = foldr (\x acc -&gt; <span class="keyword">if</span> p x <span class="keyword">then</span> x : acc <span class="keyword">else</span> acc) []  </div><div class="line"></div><div class="line"><span class="title">head'</span> :: [a] -&gt; a  </div><div class="line"><span class="title">head'</span> = foldr1 (\x _ -&gt; x)  </div><div class="line"></div><div class="line"><span class="title">last'</span> :: [a] -&gt; a  </div><div class="line"><span class="title">last'</span> = foldl1 (\_ x -&gt; x)</div></pre></td></tr></table></figure>
+<h2 id="scanl-scanr-scanl1-scanr1"><a href="#scanl-scanr-scanl1-scanr1" class="headerlink" title="scanl scanr (scanl1 scanr1)"></a>scanl scanr (scanl1 scanr1)</h2><p>scanl 和 scanr 与 foldl 和 foldr 相似，只是它们会记录下累加值的所有状态到一个 List</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">ghci</span>&gt; scanl (+) <span class="number">0</span> [<span class="number">3</span>,<span class="number">5</span>,<span class="number">2</span>,<span class="number">1</span>]  </div><div class="line">[<span class="number">0</span>,<span class="number">3</span>,<span class="number">8</span>,<span class="number">10</span>,<span class="number">11</span>]</div></pre></td></tr></table></figure>
+<h1 id="‘-’-function"><a href="#‘-’-function" class="headerlink" title="‘$’ function"></a>‘$’ function</h1><p>定义<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">($) :: (a -&gt; b) -&gt; a -&gt; b  </div><div class="line"><span class="title">f</span> $ x = f x</div></pre></td></tr></table></figure></p>
+<p>$看作是在右面写一对括号的等价形式</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="title">sum</span> (map sqrt [<span class="number">1.</span><span class="number">.130</span>])</div><div class="line"><span class="title">sum</span> $ map sqrt [<span class="number">1.</span><span class="number">.130</span>]</div><div class="line"></div><div class="line"><span class="title">sqrt</span> (<span class="number">3</span>+<span class="number">4</span>+<span class="number">9</span>)</div><div class="line"><span class="title">sqrt</span> $ <span class="number">3</span>+<span class="number">4</span>+<span class="number">9</span></div><div class="line"></div><div class="line"><span class="title">f</span> (g (z x))</div><div class="line"><span class="title">f</span> $ g $ z x</div><div class="line"></div><div class="line"><span class="title">sum</span> (filter (&gt; <span class="number">10</span>) (map (*<span class="number">2</span>) [<span class="number">2.</span><span class="number">.10</span>])</div><div class="line"><span class="title">sum</span> $ filter (&gt; <span class="number">10</span>) $ map (*<span class="number">2</span>) [<span class="number">2.</span><span class="number">.10</span>]</div></pre></td></tr></table></figure>
+<h1 id="Function-composition"><a href="#Function-composition" class="headerlink" title="Function composition"></a>Function composition</h1><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(.) :: (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c  </div><div class="line"><span class="title">f</span> . g = \x -&gt; f (g x)</div></pre></td></tr></table></figure>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="title">ghci</span>&gt; map (\x -&gt; negate (abs x)) [<span class="number">5</span>,<span class="number">-3</span>,<span class="number">-6</span>,<span class="number">7</span>,<span class="number">-3</span>,<span class="number">2</span>,<span class="number">-19</span>,<span class="number">24</span>]  </div><div class="line">[<span class="number">-5</span>,<span class="number">-3</span>,<span class="number">-6</span>,<span class="number">-7</span>,<span class="number">-3</span>,<span class="number">-2</span>,<span class="number">-19</span>,<span class="number">-24</span>]</div><div class="line"></div><div class="line"><span class="title">ghci</span>&gt; map (negate . abs) [<span class="number">5</span>,<span class="number">-3</span>,<span class="number">-6</span>,<span class="number">7</span>,<span class="number">-3</span>,<span class="number">2</span>,<span class="number">-19</span>,<span class="number">24</span>]  </div><div class="line">[<span class="number">-5</span>,<span class="number">-3</span>,<span class="number">-6</span>,<span class="number">-7</span>,<span class="number">-3</span>,<span class="number">-2</span>,<span class="number">-19</span>,<span class="number">-24</span>]</div></pre></td></tr></table></figure>
+<h2 id="point-free-style"><a href="#point-free-style" class="headerlink" title="point free style"></a>point free style</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="title">sum</span> :: (<span class="type">Num</span> a) =&gt; [a] -&gt; a</div><div class="line"><span class="title">sum</span> xs = foldl (+) <span class="number">0</span> xs</div><div class="line"></div><div class="line">// change to</div><div class="line"><span class="title">sum</span> = foldl (+) <span class="number">0</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="title">fn</span> x = ceiling (negate (tan (cos (max <span class="number">50</span> x))))</div><div class="line"><span class="title">fn</span> = ceiling . negate . tan . cos . max <span class="number">50</span></div></pre></td></tr></table></figure>
+<p>函数若过于复杂，再使用 point free style 往往会适得其反，因此构造较长的函数组合链是不被鼓励的。更好的解决方法，就是使用 let 语句给中间的运算结果绑定一个名字，或者说把问题分解成几个小问题再组合到一起。这样一来我们代码的读者就可以轻松些，不必要纠结那巨长的函数组合链了</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="title">oddSquareSum</span> :: <span class="type">Integer</span>  </div><div class="line"><span class="title">oddSquareSum</span> = sum (takeWhile (&lt;<span class="number">10000</span>) (filter odd (map (^<span class="number">2</span>) [<span class="number">1.</span>.])))</div><div class="line"></div><div class="line"><span class="title">oddSquareSum</span> = sum . takeWhile (&lt;<span class="number">10000</span>) . filter odd . map (^<span class="number">2</span>) $ [<span class="number">1.</span>.]</div><div class="line"></div><div class="line"><span class="title">oddSquareSum</span> =   </div><div class="line">    <span class="keyword">let</span> oddSquares = filter odd $ map (^<span class="number">2</span>) [<span class="number">1.</span>.]  </div><div class="line">        belowLimit = takeWhile (&lt;<span class="number">10000</span>) oddSquares  </div><div class="line">    <span class="keyword">in</span>  sum belowLimit</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fp/" rel="tag"># fp</a>
+          
+            <a href="/tags/haskell/" rel="tag"># haskell</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/19/Haskell-4/" rel="next" title="Haskell 4 Recursive">
+                <i class="fa fa-chevron-left"></i> Haskell 4 Recursive
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/26/cloud/" rel="prev" title="cloud">
+                cloud <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Steven Zhang" />
+          <p class="site-author-name" itemprop="name">Steven Zhang</p>
+          <p class="site-description motion-element" itemprop="description">Java, Haskell and Architecture</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/steven-zhc" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Curried-functions"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Curried-functions" class="headerlink" title="Curried functions"></a>Curried functions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#High-order"><span class="nav-number">2.</span> <span class="nav-text"><a href="#High-order" class="headerlink" title="High order"></a>High order</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#map-amp-filter"><span class="nav-number">3.</span> <span class="nav-text"><a href="#map-amp-filter" class="headerlink" title="map &amp; filter"></a>map &amp; filter</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#map"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#map" class="headerlink" title="map"></a>map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#filter"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#filter" class="headerlink" title="filter"></a>filter</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lambda"><span class="nav-number">4.</span> <span class="nav-text"><a href="#lambda" class="headerlink" title="lambda"></a>lambda</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#fold"><span class="nav-number">5.</span> <span class="nav-text"><a href="#fold" class="headerlink" title="fold"></a>fold</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#foldl-foldr-foldl1-foldr1"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#foldl-foldr-foldl1-foldr1" class="headerlink" title="foldl foldr (foldl1 foldr1)"></a>foldl foldr (foldl1 foldr1)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scanl-scanr-scanl1-scanr1"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#scanl-scanr-scanl1-scanr1" class="headerlink" title="scanl scanr (scanl1 scanr1)"></a>scanl scanr (scanl1 scanr1)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#‘-’-function"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x2018;-&#x2019;-function" class="headerlink" title="&#x2018;$&#x2019; function"></a>&#x2018;$&#x2019; function</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Function-composition"><span class="nav-number">7.</span> <span class="nav-text"><a href="#Function-composition" class="headerlink" title="Function composition"></a>Function composition</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#point-free-style"><span class="nav-number">7.1.</span> <span class="nav-text"><a href="#point-free-style" class="headerlink" title="point free style"></a>point free style</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Steven Zhang</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'hczhang';
+      var disqus_identifier = '2017/10/19/Haskell-5/';
+
+      var disqus_title = "Haskell 5 HOF";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

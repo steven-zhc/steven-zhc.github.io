@@ -1,0 +1,919 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="fp,haskell," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Taking Notes from http://learnyouahaskell.com  Algebraic Data TypesOption 1: datadata ValueName = Value Constructor12data Bool = False | Truedata Shape = Circle Float Float Float | Rectangle Float Fl">
+<meta name="keywords" content="fp,haskell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Haskell 7 Create new Types and Typeclass">
+<meta property="og:url" content="http://hczhang.com/2017/11/13/Haskell-7/index.html">
+<meta property="og:site_name" content="软糖">
+<meta property="og:description" content="Taking Notes from http://learnyouahaskell.com  Algebraic Data TypesOption 1: datadata ValueName = Value Constructor12data Bool = False | Truedata Shape = Circle Float Float Float | Rectangle Float Fl">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-12-30T23:24:32.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Haskell 7 Create new Types and Typeclass">
+<meta name="twitter:description" content="Taking Notes from http://learnyouahaskell.com  Algebraic Data TypesOption 1: datadata ValueName = Value Constructor12data Bool = False | Truedata Shape = Circle Float Float Float | Rectangle Float Fl">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hczhang.com/2017/11/13/Haskell-7/"/>
+
+
+
+
+
+  <title> Haskell 7 Create new Types and Typeclass | 软糖 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-91086651-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">软糖</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Candy</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://hczhang.com/2017/11/13/Haskell-7/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Steven Zhang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="软糖">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="软糖" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Haskell 7 Create new Types and Typeclass
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-13T11:22:24+00:00">
+                2017-11-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/13/Haskell-7/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/11/13/Haskell-7/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Taking Notes from <a href="http://learnyouahaskell.com" target="_blank" rel="noopener">http://learnyouahaskell.com</a></p>
+</blockquote>
+<h1 id="Algebraic-Data-Types"><a href="#Algebraic-Data-Types" class="headerlink" title="Algebraic Data Types"></a>Algebraic Data Types</h1><h2 id="Option-1-data"><a href="#Option-1-data" class="headerlink" title="Option 1: data"></a>Option 1: data</h2><p>data ValueName = Value Constructor<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">Bool</span> = <span class="type">False</span> | <span class="type">True</span></span></div><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">Shape</span> = <span class="type">Circle</span> <span class="type">Float</span> <span class="type">Float</span> <span class="type">Float</span> | <span class="type">Rectangle</span> <span class="type">Float</span> <span class="type">Float</span> <span class="type">Float</span> <span class="type">Float</span></span></div></pre></td></tr></table></figure></p>
+<p><em>Shape</em> is type, but <em>Circle</em> is not.<br>[]、False 或 5，它们都是不包含参数的值构造子</p>
+<a id="more"></a>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ghci&gt; :t Circle</div><div class="line">Circle :: Float -&gt; Float -&gt; Float -&gt; Shape</div></pre></td></tr></table></figure>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="title">surface</span> :: <span class="type">Shape</span> -&gt; <span class="type">Float</span></div><div class="line"><span class="title">surface</span> (<span class="type">Circle</span> _ _ r) = pi * r ^ <span class="number">2</span></div><div class="line"><span class="title">surface</span> (<span class="type">Rectangle</span> x1 y1 x2 y2) = (abs $ x2 - x1) * (abs $ y2 - y1)</div></pre></td></tr></table></figure>
+<h3 id="deriving"><a href="#deriving" class="headerlink" title="deriving"></a>deriving</h3><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">Point</span> = <span class="type">Point</span> <span class="type">Float</span> <span class="type">Float</span> <span class="keyword">deriving</span> (<span class="type">Show</span>)</span></div><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">Shape</span> = <span class="type">Circle</span> <span class="type">Point</span> <span class="type">Float</span> | <span class="type">Rectangle</span> <span class="type">Point</span> <span class="type">Point</span> <span class="keyword">deriving</span> (<span class="type">Show</span>)</span></div><div class="line"></div><div class="line"><span class="title">surface</span> :: <span class="type">Shape</span> -&gt; <span class="type">Float</span></div><div class="line"><span class="title">surface</span> (<span class="type">Circle</span> _ r) = pi * r ^ <span class="number">2</span></div><div class="line"><span class="title">surface</span> (<span class="type">Rectangle</span> (<span class="type">Point</span> x1 y1) (<span class="type">Point</span> x2 y2)) = (abs $ x2 - x1) * (abs $ y2 - y1)</div><div class="line"></div><div class="line"><span class="title">surface</span> (<span class="type">Rectangle</span> (<span class="type">Point</span> <span class="number">0</span> <span class="number">0</span>) (<span class="type">Point</span> <span class="number">100</span> <span class="number">100</span>))</div></pre></td></tr></table></figure>
+<h3 id="Export-in-module"><a href="#Export-in-module" class="headerlink" title="Export in module"></a>Export in module</h3><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">module</span> Shapes</div><div class="line">( <span class="type">Point(..)</span></div><div class="line">, <span class="type">Shape(..)</span></div><div class="line">, <span class="title">surface</span></div><div class="line">, <span class="title">nudge</span></div><div class="line">, <span class="title">baseCircle</span></div><div class="line">, <span class="title">baseRect</span></div><div class="line">) <span class="keyword">where</span></div></pre></td></tr></table></figure>
+<p>.. means exports all of <em>Value Contructors</em></p>
+<h2 id="Options-2-Record-Syntax"><a href="#Options-2-Record-Syntax" class="headerlink" title="Options 2: Record Syntax"></a>Options 2: Record Syntax</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">Car</span> = <span class="type">Car</span> &#123;<span class="title">company</span> :: <span class="type">String</span>, <span class="title">model</span> :: <span class="type">String</span>, <span class="title">year</span> :: <span class="type">Int</span>&#125; <span class="keyword">deriving</span> (<span class="type">Show</span>)</span></div><div class="line"></div><div class="line"><span class="title">ghci</span>&gt; <span class="type">Car</span> &#123;company=<span class="string">"Ford"</span>, model=<span class="string">"Mustang"</span>, year=<span class="number">1967</span>&#125;</div><div class="line"><span class="type">Car</span> &#123;company = <span class="string">"Ford"</span>, model = <span class="string">"Mustang"</span>, year = <span class="number">1967</span>&#125;</div></pre></td></tr></table></figure>
+<h2 id="Options-3-Type-parameters"><a href="#Options-3-Type-parameters" class="headerlink" title="Options 3: Type parameters"></a>Options 3: Type parameters</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">Maybe</span> a = <span class="type">Nothing</span> | <span class="type">Just</span> a</span></div></pre></td></tr></table></figure>
+<ul>
+<li><em>a</em> is Type Parameter</li>
+<li><em>Maybe</em> is Type Constructor</li>
+<li><em>Maybe String</em> is Type</li>
+</ul>
+<blockquote>
+<p>Haskell 中有一个严格的约定，那就是永远不要在 data 声明中添加类型约束</p>
+</blockquote>
+<h2 id="Options-4-Derived-instances"><a href="#Options-4-Derived-instances" class="headerlink" title="Options 4: Derived instances"></a>Options 4: Derived instances</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">Day</span> = <span class="type">Monday</span> | <span class="type">Tuesday</span> | <span class="type">Wednesday</span> | <span class="type">Thursday</span> | <span class="type">Friday</span> | <span class="type">Saturday</span> | <span class="type">Sunday</span></span></div><div class="line">           <span class="keyword">deriving</span> (<span class="type">Eq</span>, <span class="type">Ord</span>, <span class="type">Show</span>, <span class="type">Read</span>, <span class="type">Bounded</span>, <span class="type">Enum</span>)</div><div class="line"></div><div class="line"><span class="comment">-- Show and Red instance</span></div><div class="line"><span class="title">ghci</span>&gt; <span class="type">Wednesday</span></div><div class="line"><span class="type">Wednesday</span></div><div class="line"><span class="title">ghci</span>&gt; show <span class="type">Wednesday</span></div><div class="line"><span class="string">"Wednesday"</span></div><div class="line"><span class="title">ghci</span>&gt; read <span class="string">"Saturday"</span> :: <span class="type">Day</span></div><div class="line"><span class="type">Saturday</span></div><div class="line"></div><div class="line"><span class="comment">-- Eq and Ord instance</span></div><div class="line"><span class="title">ghci</span>&gt; <span class="type">Saturday</span> == <span class="type">Saturday</span></div><div class="line"><span class="type">True</span></div><div class="line"><span class="title">ghci</span>&gt; <span class="type">Saturday</span> &gt; <span class="type">Friday</span></div><div class="line"><span class="type">True</span></div><div class="line"></div><div class="line"><span class="comment">-- Bounded instance</span></div><div class="line"><span class="title">ghci</span>&gt; succ <span class="type">Monday</span></div><div class="line"><span class="type">Tuesday</span></div><div class="line"><span class="title">ghci</span>&gt; pred <span class="type">Saturday</span></div><div class="line"><span class="type">Friday</span></div><div class="line"><span class="title">ghci</span>&gt; [<span class="type">Thursday</span> .. <span class="type">Sunday</span>]</div><div class="line">[<span class="type">Thursday</span>,<span class="type">Friday</span>,<span class="type">Saturday</span>,<span class="type">Sunday</span>]</div><div class="line"><span class="title">ghci</span>&gt; [minBound .. maxBound] :: [<span class="type">Day</span>]</div><div class="line">[<span class="type">Monday</span>,<span class="type">Tuesday</span>,<span class="type">Wednesday</span>,<span class="type">Thursday</span>,<span class="type">Friday</span>,<span class="type">Saturday</span>,<span class="type">Sunday</span>]</div></pre></td></tr></table></figure>
+<h2 id="Options-5-Type-Synonyms"><a href="#Options-5-Type-Synonyms" class="headerlink" title="Options 5: Type Synonyms"></a>Options 5: Type Synonyms</h2><p>type alias</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">type</span> <span class="type">String</span> = [<span class="type">Char</span>]</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">type</span> <span class="type">AssocList</span> k v = [(<span class="title">k</span>, <span class="title">v</span>)]</span></div><div class="line"></div><div class="line">// partial <span class="class"><span class="keyword">type</span> constructor</span></div><div class="line"><span class="class"><span class="keyword">type</span> <span class="type">IntMap</span> v = <span class="type">Map</span> <span class="type">Int</span> v</span></div><div class="line"><span class="class"><span class="keyword">type</span> <span class="type">IntMap</span> = <span class="type">Map</span> <span class="type">Int</span></span></div></pre></td></tr></table></figure>
+<h1 id="Recursive-data-structures"><a href="#Recursive-data-structures" class="headerlink" title="Recursive data structures"></a>Recursive data structures</h1><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">List</span> a = <span class="type">Empty</span> | <span class="type">Cons</span> a (<span class="type">List</span> <span class="title">a</span>) <span class="keyword">deriving</span> (<span class="type">Show</span>, <span class="type">Read</span>, <span class="type">Eq</span>, <span class="type">Ord</span>)</span></div><div class="line"></div><div class="line">// <span class="type">Or</span></div><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">List</span> a = <span class="type">Empty</span> | <span class="type">Cons</span> &#123; <span class="title">listHead</span> :: <span class="title">a</span>, <span class="title">listTail</span> :: <span class="type">List</span> <span class="title">a</span>&#125; <span class="keyword">deriving</span> (<span class="type">Show</span>, <span class="type">Read</span>, <span class="type">Eq</span>, <span class="type">Ord</span>)</span></div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">ghci&gt; Empty</div><div class="line">Empty</div><div class="line">ghci&gt; 5 `Cons` Empty</div><div class="line">Cons 5 Empty</div><div class="line">ghci&gt; 4 `Cons` (5 `Cons` Empty)</div><div class="line">Cons 4 (Cons 5 Empty)</div></pre></td></tr></table></figure>
+<h2 id="Infix-Op"><a href="#Infix-Op" class="headerlink" title="Infix Op"></a>Infix Op</h2><ul>
+<li>我们可以只用特殊字符来定义函数，这样他们就会自动具有中缀的性质</li>
+<li>在 Value Constructor 上也可以使用</li>
+</ul>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">infixr</span> <span class="number">5</span> :-:</div><div class="line"><span class="class"><span class="keyword">data</span> <span class="type">List</span> a = <span class="type">Empty</span> | a :-: (<span class="type">List</span> <span class="title">a</span>) <span class="keyword">deriving</span> (<span class="type">Show</span>, <span class="type">Read</span>, <span class="type">Eq</span>, <span class="type">Ord</span>)</span></div><div class="line"></div><div class="line"><span class="keyword">infixl</span> <span class="number">7</span> *</div></pre></td></tr></table></figure>
+<blockquote>
+<p>priority * &gt; :-:</p>
+</blockquote>
+<h1 id="Typeclasses"><a href="#Typeclasses" class="headerlink" title="Typeclasses"></a>Typeclasses</h1><h2 id="Class-and-Instance"><a href="#Class-and-Instance" class="headerlink" title="Class and Instance"></a>Class and Instance</h2><p><em>typeclasses are like interfaces</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">class Eq a where</div><div class="line">    (==) :: a -&gt; a -&gt; Bool</div><div class="line">    (/=) :: a -&gt; a -&gt; Bool</div><div class="line">    x == y = not (x /= y)</div><div class="line">    x /= y = not (x == y)</div><div class="line"></div><div class="line">data TrafficLight = Red | Yellow | Green</div><div class="line"></div><div class="line">// TrafficLight is a in class Eq</div><div class="line">instance Eq TrafficLight where </div><div class="line">    Red == Red == True</div><div class="line">    Green == Green = True</div><div class="line">    Yellow == Yellow = True</div><div class="line">    _ == _ == False</div><div class="line"></div><div class="line">instance Show TrafficLight where</div><div class="line">    show Red = &quot;Red light&quot;</div><div class="line">    show Yellow = &quot;Yellow light&quot;</div><div class="line">    show Green = &quot;Green light&quot;</div></pre></td></tr></table></figure>
+<ul>
+<li>class is for defining new typeclasses</li>
+<li>instance is for making our types instances of typeclasses</li>
+</ul>
+<h2 id="Subclass"><a href="#Subclass" class="headerlink" title="Subclass"></a>Subclass</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> (<span class="type">Eq</span> <span class="title">a</span>) =&gt; <span class="type">Num</span> a <span class="keyword">where</span></span></div><div class="line">    ...</div></pre></td></tr></table></figure>
+<blockquote>
+<p>(Eq a) is class contraints</p>
+</blockquote>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Eq</span> (<span class="type">Maybe</span> <span class="title">m</span>) <span class="keyword">where</span></span></div><div class="line">    <span class="type">Just</span> x == <span class="type">Just</span> y = x == y</div><div class="line">    <span class="type">Nothing</span> == <span class="type">Nothing</span> = <span class="type">True</span></div><div class="line">    _ == _ = <span class="type">False</span></div></pre></td></tr></table></figure>
+<ul>
+<li>Maybe is not type, it’s type constructor.</li>
+<li>Maybe m is a type.</li>
+<li>so cannot write like this: <em>instance Eq Maybe where</em></li>
+<li>(Maybe m) is <em>a</em> for preivous example</li>
+</ul>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">instance</span> (<span class="type">Eq</span> <span class="title">m</span>) =&gt; <span class="type">Eq</span> (<span class="type">Maybe</span> <span class="title">m</span>) <span class="keyword">where</span></span></div><div class="line">    <span class="type">Just</span> x == <span class="type">Just</span> y = x == y</div><div class="line">    <span class="type">Nothing</span> == <span class="type">Nothing</span> = <span class="type">True</span></div><div class="line">    _ == _ == <span class="type">False</span></div></pre></td></tr></table></figure>
+<p>This is required for comparing value inside Maybe.</p>
+<h1 id="Example-Yes-No-Typeclass"><a href="#Example-Yes-No-Typeclass" class="headerlink" title="Example: Yes/No Typeclass"></a>Example: Yes/No Typeclass</h1><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">instance</span> <span class="type">YesNo</span> <span class="type">Int</span> <span class="keyword">where</span></span></div><div class="line">    yesno <span class="number">0</span> = <span class="type">False</span></div><div class="line">    yesno _ = <span class="type">True</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">instance</span> <span class="type">YesNo</span> [a] <span class="keyword">where</span></span></div><div class="line">    yesno [] = <span class="type">False</span></div><div class="line">    yesno _ = <span class="type">True</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">instance</span> <span class="type">YesNo</span> <span class="type">Bool</span> <span class="keyword">where</span></span></div><div class="line">    yesno = id</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">instance</span> <span class="type">YesNo</span> (<span class="type">Maybe</span> <span class="title">a</span>) <span class="keyword">where</span></span></div><div class="line">    yesno (<span class="type">Just</span> _) = <span class="type">True</span></div><div class="line">    yesno <span class="type">Nothing</span> = <span class="type">False</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">instance</span> <span class="type">YesNo</span> <span class="type">TrafficLight</span> <span class="keyword">where</span></span></div><div class="line">    yesno <span class="type">Red</span> = <span class="type">False</span></div><div class="line">    yesno _ = <span class="type">True</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>id is function :: a -&gt; a</p>
+</blockquote>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="title">ghci</span>&gt; yesno $ length []</div><div class="line"><span class="type">False</span></div><div class="line"><span class="title">ghci</span>&gt; yesno <span class="string">"haha"</span></div><div class="line"><span class="type">True</span></div><div class="line"><span class="title">ghci</span>&gt; yesno <span class="string">""</span></div><div class="line"><span class="type">False</span></div><div class="line"><span class="title">ghci</span>&gt; yesno $ <span class="type">Just</span> <span class="number">0</span></div><div class="line"><span class="type">True</span></div><div class="line"><span class="title">ghci</span>&gt; yesno <span class="type">True</span></div><div class="line"><span class="type">True</span></div><div class="line"><span class="title">ghci</span>&gt; yesno []</div><div class="line"><span class="type">False</span></div><div class="line"><span class="title">ghci</span>&gt; yesno [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]</div><div class="line"><span class="type">True</span></div><div class="line"><span class="title">ghci</span>&gt; :t yesno</div><div class="line"><span class="title">yesno</span> :: (<span class="type">YesNo</span> a) =&gt; a -&gt; <span class="type">Bool</span></div></pre></td></tr></table></figure>
+<p>A <em>if statement</em> function<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="title">yesnoIf</span> :: (<span class="type">YesNo</span> y) =&gt; y -&gt; a -&gt; a -&gt; a</div><div class="line"><span class="title">yesnoIf</span> yesnoVal yesResult noResult =</div><div class="line">    <span class="keyword">if</span> yesno yesnoVal <span class="keyword">then</span> yesResult <span class="keyword">else</span> noResult</div><div class="line"></div><div class="line"><span class="title">ghci</span>&gt; yesnoIf [] <span class="string">"YEAH!"</span> <span class="string">"NO!"</span></div><div class="line"><span class="string">"NO!"</span></div><div class="line"><span class="title">ghci</span>&gt; yesnoIf [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>] <span class="string">"YEAH!"</span> <span class="string">"NO!"</span></div><div class="line"><span class="string">"YEAH!"</span></div><div class="line"><span class="title">ghci</span>&gt; yesnoIf <span class="type">True</span> <span class="string">"YEAH!"</span> <span class="string">"NO!"</span></div><div class="line"><span class="string">"YEAH!"</span></div><div class="line"><span class="title">ghci</span>&gt; yesnoIf (<span class="type">Just</span> <span class="number">500</span>) <span class="string">"YEAH!"</span> <span class="string">"NO!"</span></div><div class="line"><span class="string">"YEAH!"</span></div><div class="line"><span class="title">ghci</span>&gt; yesnoIf <span class="type">Nothing</span> <span class="string">"YEAH!"</span> <span class="string">"NO!"</span></div><div class="line"><span class="string">"NO!"</span></div></pre></td></tr></table></figure></p>
+<h1 id="Functor-Typeclass"><a href="#Functor-Typeclass" class="headerlink" title="Functor Typeclass"></a>Functor Typeclass</h1><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="type">Functor</span> f <span class="keyword">where</span></span></div><div class="line">    fmap :: (a -&gt; b) -&gt; f a -&gt; f b</div></pre></td></tr></table></figure>
+<ul>
+<li><em>f</em> needs a <em>Type Constructor</em></li>
+<li><em>f</em> is not real type, such as Int Bool and Maybe Int</li>
+<li><em>Maybe</em> is a <em>Type Constructor</em></li>
+</ul>
+<p><em>map</em> is a <em>fmap</em> that works only on Lists<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Functor</span> [] <span class="keyword">where</span></span></div><div class="line">    fmap = map</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>Warning: we cannot use [a] at here, Remember we need a Type Constructor</p>
+</blockquote>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Functor</span> <span class="type">Maybe</span> <span class="keyword">where</span></span></div><div class="line">    fmap f (<span class="type">Just</span> x) = <span class="type">Just</span> (f x)</div><div class="line">    fmap f <span class="type">Nothing</span> = <span class="type">Nothing</span></div></pre></td></tr></table></figure>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Functor</span> (<span class="type">Either</span> <span class="title">a</span>) <span class="keyword">where</span></span></div><div class="line">    fmap f (<span class="type">Right</span> x) = <span class="type">Right</span> (f x)</div><div class="line">    fmap f (<span class="type">Left</span> x) = <span class="type">Left</span> x</div></pre></td></tr></table></figure>
+<ul>
+<li><em>Either a</em> an instance instead of just <em>Either</em></li>
+<li><em>Either</em> takes two parameter</li>
+</ul>
+<h1 id="Kind"><a href="#Kind" class="headerlink" title="Kind"></a>Kind</h1><ul>
+<li>:k return kind info</li>
+<li>A * means that the type is a concrete type</li>
+</ul>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="title">ghci</span>&gt; :k <span class="type">Int</span></div><div class="line"><span class="type">Int</span> :: *</div><div class="line"></div><div class="line"><span class="title">ghci</span>&gt; :k <span class="type">Maybe</span></div><div class="line"><span class="type">Maybe</span> :: * -&gt; *</div><div class="line"></div><div class="line"><span class="title">ghci</span>&gt; :k <span class="type">Maybe</span> <span class="type">Int</span></div><div class="line"><span class="type">Maybe</span> <span class="type">Int</span> :: *</div><div class="line"></div><div class="line"><span class="title">ghci</span>&gt; :k <span class="type">Either</span></div><div class="line"><span class="type">Either</span> :: * -&gt; * -&gt; *</div><div class="line"></div><div class="line"><span class="title">ghci</span>&gt; :k <span class="type">Either</span> <span class="type">String</span></div><div class="line"><span class="type">Either</span> <span class="type">String</span> :: * -&gt; *</div><div class="line"></div><div class="line"><span class="title">ghci</span>&gt; :k <span class="type">Either</span> <span class="type">String</span> <span class="type">Int</span></div><div class="line"><span class="type">Either</span> <span class="type">String</span> <span class="type">Int</span> :: *</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fp/" rel="tag"># fp</a>
+          
+            <a href="/tags/haskell/" rel="tag"># haskell</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/28/Haskell-6/" rel="next" title="Haskell 6 Module">
+                <i class="fa fa-chevron-left"></i> Haskell 6 Module
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/13/Haskell-8/" rel="prev" title="Haskell 8 Input and Output">
+                Haskell 8 Input and Output <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Steven Zhang" />
+          <p class="site-author-name" itemprop="name">Steven Zhang</p>
+          <p class="site-description motion-element" itemprop="description">Java, Haskell and Architecture</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/steven-zhc" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Algebraic-Data-Types"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Algebraic-Data-Types" class="headerlink" title="Algebraic Data Types"></a>Algebraic Data Types</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Option-1-data"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#Option-1-data" class="headerlink" title="Option 1: data"></a>Option 1: data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Example"><span class="nav-number">1.1.1.</span> <span class="nav-text"><a href="#Example" class="headerlink" title="Example"></a>Example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deriving"><span class="nav-number">1.1.2.</span> <span class="nav-text"><a href="#deriving" class="headerlink" title="deriving"></a>deriving</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Export-in-module"><span class="nav-number">1.1.3.</span> <span class="nav-text"><a href="#Export-in-module" class="headerlink" title="Export in module"></a>Export in module</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Options-2-Record-Syntax"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#Options-2-Record-Syntax" class="headerlink" title="Options 2: Record Syntax"></a>Options 2: Record Syntax</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Options-3-Type-parameters"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#Options-3-Type-parameters" class="headerlink" title="Options 3: Type parameters"></a>Options 3: Type parameters</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Options-4-Derived-instances"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#Options-4-Derived-instances" class="headerlink" title="Options 4: Derived instances"></a>Options 4: Derived instances</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Options-5-Type-Synonyms"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#Options-5-Type-Synonyms" class="headerlink" title="Options 5: Type Synonyms"></a>Options 5: Type Synonyms</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Recursive-data-structures"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Recursive-data-structures" class="headerlink" title="Recursive data structures"></a>Recursive data structures</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Infix-Op"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#Infix-Op" class="headerlink" title="Infix Op"></a>Infix Op</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Typeclasses"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Typeclasses" class="headerlink" title="Typeclasses"></a>Typeclasses</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Class-and-Instance"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#Class-and-Instance" class="headerlink" title="Class and Instance"></a>Class and Instance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Subclass"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#Subclass" class="headerlink" title="Subclass"></a>Subclass</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Example-Yes-No-Typeclass"><span class="nav-number">4.</span> <span class="nav-text"><a href="#Example-Yes-No-Typeclass" class="headerlink" title="Example: Yes/No Typeclass"></a>Example: Yes/No Typeclass</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Functor-Typeclass"><span class="nav-number">5.</span> <span class="nav-text"><a href="#Functor-Typeclass" class="headerlink" title="Functor Typeclass"></a>Functor Typeclass</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kind"><span class="nav-number">6.</span> <span class="nav-text"><a href="#Kind" class="headerlink" title="Kind"></a>Kind</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Steven Zhang</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'hczhang';
+      var disqus_identifier = '2017/11/13/Haskell-7/';
+
+      var disqus_title = "Haskell 7 Create new Types and Typeclass";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

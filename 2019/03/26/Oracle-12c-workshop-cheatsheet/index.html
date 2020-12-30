@@ -1,0 +1,922 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="database," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="This is a cheat sheet for Oracle 12C R2 workshop Part I Will conver those topics:  EM CBD PDB Network User Security Tablespaces">
+<meta name="keywords" content="database">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle 12c workshop cheatsheet">
+<meta property="og:url" content="http://hczhang.com/2019/03/26/Oracle-12c-workshop-cheatsheet/index.html">
+<meta property="og:site_name" content="软糖">
+<meta property="og:description" content="This is a cheat sheet for Oracle 12C R2 workshop Part I Will conver those topics:  EM CBD PDB Network User Security Tablespaces">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-12-30T23:24:32.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle 12c workshop cheatsheet">
+<meta name="twitter:description" content="This is a cheat sheet for Oracle 12C R2 workshop Part I Will conver those topics:  EM CBD PDB Network User Security Tablespaces">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hczhang.com/2019/03/26/Oracle-12c-workshop-cheatsheet/"/>
+
+
+
+
+
+  <title> Oracle 12c workshop cheatsheet | 软糖 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-91086651-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">软糖</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Candy</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://hczhang.com/2019/03/26/Oracle-12c-workshop-cheatsheet/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Steven Zhang">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="软糖">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="软糖" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Oracle 12c workshop cheatsheet
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-26T11:00:30+00:00">
+                2019-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/26/Oracle-12c-workshop-cheatsheet/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/26/Oracle-12c-workshop-cheatsheet/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>This is a cheat sheet for Oracle 12C R2 workshop Part I</p>
+<p>Will conver those topics:</p>
+<ul>
+<li>EM</li>
+<li>CBD</li>
+<li>PDB</li>
+<li>Network</li>
+<li>User Security</li>
+<li>Tablespaces</li>
+</ul>
+<a id="more"></a>
+<h1 id="EM-Express"><a href="#EM-Express" class="headerlink" title="EM Express"></a>EM Express</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- enable em and listen at https://localhost:5500/em.</span></div><div class="line">sqlplus / as sysdba</div><div class="line"><span class="keyword">SELECT</span> dbms_xdb_config.gethttpsport() <span class="keyword">FROM</span> dual;</div><div class="line">exec dbms_xdb_config.SetGlobalPortEnabled(TRUE);</div></pre></td></tr></table></figure>
+<h1 id="CDB"><a href="#CDB" class="headerlink" title="CDB"></a>CDB</h1><h2 id="Basic-Information"><a href="#Basic-Information" class="headerlink" title="Basic Information"></a>Basic Information</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- Checkout wheather the db is a non-CDB or CDB</span></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">name</span>, cdb, con_id <span class="keyword">FROM</span> v$<span class="keyword">database</span>;</div><div class="line"></div><div class="line"><span class="comment">-- List containers in CDB</span></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">name</span>, con_id <span class="keyword">FROM</span> v$containers <span class="keyword">ORDER</span> <span class="keyword">BY</span> con_id;</div><div class="line"></div><div class="line"><span class="comment">-- List PDB in CDB</span></div><div class="line">SQL&gt; SHOW pdbs;</div><div class="line"><span class="keyword">SELECT</span> pdb_name, <span class="keyword">status</span> <span class="keyword">FROM</span> cdb_pdbs <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="comment">-- List users</span></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> username <span class="keyword">FROM</span> cdb_users <span class="keyword">WHERE</span> common =<span class="string">'YES'</span></div><div class="line"><span class="keyword">SELECT</span> con_id, username <span class="keyword">FROM</span> cdb_users;</div></pre></td></tr></table></figure>
+<h2 id="Disk-Informaiton"><a href="#Disk-Informaiton" class="headerlink" title="Disk Informaiton"></a>Disk Informaiton</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- List all tablespace in CDB</span></div><div class="line"><span class="keyword">SELECT</span> d.file#, ts.name, ts.ts#, ts.con_id <span class="keyword">FROM</span> v$<span class="keyword">datafile</span> d, v$<span class="keyword">tablespace</span> ts <span class="keyword">WHERE</span> d.ts#=ts.ts# <span class="keyword">AND</span> d.con_id=ts.con_id;</div><div class="line"></div><div class="line"><span class="comment">-- List all the data files in the CDB</span></div><div class="line"><span class="keyword">SELECT</span> file_name, tablespace_name <span class="keyword">FROM</span> cdb_data_files;</div><div class="line"></div><div class="line"><span class="comment">-- List all tmp tablespace in CDB</span></div><div class="line"><span class="keyword">SELECT</span> file_name, tablespace_name <span class="keyword">FROM</span> cdb_temp_files;</div><div class="line"></div><div class="line"><span class="comment">-- List all redo log in CDB</span></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">group</span>#, <span class="keyword">member</span>, con_id <span class="keyword">FROM</span> v$<span class="keyword">logfile</span>;</div><div class="line"></div><div class="line"><span class="comment">-- List all control file</span></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">name</span>, con_id <span class="keyword">FROM</span> v$<span class="keyword">controlfile</span>;</div></pre></td></tr></table></figure>
+<h2 id="Instance-Information"><a href="#Instance-Information" class="headerlink" title="Instance Information"></a>Instance Information</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- View the database instance name, its status</span></div><div class="line"><span class="keyword">SELECT</span> instance_name, <span class="keyword">status</span>, con_id <span class="keyword">FROM</span> v$<span class="keyword">instance</span>;</div><div class="line"></div><div class="line"><span class="comment">-- List the services for all the containers in the CDB</span></div><div class="line"><span class="keyword">SELECT</span> con_id, <span class="keyword">name</span> <span class="keyword">FROM</span> v$services <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="number">1</span>;</div></pre></td></tr></table></figure>
+<h1 id="PDB"><a href="#PDB" class="headerlink" title="PDB"></a>PDB</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- switch CDB/PDB</span></div><div class="line">SQL &gt; ALTER SESSION SET CONTAINER = PDB1;</div><div class="line">SQL &gt; ALTER SESSION SET CONTAINER = CDB$ROOT;</div><div class="line"></div><div class="line"><span class="comment">-- open pdb</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">PLUGGABLE</span> <span class="keyword">DATABASE</span> PDB1 <span class="keyword">OPEN</span>;</div></pre></td></tr></table></figure>
+<h2 id="Create"><a href="#Create" class="headerlink" title="Create"></a>Create</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- Prepare folder</span></div><div class="line">$ mkdir $ORACLE_BASE/oradata/ORCL/PDB2</div><div class="line">$ sqlplus / as sysdba</div><div class="line"></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PLUGGABLE</span> <span class="keyword">DATABASE</span> PDB2 <span class="keyword">ADMIN</span> <span class="keyword">USER</span> PDB2ADMIN <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> &lt;<span class="keyword">password</span>&gt;</div><div class="line"><span class="keyword">ROLES</span>=(dba)</div><div class="line"><span class="keyword">DEFAULT</span> <span class="keyword">TABLESPACE</span> <span class="keyword">USERS</span></div><div class="line"><span class="keyword">DATAFILE</span> <span class="string">'/u01/app/oracle/oradata/ORCL/PDB2/users01.dbf'</span></div><div class="line"><span class="keyword">SIZE</span> <span class="number">250</span>M <span class="keyword">AUTOEXTEND</span> <span class="keyword">ON</span></div><div class="line"><span class="keyword">FILE_NAME_CONVERT</span>=(<span class="string">'/u01/app/oracle/oradata/ORCL/pdbseed/'</span>, <span class="string">'/u01/app/oracle/oradata/ORCL/PDB2/'</span>);</div><div class="line"></div><div class="line"><span class="comment">-- Open it</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">PLUGGABLE</span> <span class="keyword">DATABASE</span> PDB2 <span class="keyword">OPEN</span>;</div><div class="line"></div><div class="line"><span class="comment">-- Select service</span></div><div class="line">SQL&gt; SELECT name FROM v$services;</div></pre></td></tr></table></figure>
+<h2 id="Clone"><a href="#Clone" class="headerlink" title="Clone"></a>Clone</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mkdir $ORACLE_BASE/oradata/ORCL/PDB3</div><div class="line">sqlplus / as sysdba</div><div class="line"></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PLUGGABLE</span> <span class="keyword">DATABASE</span> PDB3 <span class="keyword">FROM</span> PDB1 CREATE_FILE_DEST= <span class="string">'/u01/app/oracle/oradata/ORCL/PDB3'</span>;</div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">PLUGGABLE</span> <span class="keyword">DATABASE</span> PDB3 <span class="keyword">OPEN</span>;</div></pre></td></tr></table></figure>
+<h2 id="Unplugging-and-Plugging-a-PDB"><a href="#Unplugging-and-Plugging-a-PDB" class="headerlink" title="Unplugging and Plugging a PDB"></a>Unplugging and Plugging a PDB</h2><h3 id="Unplugging"><a href="#Unplugging" class="headerlink" title="Unplugging"></a>Unplugging</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ALTER</span> <span class="keyword">PLUGGABLE</span> <span class="keyword">DATABASE</span> PDB3 <span class="keyword">CLOSE</span> <span class="keyword">IMMEDIATE</span>;</div><div class="line"></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">PLUGGABLE</span> <span class="keyword">DATABASE</span> PDB3 UNPLUG <span class="keyword">INTO</span> <span class="string">'/u01/app/oracle/oradata/PDB3.xml'</span>;</div><div class="line"></div><div class="line"><span class="keyword">DROP</span> <span class="keyword">PLUGGABLE</span> <span class="keyword">DATABASE</span> PDB3 <span class="keyword">KEEP</span> <span class="keyword">DATAFILES</span>;</div></pre></td></tr></table></figure>
+<h3 id="check-compatiable"><a href="#check-compatiable" class="headerlink" title="check compatiable"></a>check compatiable</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">SQL&gt; set serveroutput on</div><div class="line"></div><div class="line"><span class="keyword">DECLARE</span></div><div class="line">compatible <span class="built_in">BOOLEAN</span> := <span class="literal">FALSE</span>;</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">compatible := DBMS_PDB.CHECK_PLUG_COMPATIBILITY(</div><div class="line">           pdb_descr_file =&gt; <span class="string">'/u01/app/oracle/oradata/PDB3.xml'</span>);</div><div class="line">if compatible then</div><div class="line">DBMS_OUTPUT.PUT_LINE('PDB3 is compatible');</div><div class="line">else DBMS_OUTPUT.PUT_LINE('PDB3 is not compatible');</div><div class="line"><span class="keyword">end</span> <span class="keyword">if</span>;</div><div class="line"><span class="keyword">END</span>;</div><div class="line"> /</div></pre></td></tr></table></figure>
+<h3 id="Plugging"><a href="#Plugging" class="headerlink" title="Plugging"></a>Plugging</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PLUGGABLE</span> <span class="keyword">DATABASE</span> HRPDB <span class="keyword">USING</span> <span class="string">'/u01/app/oracle/oradata/PDB3.xml'</span> <span class="keyword">NOCOPY</span> TEMPFILE <span class="keyword">REUSE</span>;</div></pre></td></tr></table></figure>
+<h2 id="Drop"><a href="#Drop" class="headerlink" title="Drop"></a>Drop</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ALTER</span> <span class="keyword">PLUGGABLE</span> <span class="keyword">DATABASE</span> HRPDB <span class="keyword">CLOSE</span>;</div><div class="line"><span class="keyword">DROP</span> <span class="keyword">PLUGGABLE</span> <span class="keyword">DATABASE</span> HRPDB <span class="keyword">INCLUDING</span> <span class="keyword">DATAFILES</span>;</div></pre></td></tr></table></figure>
+<h1 id="Database-Instance"><a href="#Database-Instance" class="headerlink" title="Database Instance"></a>Database Instance</h1><h2 id="Lifecycle"><a href="#Lifecycle" class="headerlink" title="Lifecycle"></a>Lifecycle</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">SHUTDOWN</div><div class="line">SHUTDOWN ABORT</div><div class="line">SHUTDOWN IMMEDIATE</div><div class="line"></div><div class="line">STARTUP NOMOUNT;</div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> <span class="keyword">MOUNT</span>;</div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> <span class="keyword">OPEN</span>;</div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">PLUGGABLE</span> <span class="keyword">DATABASE</span> pdb1 <span class="keyword">OPEN</span>;</div></pre></td></tr></table></figure>
+<h2 id="spfile-pfile"><a href="#spfile-pfile" class="headerlink" title="spfile/pfile"></a>spfile/pfile</h2><p>Load order:</p>
+<ol>
+<li>spfile</li>
+<li>pfile</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- Locate the default spfile for your database instance</span></div><div class="line"><span class="keyword">SHOW</span> PARAMETER <span class="keyword">spfile</span></div><div class="line"></div><div class="line"><span class="comment">-- create pfile from spfile</span></div><div class="line"><span class="keyword">CREATE</span> PFILE = <span class="string">'initORCL.ora'</span> <span class="keyword">FROM</span> <span class="keyword">SPFILE</span>;</div><div class="line"></div><div class="line"><span class="comment">-- check spfile</span></div><div class="line"><span class="comment">-- If the value is null, which means the database instance was started with a pfile.</span></div><div class="line"><span class="keyword">SHOW</span> PARAMETER <span class="keyword">spfile</span></div></pre></td></tr></table></figure>
+<p>View parameters:</p>
+<ul>
+<li>V$PARAMETER</li>
+<li>V$SPPARAMETER</li>
+<li>V$PARAMETER2</li>
+<li>V$SYSTEM_PARAMETER</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SHOW</span> PARAMETER db_name</div><div class="line"><span class="keyword">SHOW</span> PARAMETER db_domain</div><div class="line"><span class="keyword">SHOW</span> PARAMETER db_recovery_file_dest</div><div class="line"><span class="keyword">SHOW</span> PARAMETER sga</div><div class="line"><span class="keyword">SHOW</span> PARAMETER undo_tablespace</div><div class="line"><span class="keyword">SHOW</span> PARAMETER compatible</div><div class="line"><span class="keyword">SHOW</span> PARAMETER control_files</div><div class="line"><span class="keyword">SHOW</span> PARAMETER shared_pool_size</div><div class="line"><span class="keyword">SHOW</span> PARAMETER db_block_size</div><div class="line"><span class="keyword">SHOW</span> PARAMETER db_cache_size</div><div class="line"><span class="keyword">SHOW</span> PARAMETER undo_management</div><div class="line"><span class="keyword">SHOW</span> PARAMETER memory_target</div><div class="line"><span class="keyword">SHOW</span> PARAMETER memory_max_target</div><div class="line"><span class="keyword">SHOW</span> PARAMETER pga_aggregate_target</div></pre></td></tr></table></figure>
+<h2 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- setup parameter</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">SESSION</span> <span class="keyword">SET</span> nls_date_format = <span class="string">'mon dd yyyy'</span>;</div><div class="line"></div><div class="line"><span class="comment">-- update in both the database instance memory and in the spfile</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">SYSTEM</span> <span class="keyword">SET</span> job_queue_processes=<span class="number">15</span> <span class="keyword">SCOPE</span>=<span class="keyword">BOTH</span>;</div></pre></td></tr></table></figure>
+<h2 id="Diagnostic"><a href="#Diagnostic" class="headerlink" title="Diagnostic"></a>Diagnostic</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> <span class="keyword">name</span>, <span class="keyword">value</span> <span class="keyword">FROM</span> v$diag_info;</div></pre></td></tr></table></figure>
+<h2 id="adrci"><a href="#adrci" class="headerlink" title="adrci"></a>adrci</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">$ adrci</div><div class="line">adrci&gt; SHOW ALERT</div><div class="line"></div><div class="line"><span class="comment"># Find the retention policy values</span></div><div class="line">adrci&gt; SET HOMEPATH diag/rdbms/orcl/ORCL</div><div class="line">adrci&gt; SELECT sizep_policy FROM adr_control_aux;</div><div class="line"></div><div class="line"><span class="comment"># Limit the target size for ADR ORCL diagnostics files to 200MB.</span></div><div class="line">adrci&gt; SET CONTROL (SIZEP_POLICY = 200000000)</div><div class="line">adrci&gt; SELECT sizep_policy FROM adr_control_aux;</div><div class="line"></div><div class="line"><span class="comment"># purge the ADR down to 5MB</span></div><div class="line"><span class="comment"># $ORACLE_BASE/diag/rdbms/orcl/ORCL</span></div><div class="line">adrci&gt; PURGE -size 5000000</div></pre></td></tr></table></figure>
+<h2 id="Log-DDL"><a href="#Log-DDL" class="headerlink" title="Log DDL"></a>Log DDL</h2><p>Target file: <em>/u01/app/oracle/diag/rdbms/orcl/ORCL/log/ddl_ORCL.log</em></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- check enable/disable</span></div><div class="line">SQL&gt; SHOW PARAMETER enable_ddl_logging</div><div class="line"></div><div class="line"><span class="comment">-- enable it</span></div><div class="line">SQL&gt; ALTER SESSION SET enable_ddl_logging = TRUE;</div></pre></td></tr></table></figure>
+<h1 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h1><p>Two files:</p>
+<ul>
+<li>listeners.ora: lnsrctl used</li>
+<li>tnsnames.ora: Network configuration file. <ul>
+<li>/u01/app/oracle/product/12.2.0/dbhome_1/network/admin/tnsnames.ora</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">SQL&gt; SHOW PARAMETER INSTANCE_NAME</div><div class="line">SQL&gt; SHOW PARAMETER SERVICE_NAMES</div><div class="line">SQL&gt; SHOW PARAMETER LOCAL_LISTENER</div><div class="line">SQL&gt; SHOW PARAMETER REMOTE_LISTENER</div></pre></td></tr></table></figure>
+<h2 id="lsnrctl"><a href="#lsnrctl" class="headerlink" title="lsnrctl"></a>lsnrctl</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">lsnrctl</div><div class="line"></div><div class="line">LSNRCTL&gt; show current_listener</div><div class="line">LSNRCTL&gt; status</div><div class="line">LSNRCTL&gt; services</div></pre></td></tr></table></figure>
+<h2 id="Dynamic-Listener"><a href="#Dynamic-Listener" class="headerlink" title="Dynamic Listener"></a>Dynamic Listener</h2><p>create a listener, named LISTENER2, that listens on the non-default port 1561 for all database<br>services</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># tnsnames.ora Network Configuration File</span></div><div class="line">LISTENER2 =</div><div class="line">  (ADDRESS = (PROTOCOL = TCP)(HOST = 12cr2db.example.com)(PORT = 1561))</div><div class="line"></div><div class="line">LISTENER_ORCL =</div><div class="line">  (ADDRESS = (PROTOCOL = TCP)(HOST = 12cr2db.example.com )(PORT = 1521))</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># listener.ora. used for tnsrctl</span></div><div class="line">LISTENER2 =</div><div class="line">  (DESCRIPTION =</div><div class="line">    (ADDRESS = (PROTOCOL = TCP)(HOST = 12cr2db.example.com)(PORT = 1561))</div><div class="line">  )</div><div class="line">ADR_BASE_LISTENER2 = /u01/app/oracle</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SQL&gt; SHOW PARAMETER local_listener</div><div class="line">SQL&gt; SELECT isses_modifiable, issys_modifiable FROM v$parameter WHERE name='local_listener';</div><div class="line">SQL&gt; ALTER SYSTEM SET local_listener="LISTENER_ORCL,LISTENER2" SCOPE=BOTH;</div><div class="line"></div><div class="line"><span class="comment">-- Start LISTENER2</span></div><div class="line">LSNRCTL&gt; start LISTENER2</div></pre></td></tr></table></figure>
+<h2 id="Static-Listener-for-a-PDB"><a href="#Static-Listener-for-a-PDB" class="headerlink" title="Static Listener for a PDB"></a>Static Listener for a PDB</h2><p>create a listener named LISTENER_PDB1 that listens on the non-default port 1562 for the<br>PDB1.example.com service</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># listener.ora</span></div><div class="line">LISTENER_PDB1 =</div><div class="line">    (DESCRIPTION =</div><div class="line">      (ADDRESS = (PROTOCOL = TCP)(HOST = 12cr2db.example.com)(PORT = 1562))</div><div class="line">      )</div><div class="line">SID_LIST_LISTENER_PDB1 =</div><div class="line"> (SID_LIST =</div><div class="line">    (SID_DESC =</div><div class="line">        (GLOBAL_DBNAME = PDB1.example.com)</div><div class="line">        (SID_NAME = ORCL)</div><div class="line">        (ORACLE_HOME = /u01/app/oracle/product/12.2.0/dbhome_1)</div><div class="line">    )</div><div class="line">)</div><div class="line"></div><div class="line">lsnrctl</div><div class="line">LSNRCTL&gt; start LISTENER_PDB1</div></pre></td></tr></table></figure>
+<h2 id="TNS-name"><a href="#TNS-name" class="headerlink" title="TNS name"></a>TNS name</h2><p>$ORACLE_HOME/network/admin/tnsnames.ora</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">MYPDB1 =</div><div class="line">  (DESCRIPTION =</div><div class="line">    (ADDRESS_LIST =</div><div class="line">      (ADDRESS = (PROTOCOL = TCP)(HOST = 12cr2db.example.com)(PORT = 1521))</div><div class="line">    )</div><div class="line">    (CONNECT_DATA =</div><div class="line">      (SERVICE_NAME = PDB1.example.com )</div><div class="line">    )</div><div class="line">)</div><div class="line"></div><div class="line">tnsping MyPDB1</div></pre></td></tr></table></figure>
+<h1 id="Privilege"><a href="#Privilege" class="headerlink" title="Privilege"></a>Privilege</h1><h2 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- List common users</span></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> username <span class="keyword">FROM</span> dba_users <span class="keyword">WHERE</span> common=<span class="string">'YES'</span></div><div class="line"></div><div class="line"><span class="comment">-- List PDB users</span></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> username <span class="keyword">FROM</span> dba_users <span class="keyword">WHERE</span> common=<span class="string">'NO'</span>;</div><div class="line"></div><div class="line"><span class="comment">-- list privileges</span></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> session_privs;</div><div class="line"><span class="comment">-- list roles</span></div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> session_roles;</div><div class="line"></div><div class="line"><span class="comment">-- List system privilege granted</span></div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> dba_sys_privs <span class="keyword">WHERE</span> grantee=<span class="string">'PDBADMIN'</span>;</div><div class="line"></div><div class="line"><span class="comment">-- list role granted for a specific user</span></div><div class="line"><span class="keyword">SELECT</span> granted_role, admin_option, default_role <span class="keyword">FROM</span> cdb_role_privs <span class="keyword">WHERE</span> grantee=<span class="string">'PDBADMIN'</span>;</div><div class="line"></div><div class="line"><span class="comment">-- profile details</span></div><div class="line"><span class="keyword">SELECT</span> resource_type, resource_name, <span class="keyword">limit</span> <span class="keyword">FROM</span> dba_profiles <span class="keyword">WHERE</span> profile=<span class="string">'HRPROFILE'</span>;</div></pre></td></tr></table></figure>
+<h2 id="User"><a href="#User" class="headerlink" title="User"></a>User</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- create a common user</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> c##CDB_ADMIN1 <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> &lt;<span class="keyword">password</span>&gt; <span class="keyword">CONTAINER</span>=ALL <span class="keyword">DEFAULT</span> <span class="keyword">TABLESPACE</span> <span class="keyword">users</span> <span class="keyword">TEMPORARY</span> <span class="keyword">TABLESPACE</span> temp <span class="keyword">ACCOUNT</span> <span class="keyword">UNLOCK</span>;</div><div class="line"></div><div class="line"><span class="comment">-- Create an application user</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> INVENTORY <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> &lt;<span class="keyword">password</span>&gt; <span class="keyword">DEFAULT</span> <span class="keyword">TABLESPACE</span> <span class="keyword">users</span> <span class="keyword">QUOTA</span> <span class="keyword">UNLIMITED</span> <span class="keyword">ON</span> <span class="keyword">users</span>;</div><div class="line"></div><div class="line"><span class="comment">-- Grant privilege</span></div><div class="line"><span class="keyword">GRANT</span> <span class="keyword">CREATE</span> <span class="keyword">SESSION</span>, dba, <span class="keyword">sysdba</span> <span class="keyword">TO</span> c##CDB_ADMIN1 <span class="keyword">CONTAINER</span>=ALL;</div><div class="line"><span class="keyword">GRANT</span> <span class="keyword">CREATE</span> <span class="keyword">SESSION</span> <span class="keyword">TO</span> INVENTORY;</div></pre></td></tr></table></figure>
+<h2 id="Role"><a href="#Role" class="headerlink" title="Role"></a>Role</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- grant a role to user</span></div><div class="line"><span class="keyword">GRANT</span> DBA <span class="keyword">TO</span> PDBADMIN;</div><div class="line"></div><div class="line"><span class="comment">-- create a role</span></div><div class="line"><span class="keyword">create</span> <span class="keyword">role</span> <span class="string">"HRCLERK"</span> <span class="keyword">NOT</span> <span class="keyword">IDENTIFIED</span>;</div><div class="line"><span class="keyword">grant</span> <span class="keyword">UPDATE</span> <span class="keyword">on</span> <span class="string">'HR'</span>.<span class="string">'EMPLOYEES'</span> <span class="keyword">to</span> <span class="string">'HRCLERK'</span>;</div><div class="line"><span class="keyword">grant</span> <span class="keyword">SELECT</span> <span class="keyword">on</span> <span class="string">'HR'</span>.<span class="string">'EMPLOYEES'</span> <span class="keyword">to</span> <span class="string">'HRCLERK'</span>;</div><div class="line"></div><div class="line"><span class="comment">-- alter default role</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">USER</span> JGOODMAN <span class="keyword">DEFAULT</span> <span class="keyword">ROLE</span> HRCLERK;</div></pre></td></tr></table></figure>
+<h2 id="Profile"><a href="#Profile" class="headerlink" title="Profile"></a>Profile</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> profile <span class="string">'HRPROFILE'</span> <span class="keyword">limit</span></div><div class="line">        <span class="keyword">cpu_per_session</span> <span class="keyword">UNLIMITED</span></div><div class="line">        <span class="keyword">cpu_per_call</span> <span class="keyword">UNLIMITED</span></div><div class="line">        <span class="keyword">connect_time</span> <span class="keyword">UNLIMITED</span></div><div class="line">        <span class="keyword">idle_time</span> <span class="number">60</span></div><div class="line">        <span class="keyword">sessions_per_user</span> <span class="keyword">UNLIMITED</span></div><div class="line">        password_life_time <span class="keyword">UNLIMITED</span></div><div class="line">        ...</div><div class="line"></div><div class="line"><span class="comment">-- update a profile</span></div><div class="line"><span class="keyword">ALTER</span> PROFILE hrprofile <span class="keyword">LIMIT</span> INACTIVE_ACCOUNT_TIME <span class="number">10</span>;</div></pre></td></tr></table></figure>
+<h2 id="Audit-Policy"><a href="#Audit-Policy" class="headerlink" title="Audit Policy"></a>Audit Policy</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- Verify that unified auditing is now enabled</span></div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> v$<span class="keyword">option</span> <span class="keyword">WHERE</span> parameter = <span class="string">'Unified Auditing'</span>;</div><div class="line"></div><div class="line"><span class="comment">-- create policy</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">AUDIT</span> <span class="keyword">POLICY</span> drop_pol <span class="keyword">PRIVILEGES</span> <span class="keyword">DROP</span> <span class="keyword">ANY</span> <span class="keyword">TABLE</span>;</div><div class="line"></div><div class="line"><span class="comment">-- Verify that the audit policy is enabled for users granted the DBA role.</span></div><div class="line"><span class="keyword">SELECT</span> entity_name, entity_type, enabled_option <span class="keyword">FROM</span> audit_unified_enabled_policies <span class="keyword">WHERE</span> policy_name = <span class="string">'DROP_POL'</span>;</div><div class="line"></div><div class="line"><span class="comment">-- View audit log</span></div><div class="line"><span class="keyword">SELECT</span> dbusername, action_name, object_name <span class="keyword">FROM</span> unified_audit_trail <span class="keyword">WHERE</span> dbusername = <span class="string">'PDBADMIN'</span> <span class="keyword">AND</span> action_name = <span class="string">'DROP TABLE'</span></div><div class="line"></div><div class="line"><span class="comment">-- diable policy</span></div><div class="line"><span class="keyword">NOAUDIT</span> <span class="keyword">POLICY</span> drop_pol <span class="keyword">BY</span> <span class="keyword">USERS</span> <span class="keyword">WITH</span> GRANTED <span class="keyword">ROLES</span> dba;</div><div class="line"></div><div class="line"><span class="comment">-- drop policy</span></div><div class="line"><span class="keyword">DROP</span> <span class="keyword">AUDIT</span> <span class="keyword">POLICY</span> drop_pol;</div></pre></td></tr></table></figure>
+<h1 id="Tablespace"><a href="#Tablespace" class="headerlink" title="Tablespace"></a>Tablespace</h1><h2 id="Dictionary"><a href="#Dictionary" class="headerlink" title="Dictionary"></a>Dictionary</h2><p>Tablespace information:</p>
+<ul>
+<li>DBA_TABLESPACES</li>
+<li>V$TABLESPACE</li>
+</ul>
+<p>Data file information:</p>
+<ul>
+<li>DBA_DATA_FILES</li>
+<li>V$DATAFILE</li>
+</ul>
+<p>Temp file information:</p>
+<ul>
+<li>DBA_TEMP_FILES</li>
+<li>V$TEMPFILE</li>
+</ul>
+<p>Tables in a tablespace:</p>
+<ul>
+<li>ALL_TABLES</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- list tablespaces</span></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> tablespace_name <span class="keyword">FROM</span> dba_tablespaces;</div><div class="line"></div><div class="line"><span class="comment">-- find out tablespace contains HR schema</span></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> tablespace_name <span class="keyword">FROM</span> all_tables <span class="keyword">WHERE</span> owner=<span class="string">'HR'</span>;</div><div class="line"></div><div class="line"><span class="comment">-- select tables name</span></div><div class="line"><span class="keyword">SELECT</span> table_name <span class="keyword">FROM</span> all_tables <span class="keyword">WHERE</span> tablespace_name=<span class="string">'INVENTORY'</span>;</div><div class="line"></div><div class="line"><span class="comment">-- grab tablespace details</span></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">status</span>, <span class="keyword">contents</span>, <span class="keyword">logging</span>, plugged_in, <span class="keyword">bigfile</span>, extent_management, allocation_type <span class="keyword">FROM</span> dba_tablespaces <span class="keyword">where</span> tablespace_name=<span class="string">'SYSAUX'</span>;</div><div class="line"></div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> v$<span class="keyword">tablespace</span> <span class="keyword">WHERE</span> <span class="keyword">name</span>=<span class="string">'SYSAUX'</span>;</div><div class="line"></div><div class="line"><span class="comment">-- data file</span></div><div class="line"><span class="keyword">SELECT</span> file_name, autoextensible, <span class="keyword">bytes</span>, maxbytes, user_bytes <span class="keyword">FROM</span> dba_data_files <span class="keyword">WHERE</span> tablespace_name=<span class="string">'SYSAUX'</span>;</div><div class="line"></div><div class="line"><span class="comment">-- check out index</span></div><div class="line"><span class="keyword">SELECT</span> index_name <span class="keyword">FROM</span> all_indexes <span class="keyword">WHERE</span> tablespace_name=<span class="string">'SYSAUX'</span> <span class="keyword">AND</span> owner=<span class="string">'HR'</span>;</div></pre></td></tr></table></figure>
+<h2 id="Maintain"><a href="#Maintain" class="headerlink" title="Maintain"></a>Maintain</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- Create tablespace</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">SMALLFILE</span> <span class="keyword">TABLESPACE</span> INVENTORY</div><div class="line"><span class="keyword">DATAFILE</span> <span class="string">'/u01/app/oracle/oradata/ORCL/PDB1/INVENTORY01.DBF'</span> <span class="keyword">SIZE</span> <span class="number">5242880</span> <span class="keyword">DEFAULT</span> <span class="keyword">NOCOMPRESS</span></div><div class="line"><span class="keyword">ONLINE</span></div><div class="line"><span class="keyword">SEGMENT</span> <span class="keyword">SPACE</span> <span class="keyword">MANAGEMENT</span> <span class="keyword">AUTO</span></div><div class="line"><span class="keyword">EXTENT</span> <span class="keyword">MANAGEMENT</span> <span class="keyword">LOCAL</span> <span class="keyword">AUTOALLOCATE</span>;</div><div class="line"></div><div class="line"><span class="comment">-- Resize file</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> <span class="keyword">DATAFILE</span> <span class="string">'/u01/app/oracle/oradata/ORCL/PDB1/INVENTORY01.DBF'</span> <span class="keyword">RESIZE</span> <span class="number">40</span>M;</div><div class="line"></div><div class="line"><span class="comment">-- Add data file</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLESPACE</span> <span class="string">"INVENTORY"</span> <span class="keyword">ADD</span> <span class="keyword">DATAFILE</span> <span class="string">'/u01/app/oracle/oradata/ORCL/PDB1/INVENTORY02.DBF'</span> <span class="keyword">SIZE</span> <span class="number">30</span>M <span class="keyword">AUTOEXTEND</span> <span class="keyword">OFF</span>;</div><div class="line"></div><div class="line"><span class="comment">-- Relocating an online data file</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> <span class="keyword">MOVE</span> <span class="keyword">DATAFILE</span> <span class="string">'/disk1/myexample01.dbf'</span> <span class="keyword">TO</span> <span class="string">'/disk2/myexample01.dbf'</span>;</div><div class="line"></div><div class="line"><span class="comment">-- Rename</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> <span class="keyword">MOVE</span> <span class="keyword">DATAFILE</span> <span class="string">'/disk1/myexample01.dbf'</span> <span class="keyword">TO</span> <span class="string">'/disk1/myexample02.dbf'</span>;</div><div class="line"></div><div class="line"><span class="comment">-- Delete</span></div><div class="line"><span class="keyword">DROP</span> <span class="keyword">TABLESPACE</span> inventory <span class="keyword">INCLUDING</span> <span class="keyword">CONTENTS</span> <span class="keyword">AND</span> <span class="keyword">DATAFILES</span>;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/database/" rel="tag"># database</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/12/Elastic-Search-3/" rel="next" title="Elastic Search - Getting Start 3">
+                <i class="fa fa-chevron-left"></i> Elastic Search - Getting Start 3
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/27/Oracle-12c-workshop-cheatsheet-II/" rel="prev" title="Oracle 12c workshop cheatsheet II">
+                Oracle 12c workshop cheatsheet II <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Steven Zhang" />
+          <p class="site-author-name" itemprop="name">Steven Zhang</p>
+          <p class="site-description motion-element" itemprop="description">Java, Haskell and Architecture</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/steven-zhc" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#EM-Express"><span class="nav-number">1.</span> <span class="nav-text"><a href="#EM-Express" class="headerlink" title="EM Express"></a>EM Express</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDB"><span class="nav-number">2.</span> <span class="nav-text"><a href="#CDB" class="headerlink" title="CDB"></a>CDB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-Information"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#Basic-Information" class="headerlink" title="Basic Information"></a>Basic Information</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Disk-Informaiton"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#Disk-Informaiton" class="headerlink" title="Disk Informaiton"></a>Disk Informaiton</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Instance-Information"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#Instance-Information" class="headerlink" title="Instance Information"></a>Instance Information</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PDB"><span class="nav-number">3.</span> <span class="nav-text"><a href="#PDB" class="headerlink" title="PDB"></a>PDB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Create"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#Create" class="headerlink" title="Create"></a>Create</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Clone"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#Clone" class="headerlink" title="Clone"></a>Clone</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unplugging-and-Plugging-a-PDB"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#Unplugging-and-Plugging-a-PDB" class="headerlink" title="Unplugging and Plugging a PDB"></a>Unplugging and Plugging a PDB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Unplugging"><span class="nav-number">3.3.1.</span> <span class="nav-text"><a href="#Unplugging" class="headerlink" title="Unplugging"></a>Unplugging</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#check-compatiable"><span class="nav-number">3.3.2.</span> <span class="nav-text"><a href="#check-compatiable" class="headerlink" title="check compatiable"></a>check compatiable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Plugging"><span class="nav-number">3.3.3.</span> <span class="nav-text"><a href="#Plugging" class="headerlink" title="Plugging"></a>Plugging</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Drop"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#Drop" class="headerlink" title="Drop"></a>Drop</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Database-Instance"><span class="nav-number">4.</span> <span class="nav-text"><a href="#Database-Instance" class="headerlink" title="Database Instance"></a>Database Instance</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lifecycle"><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#Lifecycle" class="headerlink" title="Lifecycle"></a>Lifecycle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spfile-pfile"><span class="nav-number">4.2.</span> <span class="nav-text"><a href="#spfile-pfile" class="headerlink" title="spfile/pfile"></a>spfile/pfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Update"><span class="nav-number">4.3.</span> <span class="nav-text"><a href="#Update" class="headerlink" title="Update"></a>Update</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Diagnostic"><span class="nav-number">4.4.</span> <span class="nav-text"><a href="#Diagnostic" class="headerlink" title="Diagnostic"></a>Diagnostic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#adrci"><span class="nav-number">4.5.</span> <span class="nav-text"><a href="#adrci" class="headerlink" title="adrci"></a>adrci</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Log-DDL"><span class="nav-number">4.6.</span> <span class="nav-text"><a href="#Log-DDL" class="headerlink" title="Log DDL"></a>Log DDL</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Networking"><span class="nav-number">5.</span> <span class="nav-text"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lsnrctl"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#lsnrctl" class="headerlink" title="lsnrctl"></a>lsnrctl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dynamic-Listener"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#Dynamic-Listener" class="headerlink" title="Dynamic Listener"></a>Dynamic Listener</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Static-Listener-for-a-PDB"><span class="nav-number">5.3.</span> <span class="nav-text"><a href="#Static-Listener-for-a-PDB" class="headerlink" title="Static Listener for a PDB"></a>Static Listener for a PDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TNS-name"><span class="nav-number">5.4.</span> <span class="nav-text"><a href="#TNS-name" class="headerlink" title="TNS name"></a>TNS name</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Privilege"><span class="nav-number">6.</span> <span class="nav-text"><a href="#Privilege" class="headerlink" title="Privilege"></a>Privilege</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Query"><span class="nav-number">6.1.</span> <span class="nav-text"><a href="#Query" class="headerlink" title="Query"></a>Query</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#User"><span class="nav-number">6.2.</span> <span class="nav-text"><a href="#User" class="headerlink" title="User"></a>User</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Role"><span class="nav-number">6.3.</span> <span class="nav-text"><a href="#Role" class="headerlink" title="Role"></a>Role</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Profile"><span class="nav-number">6.4.</span> <span class="nav-text"><a href="#Profile" class="headerlink" title="Profile"></a>Profile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Audit-Policy"><span class="nav-number">6.5.</span> <span class="nav-text"><a href="#Audit-Policy" class="headerlink" title="Audit Policy"></a>Audit Policy</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tablespace"><span class="nav-number">7.</span> <span class="nav-text"><a href="#Tablespace" class="headerlink" title="Tablespace"></a>Tablespace</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dictionary"><span class="nav-number">7.1.</span> <span class="nav-text"><a href="#Dictionary" class="headerlink" title="Dictionary"></a>Dictionary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Maintain"><span class="nav-number">7.2.</span> <span class="nav-text"><a href="#Maintain" class="headerlink" title="Maintain"></a>Maintain</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Steven Zhang</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'hczhang';
+      var disqus_identifier = '2019/03/26/Oracle-12c-workshop-cheatsheet/';
+
+      var disqus_title = "Oracle 12c workshop cheatsheet";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
